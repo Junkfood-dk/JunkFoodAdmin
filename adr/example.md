@@ -1,9 +1,9 @@
 
 ## How to use
 
-For each ADR, create a text file, such as database.txt:
+For each ADR, create a text file, such as database.md:
 
-touch database.txt
+touch database.md
 
 Write anything you want in the ADR. See the templates below:
 
