@@ -1,4 +1,4 @@
-name: Flutter Build and Test
+name: Flutter Build and Tests
 on:
   push:
     branches: main
