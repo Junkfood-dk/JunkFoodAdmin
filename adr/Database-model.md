@@ -1,6 +1,6 @@
 ## Initial database model
 
-We have thoosen an intial database model base on our interview of the chef and business administrator of Junkfood.
+We have choosen an intial database model base on our interview of the chef and business administrator of Junkfood.
 
 ### Dishes
 A table consisting of the title, the image and the description of the dish.
