@@ -24,10 +24,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en'), // English
-        Locale('da'), // Danish
-      ],
+      supportedLocales: AppLocalizations.supportedLocales,
       home: const MyHomePage(title: 'Chef Starting Application'),
     );
   }
@@ -81,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(AppLocalizations.of(context)!.helloWorld),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
