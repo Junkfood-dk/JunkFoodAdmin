@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(AppLocalizations.of(context)!.helloWorld),
+        title: Text(AppLocalizations.of(context)!.homePageTitle),
         actions: <Widget>[
           Consumer<LocaleModel>(
             builder: (context, localeModel, child) => PopupMenuButton<Language>(
@@ -128,9 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have punched the button this many times:',
-            ),
+            Text(AppLocalizations.of(context)!.punchText),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
