@@ -26,11 +26,10 @@ To be able to run the app locally you have to set up two environment variables.
 The Supabase url and the Supabase anon key. These are found in our Supabase project at 
 Dashboard -> Project Settings, in the left side -> under configuration find API Settings
 
-Create a local .env file in the project root directory. This is added to .gitignore. (We do not want to track this file)
+The environment variables are parsed as flages in the command line like this:
 
-Insert the following in your .env file:
-SUPABASE_URL=<"paste in supabase url">
-SUPABASE_ANON_KEY=<"paste in supabase anon key">
+flutter run lib/main.dart --dart-define=SUPABASE_URL=<insert url> --dart-define=SUPABASE_ANON_KEY=<insert anon key>
+
 
 <description>
 

@@ -4,14 +4,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:chefapp/pages/login_page.dart';
 import 'package:chefapp/pages/splash_page.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:chefapp/Constants.dart';
 
 //Allan made this comment!
 Future<void> main() async {
-  await dotenv.load(fileName: "../.env");
+  WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-    url: dotenv.get('SUPABASE_URL'),
-    anonKey: dotenv.get('SUPABASE_ANON_KEY'),
+    url: Constants.supabaseUrl,
+    anonKey: Constants.supabaseAnonKey,
   );
   runApp(MyApp());
 }

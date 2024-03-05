@@ -25,7 +25,6 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = true;
       });
-      String redirectUrl = kIsWeb ? 'http://localhost:5' : '#//home';
 
       await supabase.auth.signInWithPassword(
         email: _emailController.text.trim(),
