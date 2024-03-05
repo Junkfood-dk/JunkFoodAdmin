@@ -16,6 +16,8 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   bool _redirecting = false;
   late final TextEditingController _emailController = TextEditingController();
+  late final TextEditingController _passwordController =
+      TextEditingController();
   late final StreamSubscription<AuthState> _authStateSubscription;
 
   Future<void> _signIn() async {
@@ -23,26 +25,31 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = true;
       });
-      await supabase.auth.signInWithOtp(
+
+      await supabase.auth.signInWithPassword(
         email: _emailController.text.trim(),
-        emailRedirectTo:
-            kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
+        password: _passwordController.text.trim(),
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Check your email for a login link!')),
+          const SnackBar(content: Text('Sign in successful!')),
         );
         _emailController.clear();
+        _passwordController.clear();
       }
     } on AuthException catch (error) {
-      SnackBar(
-        content: Text(error.message),
-        backgroundColor: Theme.of(context).colorScheme.error,
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
       );
     } catch (error) {
-      SnackBar(
-        content: const Text('Unexpected error occurred'),
-        backgroundColor: Theme.of(context).colorScheme.error,
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Unexpected error occurred'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
       );
     } finally {
       if (mounted) {
@@ -60,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
       final session = data.session;
       if (session != null) {
         _redirecting = true;
-        Navigator.of(context).pushReplacementNamed('/account');
+        Navigator.of(context).pushReplacementNamed('/home');
       }
     });
     super.initState();
@@ -69,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     _emailController.dispose();
+    _passwordController.dispose();
     _authStateSubscription.cancel();
     super.dispose();
   }
@@ -80,16 +88,22 @@ class _LoginPageState extends State<LoginPage> {
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
-          const Text('Sign in via the magic link with your email below'),
+          const Text('Sign in with your email and password below'),
           const SizedBox(height: 18),
           TextFormField(
             controller: _emailController,
             decoration: const InputDecoration(labelText: 'Email'),
           ),
           const SizedBox(height: 18),
+          TextFormField(
+            controller: _passwordController,
+            decoration: const InputDecoration(labelText: 'Password'),
+            obscureText: true,
+          ),
+          const SizedBox(height: 18),
           ElevatedButton(
             onPressed: _isLoading ? null : _signIn,
-            child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
+            child: Text(_isLoading ? 'Loading' : 'Sign In'),
           ),
         ],
       ),
