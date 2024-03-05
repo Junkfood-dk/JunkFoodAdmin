@@ -23,7 +23,7 @@ git commit -m"<commitmessage>
 
 To be able to run the app locally you have to set up two environment variables.
 
-The Supabase url and the Supabase anon key. These are found in our Supabase project at 
+The Supabase url and the Supabase anon key. These are found in our Supabase project at:
 Dashboard -> Project Settings, in the left side -> under configuration find API Settings
 
 The environment variables are parsed as flages in the command line like this:
