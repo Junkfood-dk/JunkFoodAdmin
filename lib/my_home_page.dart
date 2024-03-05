@@ -1,58 +1,5 @@
-import 'package:chefapp/my_home_page.dart';
+import 'package:chefapp/main.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:chefapp/pages/login_page.dart';
-import 'package:chefapp/pages/splash_page.dart';
-import 'package:supabase_auth_ui/supabase_auth_ui.dart';
-import 'package:chefapp/Constants.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
-import 'model/language.dart';
-import 'model/locale.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(
-    url: Constants.supabaseUrl,
-    anonKey: Constants.supabaseAnonKey,
-  );
-  runApp(MyApp());
-}
-
-final supabase = Supabase.instance.client;
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => LocaleModel(),
-      child: Consumer<LocaleModel>(
-        builder: (context, localeModel, child) => MaterialApp(
-          title: 'Chef App',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-                seedColor: Color.fromARGB(255, 180, 14, 39)),
-            useMaterial3: true,
-          ),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: localeModel.locale,
-          home: const MyHomePage(title: 'Chef Starting Application'),
-          debugShowCheckedModeBanner: false,
-        ),
-      ),
-    );
-  }
-}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -102,25 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(AppLocalizations.of(context)!.homePageTitle),
-        actions: <Widget>[
-          Consumer<LocaleModel>(
-            builder: (context, localeModel, child) => PopupMenuButton<Language>(
-                onSelected: (Language language) {
-                  localeModel.set(Locale(language.languageCode));
-                },
-                icon: const Icon(Icons.language),
-                itemBuilder: (BuildContext context) {
-                  List<PopupMenuEntry<Language>> menuItems =
-                      Language.languageList().map((e) {
-                    return PopupMenuItem<Language>(
-                        value: e, child: Text(e.name));
-                  }).toList();
-
-                  return menuItems;
-                }),
-          ),
-        ],
+        title: Text(widget.title),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -141,7 +70,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(AppLocalizations.of(context)!.punchText),
+            const Text(
+              'You have punched the button this many times:',
+            ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -157,3 +88,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
