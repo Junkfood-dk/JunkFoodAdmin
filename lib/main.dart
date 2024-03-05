@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-
+import 'model/LanguageModel.dart';
 import 'model/locale.dart';
 
 void main() {
@@ -90,6 +90,14 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(AppLocalizations.of(context)!.helloWorld),
+        actions: <Widget>[
+          PopupMenuButton<Text>(
+              icon: const Icon(Icons.language),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<Text>>[
+                    const PopupMenuItem<Text>(child: Text("English")),
+                    const PopupMenuItem(child: Text("Dansk"))
+                  ])
+        ],
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
