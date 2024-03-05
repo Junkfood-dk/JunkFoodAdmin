@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'model/LanguageModel.dart';
+import 'model/language.dart';
 import 'model/locale.dart';
 
 void main() {
@@ -91,12 +91,22 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(AppLocalizations.of(context)!.helloWorld),
         actions: <Widget>[
-          PopupMenuButton<Text>(
-              icon: const Icon(Icons.language),
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<Text>>[
-                    const PopupMenuItem<Text>(child: Text("English")),
-                    const PopupMenuItem(child: Text("Dansk"))
-                  ])
+          Consumer<LocaleModel>(
+            builder: (context, localeModel, child) => PopupMenuButton<Language>(
+                onSelected: (Language language) {
+                  localeModel.set(Locale(language.languageCode));
+                },
+                icon: const Icon(Icons.language),
+                itemBuilder: (BuildContext context) {
+                  List<PopupMenuEntry<Language>> menuItems =
+                      Language.languageList().map((e) {
+                    return PopupMenuItem<Language>(
+                        value: e, child: Text(e.name));
+                  }).toList();
+
+                  return menuItems;
+                }),
+          ),
         ],
       ),
       body: Center(
@@ -124,20 +134,6 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Consumer<LocaleModel>(
-              builder: (context, localeModel, child) => ElevatedButton(
-                  onPressed: () {
-                    localeModel.set(const Locale('en'));
-                  },
-                  child: Text('English')),
-            ),
-            Consumer<LocaleModel>(
-              builder: (context, localeModel, child) => ElevatedButton(
-                  onPressed: () {
-                    localeModel.set(const Locale('da'));
-                  },
-                  child: Text('Danish')),
             ),
           ],
         ),
