@@ -19,6 +19,16 @@ samples, guidance on mobile development, and a full API reference.
 # Commit template
 git commit -m"<commitmessage>
 
+### Startup the app
+
+To be able to run the app locally you have to set up two environment variables.
+
+The Supabase url and the Supabase anon key. These are found in our Supabase project at 
+Dashboard -> Project Settings, in the left side -> under configuration find API Settings
+The environment variables needs to match the ones used in main.dart:
+SUPABASE_URL=<paste in supabase url>
+SUPABASE_ANON_KEY=<paste in supabase anon key>
+
 <description>
 
 Co-authored-by: Omar <omse@itu.dk>
