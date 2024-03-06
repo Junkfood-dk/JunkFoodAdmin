@@ -17,7 +17,6 @@ class PostDishPage extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(
             title: Text("Chef"),
-            automaticallyImplyLeading: false,
           ),
           body: Center(
               child: SizedBox(
@@ -71,6 +70,7 @@ class PostDishPage extends StatelessWidget {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               state.submitDish();
+                              Navigator.of(context).pop();
                             }
                           },
                           child: const Text("Submit")))
