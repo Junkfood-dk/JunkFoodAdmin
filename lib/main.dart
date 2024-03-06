@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:chefapp/pages/login_page.dart';
 import 'package:chefapp/pages/splash_page.dart';
+import 'package:chefapp/pages/add_menu.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:chefapp/Constants.dart';
 
-//Allan made this comment!
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
@@ -37,7 +39,8 @@ class MyApp extends StatelessWidget {
         '/': (_) => const SplashPage(),
         '/login': (_) => const LoginPage(),
         '/home': (_) => const MyHomePage(title: "home"),
-      },
+        '/add': (_) => const AddPage(),    
+       },
     );
   }
 }
