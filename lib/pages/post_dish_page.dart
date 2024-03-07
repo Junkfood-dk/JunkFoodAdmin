@@ -123,6 +123,9 @@ class PostDishPageState extends ChangeNotifier {
         description: description,
         calories: calories,
         imageUrl: imageUrl);
-    await supabase.from("Dishes").insert(newDish);
+    var row = await supabase.from("Dishes").insert(newDish).select("id");
+    var id = row[0]['id'];
+    await supabase.from("Dish_Schedule").insert(
+        {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
   }
 }
