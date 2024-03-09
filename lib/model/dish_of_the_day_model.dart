@@ -27,4 +27,17 @@ class DishOfTheDayModel extends ChangeNotifier {
     getDishOfTheDay();
     return false;
   }
+
+  Future<void> postDishOfTheDay(
+      String title, String description, int calories, String imageUrl) async {
+    DishModel newDish = DishModel(
+        title: title,
+        description: description,
+        calories: calories,
+        imageUrl: imageUrl);
+    var row = await supabase.from("Dishes").insert(newDish).select("id");
+    var id = row[0]['id'];
+    await supabase.from("Dish_Schedule").insert(
+        {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
+  }
 }

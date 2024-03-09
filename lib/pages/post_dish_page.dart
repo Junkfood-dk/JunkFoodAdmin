@@ -1,5 +1,6 @@
 import 'package:chefapp/main.dart';
 import 'package:chefapp/model/dish_model.dart';
+import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -65,15 +66,20 @@ class PostDishPage extends StatelessWidget {
                               }
                             },
                           )),
-                  Consumer<PostDishPageState>(
-                      builder: (context, state, _) => TextButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              state.submitDish();
-                              Navigator.of(context).pop();
-                            }
-                          },
-                          child: const Text("Submit")))
+                  Consumer2<DishOfTheDayModel, PostDishPageState>(
+                      builder: (context, dishOfTheDayModel, state, _) =>
+                          TextButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  dishOfTheDayModel.postDishOfTheDay(
+                                      state.title,
+                                      state.description,
+                                      state.calories,
+                                      state.imageUrl);
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                              child: const Text("Submit")))
                 ],
               ),
             ),
@@ -115,17 +121,5 @@ class PostDishPageState extends ChangeNotifier {
   void setImageUrl(String newValue) {
     imageUrl = newValue;
     notifyListeners();
-  }
-
-  Future<void> submitDish() async {
-    DishModel newDish = DishModel(
-        title: title,
-        description: description,
-        calories: calories,
-        imageUrl: imageUrl);
-    var row = await supabase.from("Dishes").insert(newDish).select("id");
-    var id = row[0]['id'];
-    await supabase.from("Dish_Schedule").insert(
-        {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
   }
 }
