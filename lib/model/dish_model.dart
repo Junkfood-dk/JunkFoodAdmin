@@ -24,8 +24,8 @@ class DishModel {
             ? input["title"]
             : throw Exception("No title provided"),
         description:
-            input.containsKey("description") ? input["descirption"] : null,
-        calories: input.containsKey("calories") ? input["calories"] : null,
-        imageUrl: input.containsKey("image") ? input["image"] : null);
+            input.containsKey("description") ? input["description"] : "",
+        calories: input.containsKey("calories") ? input["calories"] : 0,
+        imageUrl: input.containsKey("image") ? input["image"] : "");
   }
 }
