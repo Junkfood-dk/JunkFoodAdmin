@@ -1,19 +1,24 @@
-import 'package:chefapp/my_home_page.dart';
+import 'package:chefapp/model/dish_of_the_day_model.dart';
+import 'package:chefapp/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:chefapp/pages/login_page.dart';
 import 'package:chefapp/pages/splash_page.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:chefapp/Constants.dart';
 
-//Allan made this comment!
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
     url: Constants.supabaseUrl,
     anonKey: Constants.supabaseAnonKey,
   );
-  runApp(MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => DishOfTheDayModel(),
+    )
+  ], child: const MyApp()));
 }
 
 final supabase = Supabase.instance.client;
@@ -27,16 +32,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Chef App',
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 180, 14, 39)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 180, 14, 39)),
         useMaterial3: true,
       ),
-      //home: const MyHomePage(title: 'Chef Starting Application'),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (_) => const SplashPage(),
         '/login': (_) => const LoginPage(),
-        '/home': (_) => const MyHomePage(title: "home"),
       },
     );
   }
