@@ -1,5 +1,3 @@
-import 'package:chefapp/main.dart';
-import 'package:chefapp/model/dish_model.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +6,9 @@ import 'package:provider/provider.dart';
 final _formKey = GlobalKey<FormState>();
 
 class PostDishPage extends StatelessWidget {
-  TextStyle labelText =
+  const PostDishPage({super.key});
+
+  final TextStyle labelText =
       const TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
 
   @override
@@ -17,7 +17,7 @@ class PostDishPage extends StatelessWidget {
       create: (context) => PostDishPageState(),
       child: Scaffold(
           appBar: AppBar(
-            title: Text("Chef"),
+            title: const Text("Chef"),
           ),
           body: Center(
               child: SizedBox(
