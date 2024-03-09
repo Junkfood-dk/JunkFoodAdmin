@@ -1,3 +1,4 @@
+import 'package:chefapp/components/dish_display_component.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:chefapp/pages/post_dish_page.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,13 @@ class HomePage extends StatelessWidget {
                       child: const Text("Post dish"),
                     );
                   } else {
-                    return const Text("It already exists");
+                    return Column(
+                      children: [
+                        Center(
+                            child:
+                                DishDisplayComponent(dish: state.dishOfTheDay))
+                      ],
+                    );
                   }
                 }
               });
