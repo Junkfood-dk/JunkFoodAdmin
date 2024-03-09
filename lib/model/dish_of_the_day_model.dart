@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class DishOfTheDayModel extends ChangeNotifier {
   DishModel? _dishOfTheDay;
 
-  Future<void> getDishOfTheDay() async {
+  Future<void> fetchDishOfTheDay() async {
     var response = await supabase
         .from("Dish_Schedule")
         .select()
@@ -20,11 +20,19 @@ class DishOfTheDayModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  DishModel get dishOfTheDay {
+    if (_dishOfTheDay != null) {
+      return _dishOfTheDay!;
+    } else {
+      return DishModel(title: "There is no dish of the day");
+    }
+  }
+
   Future<bool> get hasDishOfTheDay async {
     if (_dishOfTheDay != null) {
       return true;
     }
-    getDishOfTheDay();
+    fetchDishOfTheDay();
     return false;
   }
 
