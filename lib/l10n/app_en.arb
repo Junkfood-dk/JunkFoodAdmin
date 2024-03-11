@@ -1,0 +1,10 @@
+{
+  "homePageTitle": "Homepage",
+  "@homePageTitle": {
+    "description": "This is the title banner of the Homepage"
+  },
+  "punchText": "You have punched the button this many times:",
+  "@punchText": {
+    "description": "The text in the middle, describing how many times you have punched the button"
+  }
+}

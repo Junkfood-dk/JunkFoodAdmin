@@ -7,6 +7,10 @@ import 'package:chefapp/pages/login_page.dart';
 import 'package:chefapp/pages/splash_page.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:chefapp/Constants.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'model/locale.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,18 +33,31 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Chef App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 180, 14, 39)),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (context) => LocaleModel(),
+      child: Consumer<LocaleModel>(
+        builder: (context, localeModel, child) => MaterialApp(
+            title: 'Chef App',
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(
+                  seedColor: Color.fromARGB(255, 180, 14, 39)),
+              useMaterial3: true,
+            ),
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: localeModel.locale,
+            debugShowCheckedModeBanner: false,
+            initialRoute: '/',
+            routes: <String, WidgetBuilder>{
+              '/': (_) => const SplashPage(),
+              '/login': (_) => const LoginPage(),
+            }),
       ),
-      initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        '/': (_) => const SplashPage(),
-        '/login': (_) => const LoginPage(),
-      },
     );
   }
 }

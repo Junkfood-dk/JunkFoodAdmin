@@ -1,3 +1,4 @@
+import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ class PostDishPage extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(
             title: const Text("Chef"),
+            actions: [LanguageDropdown()],
           ),
           body: Center(
               child: SizedBox(
