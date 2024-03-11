@@ -24,11 +24,11 @@ class _SplashPageState extends State<SplashPage> {
 
     final session = supabase.auth.currentSession;
     if (session != null) {
-      Navigator.of(context).pushReplacementNamed('/home');
-    } else {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const HomePage(),
       ));
+    } else {
+      Navigator.of(context).pushReplacementNamed('/login');
     }
   }
 
