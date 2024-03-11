@@ -16,6 +16,8 @@ class DishOfTheDayModel extends ChangeNotifier {
           .select()
           .filter("id", "eq", response[0]["id"]);
       _dishOfTheDay = DishModel.fromJson(dishOfTheDay[0]);
+    } else {
+      _dishOfTheDay = null;
     }
     notifyListeners();
   }
@@ -29,11 +31,8 @@ class DishOfTheDayModel extends ChangeNotifier {
   }
 
   Future<bool> get hasDishOfTheDay async {
-    if (_dishOfTheDay != null) {
-      return true;
-    }
-    fetchDishOfTheDay();
-    return false;
+    await fetchDishOfTheDay();
+    return _dishOfTheDay != null;
   }
 
   Future<void> postDishOfTheDay(
