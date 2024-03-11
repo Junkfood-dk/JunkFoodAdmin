@@ -1,3 +1,4 @@
+import 'package:chefapp/components/allergens_checkbox.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -79,8 +80,10 @@ class PostDishPage extends StatelessWidget {
                                   Navigator.of(context).pop();
                                 }
                               },
-                              child: const Text("Submit")))
+                              child: const Text("Submit"))),
+                              AllergensCheckbox(allergen: "Gluten")
                 ],
+
               ),
             ),
           ))),

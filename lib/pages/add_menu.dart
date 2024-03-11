@@ -48,14 +48,7 @@ class _CheckboxExampleState extends State<CheckboxExample> {
 
     return Checkbox(
       checkColor: Colors.black,
-      fillColor: MaterialStateProperty.resolveWith((states) {
-        // Use a transparent color when checked to maintain the outline
-        if (states.contains(MaterialState.selected)) {
-          return Colors.transparent;
-        }
-        // Return the desired background color otherwise
-        return Colors.transparent;
-      }),
+      fillColor: MaterialStateProperty.resolveWith(getColor),
       value: isChecked,
       onChanged: (bool? value) {
         setState(() {
