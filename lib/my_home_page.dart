@@ -1,5 +1,9 @@
-import 'package:chefapp/main.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'model/language.dart';
+import 'model/locale.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -49,7 +53,25 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(AppLocalizations.of(context)!.homePageTitle),
+        actions: <Widget>[
+          Consumer<LocaleModel>(
+            builder: (context, localeModel, child) => PopupMenuButton<Language>(
+                onSelected: (Language language) {
+                  localeModel.set(Locale(language.languageCode));
+                },
+                icon: const Icon(Icons.language),
+                itemBuilder: (BuildContext context) {
+                  List<PopupMenuEntry<Language>> menuItems =
+                      Language.languageList().map((e) {
+                    return PopupMenuItem<Language>(
+                        value: e, child: Text(e.name));
+                  }).toList();
+
+                  return menuItems;
+                }),
+          ),
+        ],
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -70,9 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have punched the button this many times:',
-            ),
+            Text(AppLocalizations.of(context)!.punchText),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -88,4 +108,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
