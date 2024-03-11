@@ -1,3 +1,4 @@
+import 'package:chefapp/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chefapp/main.dart';
 
@@ -25,7 +26,9 @@ class _SplashPageState extends State<SplashPage> {
     if (session != null) {
       Navigator.of(context).pushReplacementNamed('/home');
     } else {
-      Navigator.of(context).pushReplacementNamed('/add');
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ));
     }
   }
 

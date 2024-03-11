@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chefapp/pages/home_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -67,7 +68,8 @@ class _LoginPageState extends State<LoginPage> {
       final session = data.session;
       if (session != null) {
         _redirecting = true;
-        Navigator.of(context).pushReplacementNamed('/home');
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (contect) => const HomePage()));
       }
     });
     super.initState();
