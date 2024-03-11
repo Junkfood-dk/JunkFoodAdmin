@@ -1,5 +1,4 @@
 import 'package:chefapp/model/dish_of_the_day_model.dart';
-import 'package:chefapp/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -9,7 +8,6 @@ import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:chefapp/Constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 import 'model/locale.dart';
 
 Future<void> main() async {
