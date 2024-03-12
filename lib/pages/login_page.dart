@@ -3,11 +3,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:chefapp/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:chefapp/main.dart';
+
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final SupabaseClient database;
+
+  const LoginPage({Key? key, required this.database}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -27,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
         _isLoading = true;
       });
 
-      await supabase.auth.signInWithPassword(
+      await widget.database.auth.signInWithPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
@@ -64,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    _authStateSubscription = supabase.auth.onAuthStateChange.listen((data) {
+    _authStateSubscription = widget.database.auth.onAuthStateChange.listen((data) {
       if (_redirecting) return;
       final session = data.session;
       if (session != null) {
@@ -116,3 +119,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
