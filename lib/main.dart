@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           initialRoute: '/',
           routes: <String, WidgetBuilder>{
             '/': (_) => const SplashPage(),
-            '/login': (_) => const LoginPage(),
+            '/login': (_) => LoginPage(database: supabase),
             '/home': (_) => const MyHomePage(title: "home")
           }
 
