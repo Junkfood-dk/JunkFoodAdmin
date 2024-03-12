@@ -6,6 +6,45 @@ import 'package:flutter_test/flutter_test.dart';
 class FakeSupabase extends Fake implements SupabaseClient {
   @override
   get auth => FakeGotrue();
+
+  @override
+  SupabaseQueryBuilder from(String table) {
+    return FakeSupabaseQueryBuilder();
+  }
+}
+
+class FakeSupabaseQueryBuilder extends Fake implements SupabaseQueryBuilder {
+  @override
+  PostgrestFilterBuilder<PostgrestList> select([String columns = '*']) {
+    return FakePostgrestFilterBuilder();
+  }
+}
+
+class FakePostgrestFilterBuilder extends Fake
+    implements PostgrestFilterBuilder<PostgrestList> {
+  @override
+  Future<PostgrestResponse<PostgrestList>> execute() async {
+    // Return a fake response
+    return PostgrestResponse<PostgrestList>(
+      data: List.empty(),
+      count: 0,
+    );
+  }
+
+  @override
+  PostgrestFilterBuilder<PostgrestList> filter(
+      String column, String operator, value,
+      {bool not = false}) {
+    // Return this instance for chaining
+    return this;
+  }
+
+  @override
+  Future<U> then<U>(FutureOr<U> Function(PostgrestList value) onValue,
+      {Function? onError}) {
+    var fakeData = List<Map<String, dynamic>>.empty();
+    return Future.value(onValue(fakeData));
+  }
 }
 
 class FakeGotrue extends Fake implements GoTrueClient {
