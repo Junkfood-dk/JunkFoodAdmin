@@ -6,8 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 class FakeSupabase extends Fake implements SupabaseClient {
   @override
   get auth => FakeGotrue();
-
-  
 }
 
 class FakeGotrue extends Fake implements GoTrueClient {
@@ -45,7 +43,6 @@ class FakeGotrue extends Fake implements GoTrueClient {
     );
   }
 }
-
 
 class FakeOnAuthStateChange extends Fake implements Stream<AuthState> {
   final StreamController<AuthState> _controller =
