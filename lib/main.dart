@@ -18,12 +18,12 @@ Future<void> main() async {
   );
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
-      create: (context) => DishOfTheDayModel(),
+      create: (context) => DishOfTheDayModel(database: _supabase),
     )
   ], child: const MyApp()));
 }
 
-final supabase = Supabase.instance.client;
+final _supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -52,8 +52,8 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             initialRoute: '/',
             routes: <String, WidgetBuilder>{
-              '/': (_) => const SplashPage(),
-              '/login': (_) => const LoginPage(),
+              '/': (_) => SplashPage(database: _supabase),
+              '/login': (_) => LoginPage(database: _supabase),
             }),
       ),
     );

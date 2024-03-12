@@ -1,17 +1,19 @@
-import 'package:chefapp/main.dart';
 import 'package:chefapp/model/dish_model.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
 class DishOfTheDayModel extends ChangeNotifier {
+  final SupabaseClient database;
+  DishOfTheDayModel({required this.database});
   DishModel? _dishOfTheDay;
 
   Future<void> fetchDishOfTheDay() async {
-    var response = await supabase
+    var response = await database
         .from("Dish_Schedule")
         .select()
         .filter("date", "eq", DateTime.now().toIso8601String());
     if (response.isNotEmpty) {
-      var dishOfTheDay = await supabase
+      var dishOfTheDay = await database
           .from("Dishes")
           .select()
           .filter("id", "eq", response[0]["id"]);
@@ -42,9 +44,9 @@ class DishOfTheDayModel extends ChangeNotifier {
         description: description,
         calories: calories,
         imageUrl: imageUrl);
-    var row = await supabase.from("Dishes").insert(newDish).select("id");
+    var row = await database.from("Dishes").insert(newDish).select("id");
     var id = row[0]['id'];
-    await supabase.from("Dish_Schedule").insert(
+    await database.from("Dish_Schedule").insert(
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
   }
 }
