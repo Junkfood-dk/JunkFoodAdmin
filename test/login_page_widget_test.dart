@@ -8,9 +8,7 @@ import 'package:chefapp/pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chefapp/fakeSupaBase.dart';
 
-
 void main() {
-
   // SharedPreferences.setMockInitialValues({});
   final supabase = FakeSupabase();
 
