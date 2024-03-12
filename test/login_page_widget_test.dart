@@ -21,9 +21,77 @@ void main() {
       of: appBarFinder,
       matching: titleFinder,
     );
+    final formFieldFinder = find.byType(TextFormField);
+    final emailLabelFinder = find.text('Email');
+    final passwordLabelFinder = find.text('Password');
+
+    final emailFormFieldFinder = find.descendant(
+      of: formFieldFinder,
+      matching: emailLabelFinder,
+    );
+    final passwordFormFieldFinder = find.descendant(
+      of: formFieldFinder,
+      matching: passwordLabelFinder,
+    );
+
+    final signInButtonFinder = find.widgetWithText(ElevatedButton, 'Sign In');
+
+
 
     //Assert
     expect(appBarFinder, findsOneWidget);
-    expect(textInAppBarFinder, findsWidgets);
+    expect(textInAppBarFinder, findsOneWidget);
+    expect(emailFormFieldFinder, findsOneWidget);
+    expect(passwordFormFieldFinder, findsOneWidget);
+    expect(signInButtonFinder, findsOneWidget);
   });
+
+  testWidgets('Sign In fails with invalid credentials', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: LoginPage(database: supabase),
+      ),
+    );
+
+    // Act
+    await tester.enterText(find.bySemanticsLabel('Email'), 'test@nytest.dk');
+    await tester.enterText(find.bySemanticsLabel('Password'), '12');
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
+    await tester.pumpAndSettle();
+
+    final snackBarFinder = find.byType(SnackBar);
+    final textFinder = find.text('Invalid login credentials');
+    final textOnSnackBarFinder = find.descendant(
+      of: snackBarFinder,
+      matching: textFinder,
+    );
+
+    //Assert
+    expect(textOnSnackBarFinder, findsWidgets);
+  });
+
+  testWidgets('Sign In succeeds with valid credentials', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: LoginPage(database: supabase),
+      ),
+    );
+
+    // Act
+    await tester.enterText(find.bySemanticsLabel('Email'), 'test@nytest.dk');
+    await tester.enterText(find.bySemanticsLabel('Password'), '1234');
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
+    await tester.pumpAndSettle();
+
+    final snackBarFinder = find.byType(SnackBar);
+    final textFinder = find.text('Sign in successful!');
+    final textOnSnackBarFinder = find.descendant(
+      of: snackBarFinder,
+      matching: textFinder,
+    );
+
+    //Assert
+    expect(textOnSnackBarFinder, findsWidgets);
+  });
+
 }

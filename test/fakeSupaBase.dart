@@ -6,6 +6,9 @@ import 'package:flutter_test/flutter_test.dart';
 class FakeSupabase extends Fake implements SupabaseClient {
   @override
   get auth => FakeGotrue();
+
+
+
 }
 
 class FakeGotrue extends Fake implements GoTrueClient {
@@ -33,14 +36,19 @@ class FakeGotrue extends Fake implements GoTrueClient {
       String? phone,
       required String password,
       String? captchaToken}) async {
-    return AuthResponse(
-      session: Session(
-        accessToken: '',
-        tokenType: '',
+    if (email == 'test@nytest.dk' && password == '1234') {
+      return AuthResponse(
+        session: Session(
+          accessToken: 'fakeAccessToken',
+          tokenType: 'Bearer',
+          user: _user,
+        ),
         user: _user,
-      ),
-      user: _user,
-    );
+      );
+    } else {
+      // Simulate a failed login
+      throw const AuthException('Invalid login credentials');
+    }
   }
 }
 
