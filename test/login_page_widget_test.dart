@@ -39,11 +39,16 @@ void main() {
       matching: passwordLabelFinder,
     );
 
+    final signInButtonFinder = find.widgetWithText(ElevatedButton, 'Sign In');
+
+
+
     //Assert
     expect(appBarFinder, findsOneWidget);
     expect(textInAppBarFinder, findsOneWidget);
     expect(emailFormFieldFinder, findsOneWidget);
     expect(passwordFormFieldFinder, findsOneWidget);
+    expect(signInButtonFinder, findsOneWidget);
   });
 
   testWidgets('Sign In fails with invalid credentials', (WidgetTester tester) async {
