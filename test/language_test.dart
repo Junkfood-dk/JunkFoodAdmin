@@ -1,4 +1,6 @@
+import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:chefapp/my_home_page.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chefapp/model/language.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +70,7 @@ void main() {
     expect(id3Exists, isFalse);
   });
 
-  testWidgets('Pop up menu button for language selection exists',
+  testWidgets('Pop up menu button for language selection exists on Homepage',
       (WidgetTester tester) async {
     await tester.pumpWidget(ChangeNotifierProvider(
         create: (context) => LocaleModel(),
@@ -88,7 +90,7 @@ void main() {
     //Act
 
     final appBarFinder = find.byType(AppBar);
-    final popupMenuButtonFinder = find.byType(PopupMenuButton);
+    final popupMenuButtonFinder = find.byType(PopupMenuButton<Language>);
     final buttonInAppBarFinder =
         find.descendant(of: appBarFinder, matching: popupMenuButtonFinder);
 
@@ -96,5 +98,85 @@ void main() {
     expect(appBarFinder, findsOneWidget);
     expect(popupMenuButtonFinder, findsOneWidget);
     expect(buttonInAppBarFinder, findsOneWidget);
+  });
+
+  testWidgets('Language_dropdown_component contains danish and english options',
+    (WidgetTester tester) async {
+      
+      //Arrange
+      await tester.pumpWidget(ChangeNotifierProvider(
+        create: (context) => LocaleModel(),
+        child: Consumer<LocaleModel>(
+          builder: (context, localeModel, child) => MaterialApp(
+            title: 'Chef App',
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: localeModel.locale,
+            debugShowCheckedModeBanner: false,
+            home: LanguageDropdown(),
+          ),
+        )));
+
+      //Act
+
+      // Open the language dropdown.
+      await tester.tap(find.byType(LanguageDropdown));
+      await tester.pumpAndSettle();
+
+      final englishItemFinder = find.text('English');
+      final danishItemFinder = find.text('Dansk');
+
+      //Assert
+      expect(englishItemFinder, findsOneWidget);
+      expect(danishItemFinder, findsOneWidget);
+  
+  });
+
+   testWidgets('Language_dropdown_component changes locale when option is pressed',
+      (WidgetTester tester) async {
+    //Arrange
+    await tester.pumpWidget(ChangeNotifierProvider(
+        create: (context) => LocaleModel(),
+        child: Consumer<LocaleModel>(
+          builder: (context, localeModel, child) => MaterialApp(
+            title: 'Chef App',
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: localeModel.locale,
+            debugShowCheckedModeBanner: false,
+            home: LanguageDropdown(),
+          ),
+        )));
+
+    //Act
+    Locale? initialLocale = Localizations.localeOf(tester.element(find.byType(LanguageDropdown)));
+
+    await tester.tap(find.byType(LanguageDropdown)); // Open the language dropdown.
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Dansk'));
+    await tester.pumpAndSettle();
+
+    Locale? localeAfterDanishIsPressed = Localizations.localeOf(tester.element(find.byType(LanguageDropdown)));
+
+    await tester.tap(find.byType(LanguageDropdown)); // Open the language dropdown.
+    await tester.pumpAndSettle();
+    
+    await tester.tap(find.text('English'));
+    await tester.pumpAndSettle();
+   
+    Locale? localeAfterEnglishIsPressed = Localizations.localeOf(tester.element(find.byType(LanguageDropdown)));
+
+    //Assert
+    expect(initialLocale, equals(Locale('en')));
+    expect(localeAfterDanishIsPressed, equals(Locale('da')));
+    expect(localeAfterEnglishIsPressed, equals(Locale('en')));
   });
 }
