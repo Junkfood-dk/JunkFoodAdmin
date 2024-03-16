@@ -49,4 +49,5 @@ class DishOfTheDayModel extends ChangeNotifier {
     await database.from("Dish_Schedule").insert(
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
   }
+  
 }
