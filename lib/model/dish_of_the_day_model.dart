@@ -48,4 +48,5 @@ class DishOfTheDayModel extends ChangeNotifier {
     await supabase.from("Dish_Schedule").insert(
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
   }
+  
 }
