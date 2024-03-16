@@ -1,5 +1,6 @@
 import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:chefapp/model/allergen_model.dart';
+import 'package:chefapp/model/allergene_service.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,14 +76,13 @@ class PostDishPage extends StatelessWidget {
                               }
                             },
                           )),
-                  Consumer<PostDishPageState>(
+                  Consumer<AllergeneService>(
                     builder: (context, state, _) {
                       return Column(
-                        children:
-                            state.allergenToggles.keys.map((allergenName) {
+                        children: state.allergenes.keys.map((allergenName) {
                           return CheckboxListTile(
                             title: Text(allergenName),
-                            value: state.allergenToggles[allergenName],
+                            value: state.allergenes[allergenName],
                             onChanged: (bool? newValue) {
                               state.toggleAllergen(allergenName);
                             },
@@ -91,56 +91,62 @@ class PostDishPage extends StatelessWidget {
                       );
                     },
                   ),
-                  Consumer<PostDishPageState>(
+                  Consumer<AllergeneService>(
                     builder: (context, state, _) {
                       return Column(
                         children: [
-                          FutureBuilder<List<AllergenModel>>(
-                            future: state.fetchAllergens(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const CircularProgressIndicator();
-                              }
-                              if (!snapshot.hasData) {
-                                return const Text("No allergens available");
-                              }
-                              final categoryChips = state.selectedAllergens
-                                  .map((allergen) => Chip(
-                                        label: Text(allergen.name),
-                                        onDeleted: () =>
-                                            state.removeAllergen(allergen.name),
-                                      ))
-                                  .toList();
-                              return Wrap(
-                                spacing: 8.0,
-                                children: categoryChips,
-                              );
-                            },
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: "Add New Allergen",
-                              labelStyle: labelText,
+                          Consumer<PostDishPageState>(
+                            builder: (context, value, child) =>
+                                FutureBuilder<List<AllergenModel>>(
+                              future: state.fetchAllergens(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const CircularProgressIndicator();
+                                }
+                                if (!snapshot.hasData) {
+                                  return const Text("No allergens available");
+                                }
+                                final categoryChips = value.selectedAllergens
+                                    .map((allergen) => Chip(
+                                          label: Text(allergen.name),
+                                          onDeleted: () => value
+                                              .removeAllergen(allergen.name),
+                                        ))
+                                    .toList();
+                                return Wrap(
+                                  spacing: 8.0,
+                                  children: categoryChips,
+                                );
+                              },
                             ),
-                            onFieldSubmitted: (value) {
-                              if (value.isNotEmpty) {
+                          ),
+                          Consumer<PostDishPageState>(
+                            builder: (context, postDishPageState, child) =>
+                                TextFormField(
+                              decoration: InputDecoration(
+                                labelText: "Add New Allergen",
+                                labelStyle: labelText,
+                              ),
+                              onFieldSubmitted: (value) {
                                 state.saveNewAllergen(value);
-                                state.addAllergen(value);
-                              }
-                            },
+                                postDishPageState.addAllergen(value);
+                              },
+                            ),
                           )
                         ],
                       );
                     },
                   ),
-                  Consumer2<DishOfTheDayModel, PostDishPageState>(
-                      builder: (context, dishOfTheDayModel, state, _) =>
+                  Consumer3<DishOfTheDayModel, PostDishPageState,
+                          AllergeneService>(
+                      builder: (context, dishOfTheDayModel, state,
+                              allergeneService, _) =>
                           TextButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   final selectedAllergens =
-                                      state.getSelectedAllergens();
+                                      allergeneService.getSelectedAllergens();
                                   selectedAllergens.addAll(state
                                       .selectedAllergens
                                       .map((allergen) => allergen.name));
@@ -196,79 +202,17 @@ class PostDishPageState extends ChangeNotifier {
     imageUrl = newValue;
     notifyListeners();
   }
-  
-  void toggleAllergen(String allergenName) {
-    if (allergenToggles.containsKey(allergenName)) {
-      allergenToggles[allergenName] = !allergenToggles[allergenName]!;
+
+  void addAllergen(String allergenName) {
+    AllergenModel allergen = AllergenModel(name: allergenName);
+    if (!selectedAllergens.any((a) => a.name == allergenName)) {
+      selectedAllergens.add(allergen);
       notifyListeners();
     }
   }
 
-
-void addAllergen(String allergenName) {
-  AllergenModel allergen = AllergenModel(name: allergenName);
-  if (!selectedAllergens.any((a) => a.name == allergenName)) {
-    selectedAllergens.add(allergen);
+  void removeAllergen(String allergenName) {
+    selectedAllergens.removeWhere((allergen) => allergen.name == allergenName);
     notifyListeners();
   }
-}
-
-void removeAllergen(String allergenName) {
-  selectedAllergens.removeWhere((allergen) => allergen.name == allergenName);
-  notifyListeners();
-}
-
-Future<List<AllergenModel>> fetchAllergens() async {
-  try {
-    final response = await supabase.from("Allergens").select("allergen_name");
-
-    final List<AllergenModel> allergens = List<AllergenModel>.from(response.map(
-        (allergenData) =>
-            AllergenModel.fromJson({'name': allergenData['allergen_name']})));
-
-    return allergens;
-  } catch (error) {
-    debugPrint("Error fetching allergens: $error");
-    return [];
-  }
-}
-
-Future<void> saveNewAllergen(String allergenName) async {
-  final allergen = AllergenModel(name: allergenName);
-
-  try {
-    final response = await supabase.from("Allergens").insert(allergen.toJson());
-
-    if (response['error'] != null) {
-      debugPrint("Error saving new allergen: ${response['error']}");
-      throw Exception("Failed to save new allergen: ${response['error']}");
-    } else {
-      debugPrint("New allergen saved successfully");
-      final data = response['data'];
-      if (data != null && data is List && data.isNotEmpty) {
-        selectedAllergens.add(AllergenModel.fromJson(data[0]));
-      }
-      notifyListeners();
-    }
-  } catch (error) {
-    debugPrint("Error saving new allergen: $error");
-    throw Exception("Failed to save new allergen: $error");
-  }
-}
-
-final Map<String, bool> allergenToggles = {
-  "Gluten": false,
-  "Fish": false,
-  "Nuts": false,
-  "Lactose": false,
-};
-
-
-
-List<String> getSelectedAllergens() {
-  return allergenToggles.entries
-      .where((entry) => entry.value)
-      .map((entry) => entry.key)
-      .toList();
-}
 }

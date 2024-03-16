@@ -1,6 +1,3 @@
-import 'package:chefapp/main.dart';
-import 'package:flutter/material.dart';
-
 class AllergenModel {
   String name;
   AllergenModel({required this.name});
@@ -10,7 +7,10 @@ class AllergenModel {
   }
 
   static AllergenModel fromJson(Map<String, dynamic> input) {
-    return AllergenModel(name: input.containsKey("allergen_name") as String);
+    return AllergenModel(
+        name: input.containsKey("allergen_name")
+            ? input["allergen_name"]
+            : throw Exception("Missing name"));
     // id: input.containsKey("id") as int);
   }
 }
