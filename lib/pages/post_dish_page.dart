@@ -18,7 +18,7 @@ class PostDishPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => PostDishPageState(),
+      create: (context) => _PostDishPageState(),
       child: Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)!.addDishPageTitle),
@@ -31,21 +31,21 @@ class PostDishPage extends StatelessWidget {
               key: _formKey,
               child: Column(
                 children: [
-                  Consumer<PostDishPageState>(
+                  Consumer<_PostDishPageState>(
                       builder: (context, state, _) => TextFormField(
                             decoration: InputDecoration(
                                 labelText: AppLocalizations.of(context)!
                                     .textFormLabelForName),
                             onChanged: (value) => state.setTitle(value),
                           )),
-                  Consumer<PostDishPageState>(
+                  Consumer<_PostDishPageState>(
                       builder: (context, state, _) => TextFormField(
                             decoration: InputDecoration(
                                 labelText: AppLocalizations.of(context)!
                                     .textFormLabelForDescription),
                             onChanged: (value) => state.setDescription(value),
                           )),
-                  Consumer<PostDishPageState>(
+                  Consumer<_PostDishPageState>(
                       builder: (context, state, _) => TextFormField(
                             decoration: InputDecoration(
                                 labelText: AppLocalizations.of(context)!
@@ -57,7 +57,7 @@ class PostDishPage extends StatelessWidget {
                             onChanged: (value) =>
                                 state.setCalories(int.parse(value)),
                           )),
-                  Consumer<PostDishPageState>(
+                  Consumer<_PostDishPageState>(
                       builder: (context, state, _) => TextFormField(
                             validator: (value) {
                               if (!isValidUrl(value!)) {
@@ -95,7 +95,7 @@ class PostDishPage extends StatelessWidget {
                     builder: (context, state, _) {
                       return Column(
                         children: [
-                          Consumer<PostDishPageState>(
+                          Consumer<_PostDishPageState>(
                             builder: (context, value, child) =>
                                 FutureBuilder<List<AllergenModel>>(
                               future: state.fetchAllergens(),
@@ -121,7 +121,7 @@ class PostDishPage extends StatelessWidget {
                               },
                             ),
                           ),
-                          Consumer<PostDishPageState>(
+                          Consumer<_PostDishPageState>(
                             builder: (context, postDishPageState, child) =>
                                 TextFormField(
                               decoration: InputDecoration(
@@ -138,7 +138,7 @@ class PostDishPage extends StatelessWidget {
                       );
                     },
                   ),
-                  Consumer3<DishOfTheDayModel, PostDishPageState,
+                  Consumer3<DishOfTheDayModel, _PostDishPageState,
                           AllergeneService>(
                       builder: (context, dishOfTheDayModel, state,
                               allergeneService, _) =>
@@ -173,7 +173,7 @@ class PostDishPage extends StatelessWidget {
   }
 }
 
-class PostDishPageState extends ChangeNotifier {
+class _PostDishPageState extends ChangeNotifier {
   String title = "";
   String description = "";
   int calories = 0;
