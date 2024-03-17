@@ -137,7 +137,8 @@ class PostDishPage extends StatelessWidget {
                                       state.title,
                                       state.description,
                                       state.calories,
-                                      state.imageUrl);
+                                      state.imageUrl,
+                                      selectedCategories);
                                   Navigator.of(context).pop();
                                 }
                               },

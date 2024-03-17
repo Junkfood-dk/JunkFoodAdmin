@@ -37,7 +37,7 @@ class DishOfTheDayModel extends ChangeNotifier {
   }
 
   Future<void> postDishOfTheDay(
-      String title, String description, int calories, String imageUrl) async {
+      String title, String description, int calories, String imageUrl, List<String> categoryNames) async {
     DishModel newDish = DishModel(
         title: title,
         description: description,
@@ -47,5 +47,16 @@ class DishOfTheDayModel extends ChangeNotifier {
     var id = row[0]['id'];
     await supabase.from("Dish_Schedule").insert(
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
+
+    for (var categoryName in categoryNames) {
+      var categoryResponse = await supabase.from("Categories")
+        .select("id")
+        .eq("category_name", categoryName);
+      var categoryId = categoryResponse[0]["id"];
+      await supabase.from("DishCategories").insert({
+        "dish_id" : id,
+        "category_id" : categoryId
+      });
+    }
   }
 }
