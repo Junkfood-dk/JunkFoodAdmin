@@ -1,3 +1,4 @@
+import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:chefapp/my_home_page.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chefapp/model/language.dart';
@@ -27,7 +28,7 @@ void main() {
     //Act
 
     final appBarFinder = find.byType(AppBar);
-    final popupMenuButtonFinder = find.byType(PopupMenuButton<Language>);
+    final popupMenuButtonFinder = find.byType(LanguageDropdown);
     final buttonInAppBarFinder =
         find.descendant(of: appBarFinder, matching: popupMenuButtonFinder);
 
