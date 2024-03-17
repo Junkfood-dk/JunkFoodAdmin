@@ -37,7 +37,7 @@ class DishOfTheDayModel extends ChangeNotifier {
     return _dishOfTheDay != null;
   }
 
-  Future<void> postDishOfTheDay(
+  Future<int> postDishOfTheDay(
       String title, String description, int calories, String imageUrl) async {
     DishModel newDish = DishModel(
         title: title,
@@ -48,6 +48,6 @@ class DishOfTheDayModel extends ChangeNotifier {
     var id = row[0]['id'];
     await database.from("Dish_Schedule").insert(
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
+    return id;
   }
-  
 }
