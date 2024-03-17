@@ -232,6 +232,9 @@ class PostDishPageState extends ChangeNotifier {
         if (data != null && data is List && data.isNotEmpty) {
           selectedCategories.add(CategoryModel.fromJson(data[0]));
         }
+        var categoryId = response[0]["id"];
+        selectedCategories.add(CategoryModel(name: categoryName, id: categoryId));
+        categoryToggles[categoryName] = true;
         notifyListeners();
       }
     } catch (error) {

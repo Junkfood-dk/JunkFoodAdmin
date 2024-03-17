@@ -1,6 +1,7 @@
 class CategoryModel {
   String name;
-  CategoryModel({required this.name});
+  int? id;
+  CategoryModel({required this.name, this.id});
 
   Map<String, dynamic> toJson() {
     return {'category_name': name};
