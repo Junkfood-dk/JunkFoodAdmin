@@ -1,4 +1,4 @@
-
+import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -54,24 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(AppLocalizations.of(context)!.homePageTitle),
-        actions: <Widget>[
-          Consumer<LocaleModel>(
-            builder: (context, localeModel, child) => PopupMenuButton<Language>(
-                onSelected: (Language language) {
-                  localeModel.set(Locale(language.languageCode));
-                },
-                icon: const Icon(Icons.language),
-                itemBuilder: (BuildContext context) {
-                  List<PopupMenuEntry<Language>> menuItems =
-                      Language.languageList().map((e) {
-                    return PopupMenuItem<Language>(
-                        value: e, child: Text(e.name));
-                  }).toList();
-
-                  return menuItems;
-                }),
-          ),
-        ],
+        actions: <Widget>[LanguageDropdown()]
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
