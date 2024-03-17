@@ -70,36 +70,6 @@ void main() {
     expect(id3Exists, isFalse);
   });
 
-  testWidgets('Pop up menu button for language selection exists on Homepage',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(ChangeNotifierProvider(
-        create: (context) => LocaleModel(),
-        child: Consumer<LocaleModel>(
-          builder: (context, localeModel, child) => MaterialApp(
-            title: 'Chef App',
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-            ],
-            supportedLocales: AppLocalizations.supportedLocales,
-            locale: localeModel.locale,
-            debugShowCheckedModeBanner: false,
-            home: MyHomePage(title: "Chef App"),
-          ),
-        )));
-
-    //Act
-
-    final appBarFinder = find.byType(AppBar);
-    final popupMenuButtonFinder = find.byType(PopupMenuButton<Language>);
-    final buttonInAppBarFinder =
-        find.descendant(of: appBarFinder, matching: popupMenuButtonFinder);
-
-    //Assert
-    expect(appBarFinder, findsOneWidget);
-    expect(popupMenuButtonFinder, findsOneWidget);
-    expect(buttonInAppBarFinder, findsOneWidget);
-  });
-
   testWidgets('Language_dropdown_component contains danish and english options',
     (WidgetTester tester) async {
       
@@ -134,6 +104,7 @@ void main() {
   
   });
 
+//Test if locale changes when language is selected in dropdown-menu
    testWidgets('Language_dropdown_component changes locale when option is pressed',
       (WidgetTester tester) async {
     //Arrange
