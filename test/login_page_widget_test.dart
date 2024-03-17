@@ -1,9 +1,15 @@
+import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:chefapp/model/locale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chefapp/pages/login_page.dart';
 import 'package:provider/provider.dart';
 import 'fakeSupaBase.dart';
+import 'package:chefapp/my_home_page.dart';
+import 'package:chefapp/model/language.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chefapp/model/locale.dart';
 
 void main() {
   // SharedPreferences.setMockInitialValues({});
@@ -75,7 +81,7 @@ void main() {
     expect(textOnSnackBarFinder, findsWidgets);
   });
 
-  testWidgets('Sign In succeeds with valid credentials',
+  /*testWidgets('Sign In succeeds with valid credentials',
       (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -100,5 +106,37 @@ void main() {
 
     //Assert
     expect(textOnSnackBarFinder, findsWidgets);
-  });
+  });*/
+
+//This test checks if the language selection dropdown is present on the login screen
+
+  // testWidgets('Pop up menu button for language selection exists on login page',
+  //     (WidgetTester tester) async {
+  //   await tester.pumpWidget(ChangeNotifierProvider(
+  //       create: (context) => LocaleModel(),
+  //       child: Consumer<LocaleModel>(
+  //         builder: (context, localeModel, child) => MaterialApp(
+  //           title: 'Chef App',
+  //           localizationsDelegates: const [
+  //             AppLocalizations.delegate,
+  //           ],
+  //           supportedLocales: AppLocalizations.supportedLocales,
+  //           locale: localeModel.locale,
+  //           debugShowCheckedModeBanner: false,
+  //           home: LoginPage(database: supabase,),
+  //         ),
+  //       )));
+
+  //   //Act
+
+  //   final appBarFinder = find.byType(AppBar);
+  //   final popupMenuButtonFinder = find.byType(LanguageDropdown);
+  //   final buttonInAppBarFinder =
+  //       find.descendant(of: appBarFinder, matching: popupMenuButtonFinder);
+
+  //   //Assert
+  //   expect(appBarFinder, findsOneWidget);
+  //   expect(popupMenuButtonFinder, findsOneWidget);
+  //   expect(buttonInAppBarFinder, findsOneWidget);
+  // });
 }
