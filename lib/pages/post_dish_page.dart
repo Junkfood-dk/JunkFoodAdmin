@@ -114,29 +114,18 @@ class PostDishPage extends StatelessWidget {
                       return Column(
                         children: [
                           Consumer<PostDishPageState>(
-                              builder: (context, value, child) {
-                            final categoryChips = value.selectedAllergens
-                                .map((allergen) => Chip(
-                                      label: Text(allergen.name),
-                                      onDeleted: () =>
-                                          value.removeAllergen(allergen.name),
-                                    ))
-                                .toList();
-                            return Wrap(
-                              spacing: 8.0,
-                              children: categoryChips,
-                            );
-                          }),
-                          Consumer<PostDishPageState>(
                             builder: (context, postDishPageState, child) =>
                                 TextFormField(
                               decoration: InputDecoration(
                                 labelText: "Add New Allergen",
                                 labelStyle: labelText,
                               ),
-                              onFieldSubmitted: (value) {
-                                state.saveNewAllergen(value);
-                                postDishPageState.addAllergen(value);
+                              onFieldSubmitted: (value) async {
+                                debugPrint("Saving ${value}");
+                                AllergenModel newAllergen =
+                                    await state.saveNewAllergen(value);
+                                debugPrint("Saved ${newAllergen.name}");
+                                postDishPageState.addAllergen(newAllergen);
                               },
                             ),
                           )
@@ -213,9 +202,8 @@ class PostDishPageState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addAllergen(String allergenName) {
-    AllergenModel allergen = AllergenModel(name: allergenName);
-    if (!selectedAllergens.any((a) => a.name == allergenName)) {
+  void addAllergen(AllergenModel allergen) async {
+    if (!selectedAllergens.any((a) => a.name == allergen.name)) {
       selectedAllergens.add(allergen);
       notifyListeners();
     }
@@ -227,10 +215,13 @@ class PostDishPageState extends ChangeNotifier {
   }
 
   List<AllergenModel> getSelectedAllergens() {
-    return allergenToggles.entries
+    var list = selectedAllergens;
+    list.addAll(allergenToggles.entries
         .where((entry) => entry.value)
         .map((entry) => entry.key)
-        .toList();
+        .toList());
+
+    return list;
   }
 
   void toggleAllergen(AllergenModel allergen) {

@@ -35,24 +35,15 @@ class AllergeneService extends ChangeNotifier {
     }
   }
 
-  Future<void> saveNewAllergen(String allergenName) async {
+  Future<AllergenModel> saveNewAllergen(String allergenName) async {
     final allergen = AllergenModel(name: allergenName);
 
     try {
       final response =
-          await database.from("Allergens").insert(allergen.toJson());
+          await database.from("Allergens").insert(allergen.toJson()).select();
 
-      if (response['error'] != null) {
-        debugPrint("Error saving new allergen: ${response['error']}");
-        throw Exception("Failed to save new allergen: ${response['error']}");
-      } else {
-        debugPrint("New allergen saved successfully");
-        final data = response['data'];
-        if (data != null && data is List && data.isNotEmpty) {
-          //selectedAllergens.add(AllergenModel.fromJson(data[0]));
-        }
-        notifyListeners();
-      }
+      notifyListeners();
+      return AllergenModel.fromJson(response[0]);
     } catch (error) {
       debugPrint("Error saving new allergen: $error");
       throw Exception("Failed to save new allergen: $error");
