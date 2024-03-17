@@ -40,8 +40,6 @@ void main() {
 
     final signInButtonFinder = find.widgetWithText(ElevatedButton, 'Sign In');
 
-
-
     //Assert
     expect(appBarFinder, findsOneWidget);
     expect(textInAppBarFinder, findsOneWidget);
@@ -50,10 +48,13 @@ void main() {
     expect(signInButtonFinder, findsOneWidget);
   });
 
-  testWidgets('Sign In fails with invalid credentials', (WidgetTester tester) async {
+  testWidgets('Sign In fails with invalid credentials',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: LoginPage(database: supabase),
+        home: MultiProvider(providers: [
+          ChangeNotifierProvider(create: (context) => LocaleModel())
+        ], child: LoginPage(database: supabase)),
       ),
     );
 
@@ -74,10 +75,13 @@ void main() {
     expect(textOnSnackBarFinder, findsWidgets);
   });
 
-  testWidgets('Sign In succeeds with valid credentials', (WidgetTester tester) async {
+  testWidgets('Sign In succeeds with valid credentials',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: LoginPage(database: supabase),
+        home: MultiProvider(providers: [
+          ChangeNotifierProvider(create: (context) => LocaleModel())
+        ], child: LoginPage(database: supabase)),
       ),
     );
 
@@ -97,5 +101,4 @@ void main() {
     //Assert
     expect(textOnSnackBarFinder, findsWidgets);
   });
-
 }
