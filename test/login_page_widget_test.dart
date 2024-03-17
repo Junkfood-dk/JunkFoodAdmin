@@ -1,6 +1,8 @@
+import 'package:chefapp/model/locale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chefapp/pages/login_page.dart';
+import 'package:provider/provider.dart';
 import 'fakeSupaBase.dart';
 
 void main() {
@@ -10,7 +12,9 @@ void main() {
   testWidgets('Sign In page shows', (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: LoginPage(database: supabase),
+        home: MultiProvider(providers: [
+          ChangeNotifierProvider(create: (context) => LocaleModel())
+        ], child: LoginPage(database: supabase)),
       ),
     );
 
