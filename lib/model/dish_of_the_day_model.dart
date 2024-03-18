@@ -37,7 +37,7 @@ class DishOfTheDayModel extends ChangeNotifier {
     return _dishOfTheDay != null;
   }
 
-  Future<void> postDishOfTheDay(
+  Future<int> postDishOfTheDay(
       String title, String description, int calories, String imageUrl, List<String> categoryNames) async {
     DishModel newDish = DishModel(
         title: title,
@@ -59,5 +59,6 @@ class DishOfTheDayModel extends ChangeNotifier {
         "category_id" : categoryId
       });
     }
+    return id;
   }
 }
