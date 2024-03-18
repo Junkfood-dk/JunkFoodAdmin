@@ -1,5 +1,6 @@
 import 'package:chefapp/main.dart';
 import 'package:chefapp/model/category_model.dart';
+import 'package:chefapp/model/category_service.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -68,13 +69,13 @@ class PostDishPage extends StatelessWidget {
                               }
                             },
                           )),
-                  Consumer<PostDishPageState>(
+                  Consumer<CategoryService>(
                       builder: (context, state, _) {
                         return Column(
-                          children: state.categoryToggles.keys.map((categoryName) {
+                          children: state.categories.keys.map((categoryName) {
                             return CheckboxListTile(
                               title: Text(categoryName),
-                              value: state.categoryToggles[categoryName],
+                              value: state.categories[categoryName],
                               onChanged: (bool? newValue) {
                                 state.toggleCategory(categoryName);
                               },
@@ -83,66 +84,74 @@ class PostDishPage extends StatelessWidget {
                         );
                       },
                     ),
-                  Consumer<PostDishPageState>(
+                  Consumer<CategoryService>(
                     builder: (context, state, _) {
                       return Column(
                         children: [
-                          FutureBuilder<List<CategoryModel>>(
-                            future: state.fetchCategories(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const CircularProgressIndicator();
-                              }
-                              if (!snapshot.hasData) {
-                                return const Text("No categories available");
-                              }
-                              final categoryChips = state.selectedCategories
-                                  .map((category) => Chip(
-                                        label: Text(category.name),
-                                        onDeleted: () =>
-                                            state.removeCategory(category.name),
-                                      ))
+                          Consumer<PostDishPageState>(
+                            builder: (context, value, child) => 
+                              FutureBuilder<List<CategoryModel>>(
+                                future: state.fetchCategories(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return const CircularProgressIndicator();
+                                  }
+                                  if (!snapshot.hasData) {
+                                    return const Text("No categories available");
+                                  }
+                                  final categoryChips = value.selectedCategories
+                                    .map((category) => Chip(
+                                      label: Text(category.name),
+                                      onDeleted: () =>  value
+                                        .removeCategory(category.name),
+                                    ))
                                   .toList();
-                              return Wrap(
-                                spacing: 8.0,
-                                children: categoryChips,
-                              );
-                            },
+                                return Wrap(
+                                  spacing: 8.0,
+                                  children: categoryChips,
+                                );
+                                }
+                              ),
                           ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: "Add New Category",
-                              labelStyle: labelText,
-                            ),
-                            onFieldSubmitted: (value) {
-                              if (value.isNotEmpty) {
-                                state.saveNewCategory(value);
-                                state.addCategory(value);
-                              }
-                            },
+                          Consumer<PostDishPageState>(
+                            builder: (context, postDishPageState, child) => 
+                              TextFormField(
+                                decoration: InputDecoration (
+                                  labelText: "Add new Category",
+                                  labelStyle: labelText, 
+                                ),
+                                onFieldSubmitted: (value) {
+                                  state.saveNewCategory(value);
+                                  postDishPageState.addCategory(value);
+                                },
+                              ),
                           )
                         ],
                       );
                     },
                   ),
-                  Consumer2<DishOfTheDayModel, PostDishPageState>(
-                      builder: (context, dishOfTheDayModel, state, _) =>
-                          TextButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  final selectedCategories = state.getSelectedCategories();
-                                  selectedCategories.addAll(state.selectedCategories.map((category) => category.name));
-                                  dishOfTheDayModel.postDishOfTheDay(
-                                      state.title,
-                                      state.description,
-                                      state.calories,
-                                      state.imageUrl,
-                                      selectedCategories);
-                                  Navigator.of(context).pop();
-                                }
-                              },
-                              child: const Text("Submit")))
+                  Consumer3<DishOfTheDayModel,PostDishPageState,CategoryService>(
+                    builder: (context, dishOfTheDayModel, state, categoryService, _) => 
+                      TextButton(
+                        onPressed: () {
+                          if(_formKey.currentState!.validate()) {
+                            final selectedCategories = 
+                              categoryService.getSelectedCategories();
+                            selectedCategories.addAll(state
+                              .selectedCategories
+                              .map((category) => category.name));
+                            dishOfTheDayModel.postDishOfTheDay(
+                              state.title,
+                              state.description,
+                              state.calories,
+                              state.imageUrl,
+                              selectedCategories);
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        child: const Text("Submit"),
+                      ),
+                  )
                 ],
               ),
             ),
@@ -200,7 +209,7 @@ class PostDishPageState extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<CategoryModel>> fetchCategories() async {
+  /*Future<List<CategoryModel>> fetchCategories() async {
     try {
       final response =
           await supabase.from("Categories").select("category_name");
@@ -262,5 +271,5 @@ class PostDishPageState extends ChangeNotifier {
       .where((entry) => entry.value)
       .map((entry) => entry.key)
       .toList();
-  }
+  }*/
 }
