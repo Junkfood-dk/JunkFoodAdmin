@@ -50,11 +50,11 @@ class DishOfTheDayModel extends ChangeNotifier {
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
 
     for (var categoryName in categoryNames) {
-      var categoryResponse = await supabase.from("Categories")
+      var categoryResponse = await database.from("Categories")
         .select("id")
         .eq("category_name", categoryName);
       var categoryId = categoryResponse[0]["id"];
-      await supabase.from("DishCategories").insert({
+      await database.from("DishCategories").insert({
         "dish_id" : id,
         "category_id" : categoryId
       });

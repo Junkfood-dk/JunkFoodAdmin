@@ -20,10 +20,9 @@ Future<void> main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => DishOfTheDayModel(database: _supabase),
-      create: (context) => DishOfTheDayModel(),
     ),
     ChangeNotifierProvider(
-      create: (context) => CategoryService(database: supabase),
+      create: (context) => CategoryService(database: _supabase),
     )
   ], child: const MyApp()));
 }

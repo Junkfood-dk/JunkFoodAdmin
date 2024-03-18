@@ -1,7 +1,7 @@
 class CategoryModel {
+  int id;
   String name;
-  int? id;
-  CategoryModel({required this.name, this.id});
+  CategoryModel({required this.name, this.id = -1});
 
   Map<String, dynamic> toJson() {
     return {'category_name': name};
@@ -9,10 +9,11 @@ class CategoryModel {
 
   static CategoryModel fromJson(Map<String, dynamic> input) {
     return CategoryModel(
-      //name: json["category_name"] as String,
-      name: input.containsKey("category_name")
-      ? input["category_name"]
-      : throw Exception("Missing name")
-    );
+        name: input.containsKey("category_name")
+            ? input["category_name"]
+            : throw Exception("Missing name"),
+        id: input.containsKey("id")
+            ? input["id"]
+            : throw Exception("Missing id"));
   }
 }
