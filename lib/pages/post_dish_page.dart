@@ -1,3 +1,4 @@
+import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:chefapp/main.dart';
 import 'package:chefapp/model/category_model.dart';
 import 'package:chefapp/model/category_service.dart';
@@ -5,6 +6,7 @@ import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -20,7 +22,8 @@ class PostDishPage extends StatelessWidget {
       create: (context) => PostDishPageState(),
       child: Scaffold(
           appBar: AppBar(
-            title: const Text("Chef"),
+            title: Text(AppLocalizations.of(context)!.addDishPageTitle),
+            actions: [LanguageDropdown()],
           ),
           body: Center(
               child: SizedBox(
@@ -31,20 +34,23 @@ class PostDishPage extends StatelessWidget {
                 children: [
                   Consumer<PostDishPageState>(
                       builder: (context, state, _) => TextFormField(
-                            decoration:
-                                const InputDecoration(labelText: "Name"),
+                            decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!
+                                    .textFormLabelForName),
                             onChanged: (value) => state.setTitle(value),
                           )),
                   Consumer<PostDishPageState>(
                       builder: (context, state, _) => TextFormField(
-                            decoration:
-                                const InputDecoration(labelText: "Description"),
+                            decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!
+                                    .textFormLabelForDescription),
                             onChanged: (value) => state.setDescription(value),
                           )),
                   Consumer<PostDishPageState>(
                       builder: (context, state, _) => TextFormField(
-                            decoration:
-                                const InputDecoration(labelText: "Calories"),
+                            decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!
+                                    .textFormLabelForCalories),
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.digitsOnly
@@ -56,13 +62,15 @@ class PostDishPage extends StatelessWidget {
                       builder: (context, state, _) => TextFormField(
                             validator: (value) {
                               if (!isValidUrl(value!)) {
-                                return "Please enter a valid URL";
+                                return AppLocalizations.of(context)!
+                                    .invalidURLPromt;
                               } else {
                                 return null;
                               }
                             },
-                            decoration:
-                                const InputDecoration(labelText: "ImageURL"),
+                            decoration: InputDecoration(
+                                label: Text(AppLocalizations.of(context)!
+                                    .textFormLabelForImageURL)),
                             onChanged: (value) {
                               if (isValidUrl(value)) {
                                 state.setImageUrl(value);

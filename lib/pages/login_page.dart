@@ -1,13 +1,16 @@
 import 'dart:async';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:chefapp/pages/home_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:chefapp/main.dart';
+
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final SupabaseClient database;
+
+  const LoginPage({Key? key, required this.database}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -27,13 +30,14 @@ class _LoginPageState extends State<LoginPage> {
         _isLoading = true;
       });
 
-      await supabase.auth.signInWithPassword(
+      await widget.database.auth.signInWithPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Sign in successful!')),
+          SnackBar(
+              content: Text(AppLocalizations.of(context)!.signInSuccessful)),
         );
         _emailController.clear();
         _passwordController.clear();
@@ -48,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Unexpected error occurred'),
+          content: Text(AppLocalizations.of(context)!.signInError),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
@@ -63,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    _authStateSubscription = supabase.auth.onAuthStateChange.listen((data) {
+    _authStateSubscription = widget.database.auth.onAuthStateChange.listen((data) {
       if (_redirecting) return;
       final session = data.session;
       if (session != null) {
@@ -86,7 +90,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign In')),
+      appBar: AppBar(
+        title: const Text('Sign In'),
+        actions: [LanguageDropdown()],
+      ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
@@ -112,3 +119,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+

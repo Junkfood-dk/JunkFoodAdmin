@@ -1,0 +1,50 @@
+{
+  "homePageTitle": "Homepage",
+  "@homePageTitle": {
+    "description": "This is the title banner of the Homepage"
+  },
+  "punchText": "You have punched the button this many times:",
+  "@punchText": {
+    "description": "The text in the middle, describing how many times you have punched the button"
+  },
+  "postDishButton": "Add dish",
+  "@postDishButton": {
+    "description": "This is the button that will show you the post dish page"
+  },
+  "signInSuccessful": "Sign in successful!",
+  "@signInSuccessful": {
+    "description": "Message to prompt the user that the signin was a success"
+  },
+  "signInError": "Unexpected error occurred",
+  "@signInError": {
+    "description": "When an unexpected error occurs"
+  },
+  "addDishPageTitle": "Add dish",
+  "@addDishPageTitle": {
+    "description": "Title of the add dish page"
+  },
+  "textFormLabelForName": "Name",
+  "@textFormLabelForName": {
+    "description": "Label descriping the input for the name of the dish"
+  },
+  "textFormLabelForDescription": "Description",
+  "@textFormLabelForDescription": {
+    "description": "Label describing the input for the description of the dish"
+  },
+  "textFormLabelForCalories": "Calories",
+  "@textFormLabelForCalories": {
+    "description": "Label describing the input for the name of the dish"
+  },
+  "invalidURLPromt": "The entered URL was invalid",
+  "@invalidURLPromt": {
+    "description": "Prompts the user that the URL is invalid"
+  },
+  "textFormLabelForImageURL": "Image URL",
+  "@textFormLabelForImageURL": {
+    "description": "Label describing the input for the imageURL of the dish"
+  },
+  "submitButton": "Submit",
+  "@submitButton": {
+    "description": "Button that submits something"
+  }
+}
