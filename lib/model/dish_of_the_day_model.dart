@@ -8,20 +8,22 @@ class DishOfTheDayModel extends ChangeNotifier {
   DishModel? _dishOfTheDay;
 
   Future<void> fetchDishOfTheDay() async {
-    var response = await database
-        .from("Dish_Schedule")
-        .select()
-        .filter("date", "eq", DateTime.now().toIso8601String());
-    if (response.isNotEmpty) {
-      var dishOfTheDay = await database
-          .from("Dishes")
+    Future.microtask(() async {
+      var response = await database
+          .from("Dish_Schedule")
           .select()
-          .filter("id", "eq", response[0]["id"]);
-      _dishOfTheDay = DishModel.fromJson(dishOfTheDay[0]);
-    } else {
-      _dishOfTheDay = null;
-    }
-    notifyListeners();
+          .filter("date", "eq", DateTime.now().toIso8601String());
+      if (response.isNotEmpty) {
+        var dishOfTheDay = await database
+            .from("Dishes")
+            .select()
+            .filter("id", "eq", response[0]["id"]);
+        _dishOfTheDay = DishModel.fromJson(dishOfTheDay[0]);
+      } else {
+        _dishOfTheDay = null;
+      }
+      notifyListeners();
+    });
   }
 
   DishModel get dishOfTheDay {
