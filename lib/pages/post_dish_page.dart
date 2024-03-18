@@ -77,50 +77,42 @@ class PostDishPage extends StatelessWidget {
                             },
                           )),
                   Consumer<AllergeneService>(
-                    builder: (context, state, _) {
-                      return Column(
-                        children: state.allergenes.keys.map((allergenName) {
-                          return CheckboxListTile(
-                            title: Text(allergenName),
-                            value: state.allergenes[allergenName],
-                            onChanged: (bool? newValue) {
-                              state.toggleAllergen(allergenName);
-                            },
-                          );
-                        }).toList(),
-                      );
+                    // Displaying allergenes from fetched from the DB
+                    builder: (context, allergeneService, _) {
+                      return FutureBuilder(
+                          future: allergeneService.fetchAllergens(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return CircularProgressIndicator();
+                            }
+                            return Consumer<_PostDishPageState>(
+                                builder: (context, state, child) {
+                              if (state.allergenToggles.length !=
+                                  allergeneService.allergenes.length) {
+                                state.updateToggle(allergeneService.allergenes);
+                              }
+                              return Column(
+                                children:
+                                    state.allergenToggles.entries.map((entry) {
+                                  var key = entry.key;
+                                  return CheckboxListTile(
+                                    title: Text(key.name),
+                                    value: state.allergenToggles[key],
+                                    onChanged: (bool? newValue) {
+                                      state.toggleAllergen(key);
+                                    },
+                                  );
+                                }).toList(),
+                              );
+                            });
+                          });
                     },
                   ),
                   Consumer<AllergeneService>(
+                    // Allergene chips
                     builder: (context, state, _) {
                       return Column(
                         children: [
-                          Consumer<_PostDishPageState>(
-                            builder: (context, value, child) =>
-                                FutureBuilder<List<AllergenModel>>(
-                              future: state.fetchAllergens(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const CircularProgressIndicator();
-                                }
-                                if (!snapshot.hasData) {
-                                  return const Text("No allergens available");
-                                }
-                                final categoryChips = value.selectedAllergens
-                                    .map((allergen) => Chip(
-                                          label: Text(allergen.name),
-                                          onDeleted: () => value
-                                              .removeAllergen(allergen.name),
-                                        ))
-                                    .toList();
-                                return Wrap(
-                                  spacing: 8.0,
-                                  children: categoryChips,
-                                );
-                              },
-                            ),
-                          ),
                           Consumer<_PostDishPageState>(
                             builder: (context, postDishPageState, child) =>
                                 TextFormField(
@@ -128,9 +120,12 @@ class PostDishPage extends StatelessWidget {
                                 labelText: "Add New Allergen",
                                 labelStyle: labelText,
                               ),
-                              onFieldSubmitted: (value) {
-                                state.saveNewAllergen(value);
-                                postDishPageState.addAllergen(value);
+                              onFieldSubmitted: (value) async {
+                                debugPrint("Saving ${value}");
+                                AllergenModel newAllergen =
+                                    await state.saveNewAllergen(value);
+                                debugPrint("Saved ${newAllergen.name}");
+                                postDishPageState.addAllergen(newAllergen);
                               },
                             ),
                           )
@@ -143,18 +138,20 @@ class PostDishPage extends StatelessWidget {
                       builder: (context, dishOfTheDayModel, state,
                               allergeneService, _) =>
                           TextButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
+                                  int id =
+                                      await dishOfTheDayModel.postDishOfTheDay(
+                                          state.title,
+                                          state.description,
+                                          state.calories,
+                                          state.imageUrl);
                                   final selectedAllergens =
-                                      allergeneService.getSelectedAllergens();
-                                  selectedAllergens.addAll(state
-                                      .selectedAllergens
-                                      .map((allergen) => allergen.name));
-                                  dishOfTheDayModel.postDishOfTheDay(
-                                      state.title,
-                                      state.description,
-                                      state.calories,
-                                      state.imageUrl);
+                                      state.getSelectedAllergens();
+                                  for (var allergene in selectedAllergens) {
+                                    allergeneService.addAllergeneToDish(
+                                        allergene, id);
+                                  }
                                   Navigator.of(context).pop();
                                 }
                               },
@@ -179,6 +176,8 @@ class _PostDishPageState extends ChangeNotifier {
   int calories = 0;
   String imageUrl = "";
   List<AllergenModel> selectedAllergens = [];
+  Map<AllergenModel, bool> allergenToggles = {};
+
   void setTitle(String newValue) {
     title = newValue;
     notifyListeners();
@@ -203,9 +202,8 @@ class _PostDishPageState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addAllergen(String allergenName) {
-    AllergenModel allergen = AllergenModel(name: allergenName);
-    if (!selectedAllergens.any((a) => a.name == allergenName)) {
+  void addAllergen(AllergenModel allergen) async {
+    if (!selectedAllergens.any((a) => a.name == allergen.name)) {
       selectedAllergens.add(allergen);
       notifyListeners();
     }
@@ -214,5 +212,29 @@ class _PostDishPageState extends ChangeNotifier {
   void removeAllergen(String allergenName) {
     selectedAllergens.removeWhere((allergen) => allergen.name == allergenName);
     notifyListeners();
+  }
+
+  List<AllergenModel> getSelectedAllergens() {
+    var list = selectedAllergens;
+    list.addAll(allergenToggles.entries
+        .where((entry) => entry.value)
+        .map((entry) => entry.key)
+        .toList());
+
+    return list;
+  }
+
+  void toggleAllergen(AllergenModel allergen) {
+    if (allergenToggles.containsKey(allergen)) {
+      allergenToggles[allergen] = !allergenToggles[allergen]!;
+      notifyListeners();
+    }
+  }
+
+  void updateToggle(List<AllergenModel> allergenes) {
+    allergenToggles = {};
+    for (var allergen in allergenes) {
+      allergenToggles[allergen] = false;
+    }
   }
 }
