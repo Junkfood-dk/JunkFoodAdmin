@@ -18,9 +18,9 @@ class CategoryService extends ChangeNotifier {
 
   Future<List<CategoryModel>> fetchCategories() async {
     try {
-      final response = await database.from("Allergens").select();
+      final response = await database.from("Categories").select();
 
-      final List<CategoryModel> allergens = List<CategoryModel>.from(
+      final List<CategoryModel> categories= List<CategoryModel>.from(
           response.map((categoryData) => CategoryModel.fromJson(categoryData)));
 
 
@@ -36,9 +36,9 @@ class CategoryService extends ChangeNotifier {
           _categories.add(category);
         }
       }
-      return allergens;
+      return categories;
     } catch (error) {
-      debugPrint("Error fetching allergens. $error");
+      debugPrint("Error fetching categories. $error");
       return [];
     }
   }
