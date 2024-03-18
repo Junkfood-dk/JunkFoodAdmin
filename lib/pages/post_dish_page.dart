@@ -78,17 +78,35 @@ class PostDishPage extends StatelessWidget {
                             },
                           )),
                   Consumer<CategoryService>(
-                      builder: (context, state, _) {
-                        return Column(
-                          children: state.categories.keys.map((categoryName) {
-                            return CheckboxListTile(
-                              title: Text(categoryName),
-                              value: state.categories[categoryName],
-                              onChanged: (bool? newValue) {
-                                state.toggleCategory(categoryName);
-                              },
+                      builder: (context, categoryService, _) {
+                        return FutureBuilder(
+                          future: categoryService.fetchCategories(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return CircularProgressIndicator();
+                            }
+                            return Consumer<PostDishPageState>(
+                              builder: (context, state, child) {
+                                if (state.categoryToggles.length !=
+                                  categoryService.categories.length) {
+                                    state.updateToggle(categoryService.categories);
+                                  }
+                                return Column(
+                                  children: 
+                                    state.categoryToggles.entries.map((entry) {
+                                      var key = entry.key;
+                                      return CheckboxListTile(
+                                        title: Text(key.name),
+                                        value: state.categoryToggles[key],
+                                        onChanged: (bool? newValue) {
+                                          state.toggleCategory(key);
+                                        },
+                                      );
+                                    }).toList(),
+                                );
+                              } ,
                             );
-                          }).toList(),
+                          },
                         );
                       },
                     ),
@@ -97,30 +115,19 @@ class PostDishPage extends StatelessWidget {
                       return Column(
                         children: [
                           Consumer<PostDishPageState>(
-                            builder: (context, value, child) => 
-                              FutureBuilder<List<CategoryModel>>(
-                                future: state.fetchCategories(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.waiting) {
-                                    return const CircularProgressIndicator();
-                                  }
-                                  if (!snapshot.hasData) {
-                                    return const Text("No categories available");
-                                  }
-                                  final categoryChips = value.selectedCategories
-                                    .map((category) => Chip(
+                             builder: (context, value, child) {
+                            final categoryChips = value.selectedCategories
+                                .map((category) => Chip(
                                       label: Text(category.name),
-                                      onDeleted: () =>  value
-                                        .removeCategory(category.name),
+                                      onDeleted: () =>
+                                          value.removeCategory(category.name),
                                     ))
-                                  .toList();
-                                return Wrap(
-                                  spacing: 8.0,
-                                  children: categoryChips,
-                                );
-                                }
-                              ),
-                          ),
+                                .toList();
+                            return Wrap(
+                              spacing: 8.0,
+                              children: categoryChips,
+                            );
+                          }),
                           Consumer<PostDishPageState>(
                             builder: (context, postDishPageState, child) => 
                               TextFormField(
@@ -141,19 +148,20 @@ class PostDishPage extends StatelessWidget {
                   Consumer3<DishOfTheDayModel,PostDishPageState,CategoryService>(
                     builder: (context, dishOfTheDayModel, state, categoryService, _) => 
                       TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if(_formKey.currentState!.validate()) {
+                            int id = 
+                              await dishOfTheDayModel.postDishOfTheDay(
+                                state.title,
+                                state.description,
+                                state.calories,
+                                state.imageUrl,
+                              );
                             final selectedCategories = 
-                              categoryService.getSelectedCategories();
-                            selectedCategories.addAll(state
-                              .selectedCategories
-                              .map((category) => category.name));
-                            dishOfTheDayModel.postDishOfTheDay(
-                              state.title,
-                              state.description,
-                              state.calories,
-                              state.imageUrl,
-                              selectedCategories);
+                              state.getSelectedCategories();
+                            for (var category in selectedCategories) {
+                              categoryService.addCategoryToDish(category, id);
+                            }
                             Navigator.of(context).pop();
                           }
                         },
@@ -179,6 +187,7 @@ class PostDishPageState extends ChangeNotifier {
   int calories = 0;
   String imageUrl = "";
   List<CategoryModel> selectedCategories = [];
+  Map<CategoryModel, bool> categoryToggles = {};
 
   void setTitle(String newValue) {
     title = newValue;
@@ -217,67 +226,24 @@ class PostDishPageState extends ChangeNotifier {
     notifyListeners();
   }
 
-  /*Future<List<CategoryModel>> fetchCategories() async {
-    try {
-      final response =
-          await supabase.from("Categories").select("category_name");
-
-      final List<CategoryModel> categories = List<CategoryModel>.from(
-          response.map((categoryData) =>
-              CategoryModel.fromJson({'name': categoryData['category_name']})));
-
-      return categories;
-    } catch (error) {
-      debugPrint("Error fetching categories: $error");
-      return [];
-    }
+  List<CategoryModel> getSelectedCategories() {
+    return categoryToggles.entries
+        .where((entry) => entry.value)
+        .map((entry) => entry.key)
+        .toList();
   }
 
-  Future<void> saveNewCategory(String categoryName) async {
-    final category = CategoryModel(name: categoryName);
-
-    try {
-      final response =
-          await supabase.from("Categories").insert(category.toJson());
-
-      if (response['error'] != null) {
-        debugPrint("Error saving new category: ${response['error']}");
-        throw Exception("Failed to save new category: ${response['error']}");
-      } else {
-        debugPrint("New category saved successfully");
-        final data = response['data'];
-        if (data != null && data is List && data.isNotEmpty) {
-          selectedCategories.add(CategoryModel.fromJson(data[0]));
-        }
-        var categoryId = response[0]["id"];
-        selectedCategories.add(CategoryModel(name: categoryName, id: categoryId));
-        categoryToggles[categoryName] = true;
-        notifyListeners();
-      }
-    } catch (error) {
-      debugPrint("Error saving new category: $error");
-      throw Exception("Failed to save new category: $error");
-    }
-  }
-
-  final Map<String, bool> categoryToggles = {
-    "Vegan": false,
-    "Fish": false,
-    "Pork": false,
-    "Beef": false,
-  };
-
-  void toggleCategory(String categoryName) {
-    if (categoryToggles.containsKey(categoryName)) {
-      categoryToggles[categoryName] = !categoryToggles[categoryName]!;
+  void toggleCategory(CategoryModel category) {
+    if (categoryToggles.containsKey(category)) {
+      categoryToggles[category] = !categoryToggles[category]!;
       notifyListeners();
     }
   }
 
-  List<String> getSelectedCategories() {
-    return categoryToggles.entries
-      .where((entry) => entry.value)
-      .map((entry) => entry.key)
-      .toList();
-  }*/
+  void updateToggle(List<CategoryModel> categories) {
+    categoryToggles = {};
+    for (var category in categories) {
+      categoryToggles[category] = false;
+    }
+  }
 }

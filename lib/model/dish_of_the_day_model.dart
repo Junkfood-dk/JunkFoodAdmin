@@ -38,7 +38,7 @@ class DishOfTheDayModel extends ChangeNotifier {
   }
 
   Future<int> postDishOfTheDay(
-      String title, String description, int calories, String imageUrl, List<String> categoryNames) async {
+      String title, String description, int calories, String imageUrl) async {
     DishModel newDish = DishModel(
         title: title,
         description: description,
@@ -49,7 +49,7 @@ class DishOfTheDayModel extends ChangeNotifier {
     await database.from("Dish_Schedule").insert(
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
 
-    for (var categoryName in categoryNames) {
+    /*for (var categoryName in categoryNames) {
       var categoryResponse = await database.from("Categories")
         .select("id")
         .eq("category_name", categoryName);
@@ -58,7 +58,7 @@ class DishOfTheDayModel extends ChangeNotifier {
         "dish_id" : id,
         "category_id" : categoryId
       });
-    }
+    }*/
     return id;
   }
 }
