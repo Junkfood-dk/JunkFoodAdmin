@@ -10,18 +10,33 @@ class CategoryService extends ChangeNotifier {
     "Pork": false,
     "Beef": false,
   };
+  final List<CategoryModel> _categories = [];
 
   CategoryService({required this.database});
 
-  Map<String, bool> get categories => _categoryToggles;
+  List<CategoryModel> get categories => _categories;
 
   Future<List<CategoryModel>> fetchCategories() async {
     try {
-      final response = await database.from("Categories").select("category_name");
-      final List<CategoryModel> categories = List<CategoryModel>.from(
-        response.map((categoryData) => CategoryModel.fromJson(categoryData))
-      );
-      return categories;
+      final response = await database.from("Allergens").select();
+
+      final List<CategoryModel> allergens = List<CategoryModel>.from(
+          response.map((categoryData) => CategoryModel.fromJson(categoryData)));
+
+
+      for (var category in categories) {
+        bool exists = false;
+        for (var existingCategory in _categories) {
+          if (category.name == existingCategory.name) {
+            exists = true;
+            break;
+          }
+        }
+        if (!exists) {
+          _categories.add(category);
+        }
+      }
+      return allergens;
     } catch (error) {
       debugPrint("Error fetching allergens. $error");
       return [];
@@ -50,7 +65,13 @@ class CategoryService extends ChangeNotifier {
     }
   }
 
-  List<String> getSelectedCategories() {
+  Future<void> addCategoryToDish(CategoryModel category, int dishId) async {
+    await database 
+      .from("Categories_to_Dishes")
+      .insert({"category_id" : category.id, "dish_id": dishId});
+  }
+  
+  /*List<String> getSelectedCategories() {
     return _categoryToggles.entries
       .where((entry) => entry.value)
       .map((entry) => entry.key)
@@ -62,5 +83,5 @@ class CategoryService extends ChangeNotifier {
       _categoryToggles[categoryName] = !_categoryToggles[categoryName]!;
       notifyListeners();
     }
-  }
+  }*/
 }
