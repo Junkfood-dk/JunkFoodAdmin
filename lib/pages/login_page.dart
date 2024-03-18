@@ -1,6 +1,7 @@
 import 'dart:async';
-
-import 'package:flutter/foundation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chefapp/components/language_dropdown_component.dart';
+import 'package:chefapp/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -35,7 +36,8 @@ class _LoginPageState extends State<LoginPage> {
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Sign in successful!')),
+          SnackBar(
+              content: Text(AppLocalizations.of(context)!.signInSuccessful)),
         );
         _emailController.clear();
         _passwordController.clear();
@@ -50,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Unexpected error occurred'),
+          content: Text(AppLocalizations.of(context)!.signInError),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
@@ -70,7 +72,8 @@ class _LoginPageState extends State<LoginPage> {
       final session = data.session;
       if (session != null) {
         _redirecting = true;
-        Navigator.of(context).pushReplacementNamed('/home');
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (contect) => const HomePage()));
       }
     });
     super.initState();
@@ -87,7 +90,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign In')),
+      appBar: AppBar(
+        title: const Text('Sign In'),
+        actions: [LanguageDropdown()],
+      ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [

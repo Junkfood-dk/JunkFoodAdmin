@@ -1,8 +1,11 @@
+import 'package:chefapp/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chefapp/main.dart';
+import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
+  final SupabaseClient database;
+  const SplashPage({super.key, required this.database});
 
   @override
   _SplashPageState createState() => _SplashPageState();
@@ -21,9 +24,11 @@ class _SplashPageState extends State<SplashPage> {
       return;
     }
 
-    final session = supabase.auth.currentSession;
+    final session = widget.database.auth.currentSession;
     if (session != null) {
-      Navigator.of(context).pushReplacementNamed('/home');
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ));
     } else {
       Navigator.of(context).pushReplacementNamed('/login');
     }
