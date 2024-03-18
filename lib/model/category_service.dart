@@ -43,22 +43,13 @@ class CategoryService extends ChangeNotifier {
     }
   }
 
-  Future <void> saveNewCategory(String categoryName) async {
+  Future <CategoryModel> saveNewCategory(String categoryName) async {
     final category = CategoryModel(name: categoryName);
 
     try {
-      final reponse = await database.from("Categories").insert(category.toJson());
-      if (reponse["error"] != null) {
-        debugPrint("Error saving new categories: ${reponse["error"]}");
-        throw Exception("Failed to save new categories: ${reponse["error"]}");
-      } else {
-        debugPrint("New category saved successfully");
-        final data = reponse["data"];
-        if (data != null && data is List && data.isNotEmpty) {
-          
-        }
-        notifyListeners();
-      }
+      final reponse = await database.from("Categories").insert(category.toJson()).select();
+      notifyListeners();
+      return CategoryModel.fromJson(reponse[0]);
     } catch (error) {
       debugPrint("Error saving new categories: $error");
       throw Exception("Failed to save new category: $error");
@@ -70,7 +61,7 @@ class CategoryService extends ChangeNotifier {
       .from("Categories_to_Dishes")
       .insert({"category_id" : category.id, "dish_id": dishId});
   }
-  
+
   /*List<String> getSelectedCategories() {
     return _categoryToggles.entries
       .where((entry) => entry.value)

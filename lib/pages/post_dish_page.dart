@@ -115,29 +115,18 @@ class PostDishPage extends StatelessWidget {
                       return Column(
                         children: [
                           Consumer<PostDishPageState>(
-                             builder: (context, value, child) {
-                            final categoryChips = value.selectedCategories
-                                .map((category) => Chip(
-                                      label: Text(category.name),
-                                      onDeleted: () =>
-                                          value.removeCategory(category.name),
-                                    ))
-                                .toList();
-                            return Wrap(
-                              spacing: 8.0,
-                              children: categoryChips,
-                            );
-                          }),
-                          Consumer<PostDishPageState>(
                             builder: (context, postDishPageState, child) => 
                               TextFormField(
                                 decoration: InputDecoration (
                                   labelText: "Add new Category",
                                   labelStyle: labelText, 
                                 ),
-                                onFieldSubmitted: (value) {
-                                  state.saveNewCategory(value);
-                                  postDishPageState.addCategory(value);
+                                 onFieldSubmitted: (value) async {
+                                debugPrint("Saving ${value}");
+                                CategoryModel newCategory =
+                                    await state.saveNewCategory(value);
+                                debugPrint("Saved ${newCategory.name}");
+                                postDishPageState.addCategory(newCategory);
                                 },
                               ),
                           )
@@ -213,9 +202,8 @@ class PostDishPageState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addCategory(String categoryName) {
-    CategoryModel category = CategoryModel(name: categoryName);
-    if (!selectedCategories.any((c) => c.name == categoryName)) {
+  void addCategory(CategoryModel category) async {
+    if (!selectedCategories.any((c) => c.name == category.name)) {
       selectedCategories.add(category);
       notifyListeners();
     }
@@ -227,10 +215,12 @@ class PostDishPageState extends ChangeNotifier {
   }
 
   List<CategoryModel> getSelectedCategories() {
-    return categoryToggles.entries
-        .where((entry) => entry.value)
-        .map((entry) => entry.key)
-        .toList();
+    var list = selectedCategories;
+    list.addAll(categoryToggles.entries
+      .where((entry) => entry.value)
+      .map((entry) => entry.key)
+      .toList());
+    return list;
   }
 
   void toggleCategory(CategoryModel category) {
