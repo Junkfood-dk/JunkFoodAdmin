@@ -32,7 +32,7 @@ class DishDisplayComponent extends StatelessWidget {
               width: MediaQuery.sizeOf(context).width * 0.4,
               child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
-                  child: Image.network(dish.imageUrl)),
+                  child: Image.network(dish.imageUrl!)),
             )
           ],
         ),

@@ -5,7 +5,7 @@ class DishModel {
   String title;
   String description;
   int calories;
-  String imageUrl;
+  String? imageUrl;
 
   DishModel({
     required this.title,

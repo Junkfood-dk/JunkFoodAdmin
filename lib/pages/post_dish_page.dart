@@ -61,25 +61,6 @@ class PostDishPage extends StatelessWidget {
                                 state.setCalories(int.parse(value)),
                           )),
                   Consumer<_PostDishPageState>(
-                      builder: (context, state, _) => TextFormField(
-                            validator: (value) {
-                              if (!isValidUrl(value!)) {
-                                return AppLocalizations.of(context)!
-                                    .invalidURLPromt;
-                              } else {
-                                return null;
-                              }
-                            },
-                            decoration: InputDecoration(
-                                label: Text(AppLocalizations.of(context)!
-                                    .textFormLabelForImageURL)),
-                            onChanged: (value) {
-                              if (isValidUrl(value)) {
-                                state.setImageUrl(value);
-                              }
-                            },
-                          )),
-                  Consumer<_PostDishPageState>(
                     builder: (context, state, _) => Column(
                       children: [
                         SizedBox(height: 20),
@@ -97,7 +78,7 @@ class PostDishPage extends StatelessWidget {
                                     CameraComponent(camera: firstCamera),
                               ),
                             );
-                            print(image.path);
+                            state.setImageUrl(image.path);
                           },
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
@@ -174,13 +155,14 @@ class PostDishPage extends StatelessWidget {
                           TextButton(
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
+                                  String? saveImageUrl = await dishOfTheDayModel
+                                      .uploadImage(XFile(state.imageUrl));
                                   int id =
                                       await dishOfTheDayModel.postDishOfTheDay(
                                           state.title,
                                           state.description,
                                           state.calories,
-                                          state.imageUrl,
-                                          state.cameraImage);
+                                          saveImageUrl!);
                                   final selectedAllergens =
                                       state.getSelectedAllergens();
                                   for (var allergene in selectedAllergens) {
@@ -210,7 +192,6 @@ class _PostDishPageState extends ChangeNotifier {
   String description = "";
   int calories = 0;
   String imageUrl = "";
-  XFile? cameraImage;
   List<AllergenModel> selectedAllergens = [];
   Map<AllergenModel, bool> allergenToggles = {};
 
@@ -238,10 +219,7 @@ class _PostDishPageState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCameraImage(XFile? image) {
-    cameraImage = image;
-    notifyListeners();
-  }
+  
 
   void addAllergen(AllergenModel allergen) async {
     if (!selectedAllergens.any((a) => a.name == allergen.name)) {

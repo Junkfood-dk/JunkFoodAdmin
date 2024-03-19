@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:camera/camera.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 
 class DishOfTheDayModel extends ChangeNotifier {
   final SupabaseClient database;
@@ -44,13 +42,7 @@ class DishOfTheDayModel extends ChangeNotifier {
   }
 
   Future<int> postDishOfTheDay(String title, String description, int calories,
-      String imageUrl, XFile? cameraImage) async {
-    String imagePath = '';
-    if (cameraImage != null) {
-      // Upload the image to Supabase Storage
-      // Get the URL of the uploaded image from the response
-    }
-
+    String imageUrl) async {
     DishModel newDish = DishModel(
         title: title,
         description: description,
@@ -61,5 +53,21 @@ class DishOfTheDayModel extends ChangeNotifier {
     await database.from("Dish_Schedule").insert(
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
     return id;
+  }
+
+  Future<String?> uploadImage(XFile imageFile) async {
+    final bytes = await imageFile.readAsBytes();
+    try {
+      final response = await database.storage
+          .from('CameraImages')
+          .uploadBinary('${DateTime.now().millisecondsSinceEpoch}.jpg', bytes);
+
+      // Return the URL of the uploaded image
+      return response;
+    } catch (e) {
+      // Handle error
+      print('Error uploading image: $e');
+      return null;
+    }
   }
 }
