@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
+/*
+The following tutorial has been utilised in order to create the CameraPage:
+https://docs.flutter.dev/cookbook/plugins/picture-using-camera 
+*/
+
 class CameraPage extends StatefulWidget {
   const CameraPage({
     super.key,
     required this.camera,
   });
-  
+
   final CameraDescription camera;
 
   @override
@@ -107,7 +112,20 @@ class DisplayPictureScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Display the Picture')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Image.network(imagePath),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.network(imagePath),
+          SizedBox(height: 20),
+          TextButton(
+            onPressed: () {
+              print('Save button pressed');
+              // Navigate to our previous page
+            },
+            child: Text('Save'),
+          ),
+        ],
+      ),
     );
   }
 }
