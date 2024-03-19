@@ -46,5 +46,9 @@
   "submitButton": "Submit",
   "@submitButton": {
     "description": "Button that submits something"
+  },
+  "requireType": "Type is required",
+  "@requireType": {
+    "description": "Displays when no type is entered, type field is required"
   }
 }

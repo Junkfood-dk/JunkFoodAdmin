@@ -141,12 +141,24 @@ class PostDishPage extends StatelessWidget {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               debugPrint(snapshot.data![0].type);
-                              return DropdownButton(
-                                  items: snapshot.data!
-                                      .map((e) =>
-                                          DropdownMenuItem(child: Text(e.type)))
-                                      .toList(),
-                                  onChanged: (var e) => debugPrint("Hello"));
+                              return Consumer<_PostDishPageState>(
+                                builder: (context, state, child) {
+                                  state.updateDishTypes(snapshot.data!);
+                                  return DropdownButtonFormField<DishTypeModel>(
+                                    value: state.selectedType,
+                                    items: state.types
+                                        .map((e) =>
+                                            DropdownMenuItem<DishTypeModel>(
+                                                value: e, child: Text(e.type)))
+                                        .toList(),
+                                    onChanged: (var e) {
+                                      if (e != null) state.selectedType = e;
+                                    },
+                                    validator: (value) =>
+                                        value == null ? AppLocalizations.of(context)!.requireType : null,
+                                  );
+                                },
+                              );
                             } else {
                               return CircularProgressIndicator();
                             }
@@ -196,6 +208,7 @@ class _PostDishPageState extends ChangeNotifier {
   List<AllergenModel> selectedAllergens = [];
   Map<AllergenModel, bool> allergenToggles = {};
   List<DishTypeModel> types = [];
+  DishTypeModel? selectedType;
 
   void setTitle(String newValue) {
     title = newValue;
@@ -257,5 +270,10 @@ class _PostDishPageState extends ChangeNotifier {
     }
   }
 
-  void updateDishTypes(List<DishTypeModel> types) {}
+  void updateDishTypes(List<DishTypeModel> newTypes) {
+    Future.microtask(() {
+      types = newTypes;
+      notifyListeners();
+    });
+  }
 }

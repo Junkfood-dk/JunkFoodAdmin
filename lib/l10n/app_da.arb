@@ -42,9 +42,13 @@
   "textFormLabelForImageURL": "Billede URL",
   "@textFormLabelForImageURL": {
     "description": "Label describing the input for the imageURL of the dish"
-  },
+  },requireType
   "submitButton": "Skub",
   "@submitButton": {
     "description": "Button that submits something"
+  },
+  "requireType": "Typen er påkrævet",
+  "@requireType": {
+    "description": "Displays when no type is entered, type field is required"
   }
 }
