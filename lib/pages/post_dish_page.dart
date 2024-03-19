@@ -118,7 +118,7 @@ class PostDishPage extends StatelessWidget {
                             builder: (context, postDishPageState, child) => 
                               TextFormField(
                                 decoration: InputDecoration (
-                                  labelText: "Add new Category",
+                                  labelText: AppLocalizations.of(context)!.addCategoryField,
                                   labelStyle: labelText, 
                                 ),
                                  onFieldSubmitted: (value) async {
@@ -154,7 +154,7 @@ class PostDishPage extends StatelessWidget {
                             Navigator.of(context).pop();
                           }
                         },
-                        child: const Text("Submit"),
+                        child: Text(AppLocalizations.of(context)!.submitButton),
                       ),
                   )
                 ],

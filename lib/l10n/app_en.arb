@@ -46,5 +46,9 @@
   "submitButton": "Submit",
   "@submitButton": {
     "description": "Button that submits something"
+  },
+  "addCategoryField": "Add new category",
+  "@addCategoryField": {
+    "description": "Field that add new category to dish"
   }
 }
