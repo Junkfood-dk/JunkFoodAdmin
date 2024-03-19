@@ -76,6 +76,26 @@ class PostDishPage extends StatelessWidget {
                               }
                             },
                           )),
+                  Consumer<_PostDishPageState>(
+                    builder: (context, state, _) => Column(
+                      children: [
+                        SizedBox(height: 20),
+                        OutlinedButton(
+                          onPressed: () {
+                            // Placeholder callback
+                            // TODO: add logic for handling picture upload
+                            print('Add Picture button pressed');
+                          },
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                                color: Color.fromARGB(
+                                    255, 206, 33, 33)), // Add border color here
+                          ),
+                          child: Text('Add Picture From Camera'),
+                        ),
+                      ],
+                    ),
+                  ),
                   Consumer<AllergeneService>(
                     // Displaying allergenes from fetched from the DB
                     builder: (context, allergeneService, _) {
