@@ -1,4 +1,5 @@
 class DishModel {
+  int id;
   String title;
   String description;
   int calories;
@@ -9,7 +10,8 @@ class DishModel {
       this.description = "",
       this.calories = 0,
       this.imageUrl = "",
-      this.dishType = -1});
+      this.dishType = -1,
+      this.id = -1});
 
   Map<String, dynamic> toJson() {
     return {
@@ -23,6 +25,9 @@ class DishModel {
 
   static DishModel fromJson(Map<String, dynamic> input) {
     return DishModel(
+        id: input.containsKey("id")
+            ? input["id"]
+            : throw Exception("Nod id provided"),
         title: input.containsKey("title")
             ? input["title"]
             : throw Exception("No title provided"),

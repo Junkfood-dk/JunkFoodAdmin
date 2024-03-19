@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
         body: Center(
           child: Consumer<DishOfTheDayModel>(builder: (context, state, _) {
             return FutureBuilder(
-                future: state.hasDishOfTheDay,
+                future: state.hasDishesOfTheDay,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const CircularProgressIndicator();
@@ -37,14 +37,11 @@ class HomePage extends StatelessWidget {
                         ],
                       );
                     } else {
-                      return Column(
-                        children: [
-                          Center(
-                              child: DishDisplayComponent(
-                                  dish: state.dishOfTheDay)),
-                          const CreateNewDishComponent()
-                        ],
-                      );
+                      return Column(children: [
+                        ...state.dishesOfTheDay
+                            .map((dish) => DishDisplayComponent(dish: dish)),
+                        const CreateNewDishComponent()
+                      ]);
                     }
                   }
                 });

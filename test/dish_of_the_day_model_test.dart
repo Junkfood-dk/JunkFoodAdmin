@@ -12,7 +12,7 @@ void main() {
     var dishOfTheDayModel = DishOfTheDayModel(database: database);
 
     //Act
-    var response = await dishOfTheDayModel.hasDishOfTheDay;
+    var response = await dishOfTheDayModel.hasDishesOfTheDay;
 
     //Assert
     expect(response, false);
@@ -26,7 +26,7 @@ void main() {
     var dishOfTheDayModel = DishOfTheDayModel(database: database);
 
     //Act
-    var dishModel = dishOfTheDayModel.dishOfTheDay;
+    var dishModel = dishOfTheDayModel.dishesOfTheDay;
 
     //Assert
     expect(dishModel.title, "There is no dish of the day");

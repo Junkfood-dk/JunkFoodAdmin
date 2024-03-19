@@ -6,7 +6,7 @@ import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 class DishOfTheDayModel extends ChangeNotifier {
   final SupabaseClient database;
   DishOfTheDayModel({required this.database});
-  DishModel? _dishOfTheDay;
+  List<DishModel> _dishesOfTheDay = [];
 
   Future<void> fetchDishOfTheDay() async {
     Future.microtask(() async {
@@ -15,33 +15,43 @@ class DishOfTheDayModel extends ChangeNotifier {
           .select()
           .filter("date", "eq", DateTime.now().toIso8601String());
       if (response.isNotEmpty) {
-        var dishOfTheDay = await database
+        var dishesOfTheDay = await database
             .from("Dishes")
             .select()
             .filter("id", "eq", response[0]["id"]);
-        _dishOfTheDay = DishModel.fromJson(dishOfTheDay[0]);
+        var fetchedDishes = List<DishModel>.from(
+            dishesOfTheDay.map((dish) => DishModel.fromJson(dish))).toList();
+        for (var fetchedDish in fetchedDishes) {
+          bool exists = false;
+          for (var existingDish in _dishesOfTheDay) {
+            if (fetchedDish.id == existingDish.id) {
+              exists = true;
+              break;
+            }
+          }
+          if (!exists) {
+            debugPrint("Adding dish ${fetchedDish.id}");
+            _dishesOfTheDay.add(fetchedDish);
+          }
+        }
       } else {
-        _dishOfTheDay = null;
+        _dishesOfTheDay = [];
       }
       notifyListeners();
     });
   }
 
-  DishModel get dishOfTheDay {
-    if (_dishOfTheDay != null) {
-      return _dishOfTheDay!;
-    } else {
-      return DishModel(title: "There is no dish of the day");
-    }
+  List<DishModel> get dishesOfTheDay {
+    return _dishesOfTheDay;
   }
 
-  Future<bool> get hasDishOfTheDay async {
+  Future<bool> get hasDishesOfTheDay async {
     await fetchDishOfTheDay();
-    return _dishOfTheDay != null;
+    return _dishesOfTheDay.isNotEmpty;
   }
 
-  Future<int> postDishOfTheDay(
-      String title, String description, int calories, String imageUrl, DishTypeModel dishType) async {
+  Future<int> postDishOfTheDay(String title, String description, int calories,
+      String imageUrl, DishTypeModel dishType) async {
     DishModel newDish = DishModel(
         title: title,
         description: description,
