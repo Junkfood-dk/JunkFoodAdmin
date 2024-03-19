@@ -2,6 +2,8 @@ import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:chefapp/model/allergen_model.dart';
 import 'package:chefapp/model/allergene_service.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
+import 'package:chefapp/model/dish_type_model.dart';
+import 'package:chefapp/model/dish_type_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -133,6 +135,22 @@ class PostDishPage extends StatelessWidget {
                       );
                     },
                   ),
+                  Consumer<DishTypeService>(
+                      builder: (context, value, child) => FutureBuilder(
+                          future: value.fetchDishTypes(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              debugPrint(snapshot.data![0].type);
+                              return DropdownButton(
+                                  items: snapshot.data!
+                                      .map((e) =>
+                                          DropdownMenuItem(child: Text(e.type)))
+                                      .toList(),
+                                  onChanged: (var e) => debugPrint("Hello"));
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          })),
                   Consumer3<DishOfTheDayModel, _PostDishPageState,
                           AllergeneService>(
                       builder: (context, dishOfTheDayModel, state,
@@ -177,6 +195,7 @@ class _PostDishPageState extends ChangeNotifier {
   String imageUrl = "";
   List<AllergenModel> selectedAllergens = [];
   Map<AllergenModel, bool> allergenToggles = {};
+  List<DishTypeModel> types = [];
 
   void setTitle(String newValue) {
     title = newValue;
@@ -237,4 +256,6 @@ class _PostDishPageState extends ChangeNotifier {
       allergenToggles[allergen] = false;
     }
   }
+
+  void updateDishTypes(List<DishTypeModel> types) {}
 }

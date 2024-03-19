@@ -2,6 +2,7 @@ import 'dart:js';
 
 import 'package:chefapp/model/allergene_service.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
+import 'package:chefapp/model/dish_type_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -25,7 +26,9 @@ Future<void> main() async {
       create: (context) => DishOfTheDayModel(database: _supabase),
     ),
     ChangeNotifierProvider(
-        create: (context) => AllergeneService(database: _supabase))
+        create: (context) => AllergeneService(database: _supabase)),
+    ChangeNotifierProvider(
+        create: (context) => DishTypeService(database: _supabase))
   ], child: const MyApp()));
 }
 

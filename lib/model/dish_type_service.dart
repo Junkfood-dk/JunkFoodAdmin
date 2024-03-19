@@ -15,8 +15,11 @@ class DishTypeService extends ChangeNotifier {
       _types.clear();
       final response = await database.from('Dish_type').select();
 
-      final List<DishTypeModel> types = List<DishTypeModel>.from(
-          response.map((typeData) => DishTypeModel.fromJson(typeData)));
+      _types.addAll(List<DishTypeModel>.from(
+          response.map((typeData) => DishTypeModel.fromJson(typeData))));
+      debugPrint(response.length.toString());
+      debugPrint(_types.length.toString());
+      return _types;
     } catch (error) {
       debugPrint("Error fetching dishtype: $error");
       return [];
