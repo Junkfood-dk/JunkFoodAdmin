@@ -109,7 +109,6 @@ class PostDishPage extends StatelessWidget {
                     },
                   ),
                   Consumer<AllergeneService>(
-                    // Allergene chips
                     builder: (context, state, _) {
                       return Column(
                         children: [
@@ -232,9 +231,10 @@ class _PostDishPageState extends ChangeNotifier {
   }
 
   void updateToggle(List<AllergenModel> allergenes) {
-    allergenToggles = {};
     for (var allergen in allergenes) {
-      allergenToggles[allergen] = false;
+      if (!allergenToggles.containsKey(allergen)) {
+        allergenToggles[allergen] = false;
+      }
     }
   }
 }
