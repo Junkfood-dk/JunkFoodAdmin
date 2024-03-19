@@ -13,9 +13,14 @@ import 'package:chefapp/Constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'model/locale.dart';
+import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
+
+late List<CameraDescription> _cameras;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  _cameras = await availableCameras();
   await Supabase.initialize(
     url: Constants.supabaseUrl,
     anonKey: Constants.supabaseAnonKey,
