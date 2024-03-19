@@ -12,10 +12,12 @@ import 'package:camera/camera.dart';
 final _formKey = GlobalKey<FormState>();
 
 class PostDishPage extends StatelessWidget {
-  const PostDishPage({super.key});
+  const PostDishPage({super.key, required this.imagePath});
 
   final TextStyle labelText =
       const TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
+
+  final String imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -207,6 +209,7 @@ class _PostDishPageState extends ChangeNotifier {
   String description = "";
   int calories = 0;
   String imageUrl = "";
+  Image? cameraImage;
   List<AllergenModel> selectedAllergens = [];
   Map<AllergenModel, bool> allergenToggles = {};
 
@@ -231,6 +234,11 @@ class _PostDishPageState extends ChangeNotifier {
 
   void setImageUrl(String newValue) {
     imageUrl = newValue;
+    notifyListeners();
+  }
+
+  void setCameraImage(Image image) {
+    cameraImage = image;
     notifyListeners();
   }
 

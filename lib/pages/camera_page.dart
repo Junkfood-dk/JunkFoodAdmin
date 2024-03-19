@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:chefapp/pages/post_dish_page.dart';
 
 /*
 The following tutorial has been utilised in order to create the CameraPage:
@@ -121,6 +122,12 @@ class DisplayPictureScreen extends StatelessWidget {
             onPressed: () {
               print('Save button pressed');
               // Navigate to our previous page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PostDishPage(imagePath: imagePath),
+                ),
+              );
             },
             child: Text('Save'),
           ),
