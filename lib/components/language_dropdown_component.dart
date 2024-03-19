@@ -1,5 +1,5 @@
-import 'package:chefapp/model/language.dart';
 import 'package:chefapp/model/locale.dart';
+import 'package:chefapp/model/language.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
