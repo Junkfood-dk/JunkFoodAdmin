@@ -27,7 +27,7 @@ class DishModel {
     return DishModel(
         id: input.containsKey("id")
             ? input["id"]
-            : throw Exception("Nod id provided"),
+            : throw Exception("No id provided"),
         title: input.containsKey("title")
             ? input["title"]
             : throw Exception("No title provided"),

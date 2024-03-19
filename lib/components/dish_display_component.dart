@@ -13,7 +13,7 @@ class DishDisplayComponent extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
             borderRadius: const BorderRadius.all(Radius.circular(15))),
-        child: Row(
+        child: Column(
           children: [
             (Column(
               children: [
@@ -26,10 +26,10 @@ class DishDisplayComponent extends StatelessWidget {
               ],
             )),
             const SizedBox(
-              width: 20,
+              width: 15,
             ),
             SizedBox(
-              width: MediaQuery.sizeOf(context).width * 0.4,
+              width: 100,
               child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                   child: Image.network(dish.imageUrl)),

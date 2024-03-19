@@ -37,11 +37,22 @@ class HomePage extends StatelessWidget {
                         ],
                       );
                     } else {
-                      return Column(children: [
-                        ...state.dishesOfTheDay
-                            .map((dish) => DishDisplayComponent(dish: dish)),
-                        const CreateNewDishComponent()
-                      ]);
+                      return Column(
+                        children: [
+                          Container(
+                            constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * 0.4),
+                            child: FlutterCarousel(
+                                items: state.dishesOfTheDay
+                                    .map((dish) =>
+                                        DishDisplayComponent(dish: dish))
+                                    .toList(),
+                                options: CarouselOptions()),
+                          ),
+                          const CreateNewDishComponent()
+                        ],
+                      );
                     }
                   }
                 });
