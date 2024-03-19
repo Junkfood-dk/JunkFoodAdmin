@@ -15,12 +15,10 @@ class DishOfTheDayModel extends ChangeNotifier {
           .select()
           .filter("date", "eq", DateTime.now().toIso8601String());
       if (response.isNotEmpty) {
-        var dishesOfTheDay = await database
-            .from("Dishes")
-            .select()
-            .filter("id", "eq", response[0]["id"]);
-        var fetchedDishes = List<DishModel>.from(
-            dishesOfTheDay.map((dish) => DishModel.fromJson(dish))).toList();
+        var fetchedDishes = [];
+        for (var row in response) {
+          fetchedDishes.add(await fetchDishByid(row["id"]));
+        }
         for (var fetchedDish in fetchedDishes) {
           bool exists = false;
           for (var existingDish in _dishesOfTheDay) {
@@ -63,5 +61,12 @@ class DishOfTheDayModel extends ChangeNotifier {
     await database.from("Dish_Schedule").insert(
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
     return id;
+  }
+
+  Future<DishModel> fetchDishByid(int id) async {
+    var response =
+        await database.from("Dishes").select().filter("id", "eq", id);
+    DishModel dish = DishModel.fromJson(response[0]);
+    return dish;
   }
 }
