@@ -25,9 +25,13 @@ class FakePostgrestFilterBuilder extends Fake
   @override
   Future<PostgrestResponse<PostgrestList>> execute() async {
     // Return a fake response
+    var fakeCategories = [
+      {'id': 1, 'category_name': 'Vegan'},
+      {'id': 2, 'category_name': 'Fish'},
+    ];
     return PostgrestResponse<PostgrestList>(
-      data: List.empty(),
-      count: 0,
+      data: fakeCategories,
+      count: fakeCategories.length,
     );
   }
 
