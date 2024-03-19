@@ -6,14 +6,12 @@ class DishModel {
   String description;
   int calories;
   String imageUrl;
-  XFile? cameraImage;
 
   DishModel({
     required this.title,
     this.description = "",
     this.calories = 0,
     this.imageUrl = "",
-    this.cameraImage,
   });
 
   Map<String, dynamic> toJson() {
@@ -22,8 +20,6 @@ class DishModel {
       'description': description,
       'calories': calories,
       'image': imageUrl,
-      'cameraImage':
-          cameraImage != null ? 'some_placeholder_for_camera_image' : null
     };
   }
 
@@ -35,10 +31,6 @@ class DishModel {
         description:
             input.containsKey("description") ? input["description"] : "",
         calories: input.containsKey("calories") ? input["calories"] : 0,
-        imageUrl: input.containsKey("image") ? input["image"] : "",
-        cameraImage: input.containsKey("cameraImage")
-            ? XFile(input[
-                "cameraImage"]) 
-            : null);
+        imageUrl: input.containsKey("image") ? input["image"] : "");
   }
 }

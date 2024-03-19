@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:chefapp/components/camera_component.dart';
+import 'dart:io';
 import 'package:camera/camera.dart';
 
 final _formKey = GlobalKey<FormState>();
@@ -16,7 +17,6 @@ class PostDishPage extends StatelessWidget {
 
   final TextStyle labelText =
       const TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
-
 
   @override
   Widget build(BuildContext context) {
@@ -90,13 +90,14 @@ class PostDishPage extends StatelessWidget {
                             final firstCamera = cameras.first;
 
                             // Navigate to the CameraPage and pass the camera
-                            final XFile image = await Navigator.of(context).push(
+                            final XFile image =
+                                await Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => CameraComponent(camera: firstCamera),
+                                builder: (context) =>
+                                    CameraComponent(camera: firstCamera),
                               ),
                             );
                             print(image.path);
-                            state.setCameraImage(image);
                           },
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
@@ -178,7 +179,8 @@ class PostDishPage extends StatelessWidget {
                                           state.title,
                                           state.description,
                                           state.calories,
-                                          state.imageUrl);
+                                          state.imageUrl,
+                                          state.cameraImage);
                                   final selectedAllergens =
                                       state.getSelectedAllergens();
                                   for (var allergene in selectedAllergens) {
@@ -236,7 +238,7 @@ class _PostDishPageState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCameraImage(XFile image) {
+  void setCameraImage(XFile? image) {
     cameraImage = image;
     notifyListeners();
   }

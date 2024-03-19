@@ -1,6 +1,10 @@
 import 'package:chefapp/model/dish_model.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase/supabase.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
+import 'package:camera/camera.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class DishOfTheDayModel extends ChangeNotifier {
   final SupabaseClient database;
@@ -39,8 +43,14 @@ class DishOfTheDayModel extends ChangeNotifier {
     return _dishOfTheDay != null;
   }
 
-  Future<int> postDishOfTheDay(
-      String title, String description, int calories, String imageUrl) async {
+  Future<int> postDishOfTheDay(String title, String description, int calories,
+      String imageUrl, XFile? cameraImage) async {
+    String imagePath = '';
+    if (cameraImage != null) {
+      // Upload the image to Supabase Storage
+      // Get the URL of the uploaded image from the response
+    }
+
     DishModel newDish = DishModel(
         title: title,
         description: description,
