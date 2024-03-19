@@ -72,19 +72,14 @@ class FakeGotrue extends Fake implements GoTrueClient {
       String? phone,
       required String password,
       String? captchaToken}) async {
-    if (email == 'test@nytest.dk' && password == '1234') {
-      return AuthResponse(
-        session: Session(
-          accessToken: 'fakeAccessToken',
-          tokenType: 'Bearer',
-          user: _user,
-        ),
+    return AuthResponse(
+      session: Session(
+        accessToken: '',
+        tokenType: '',
         user: _user,
-      );
-    } else {
-      // Simulate a failed login
-      throw const AuthException('Invalid login credentials');
-    }
+      ),
+      user: _user,
+    );
   }
 }
 
