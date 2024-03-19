@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 
 class DishModel {
   String title;
   String description;
   int calories;
   String imageUrl;
-  Image? cameraImage;
+  XFile? cameraImage;
 
   DishModel({
     required this.title,
@@ -36,7 +37,7 @@ class DishModel {
         calories: input.containsKey("calories") ? input["calories"] : 0,
         imageUrl: input.containsKey("image") ? input["image"] : "",
         cameraImage: input.containsKey("cameraImage")
-            ? Image.file(input[
+            ? XFile(input[
                 "cameraImage"]) 
             : null);
   }

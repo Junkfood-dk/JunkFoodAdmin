@@ -7,8 +7,8 @@ The following tutorial has been utilised in order to create the CameraPage:
 https://docs.flutter.dev/cookbook/plugins/picture-using-camera 
 */
 
-class CameraPage extends StatefulWidget {
-  const CameraPage({
+class CameraComponent extends StatefulWidget {
+  const CameraComponent({
     super.key,
     required this.camera,
   });
@@ -16,10 +16,10 @@ class CameraPage extends StatefulWidget {
   final CameraDescription camera;
 
   @override
-  CameraPageState createState() => CameraPageState();
+  CameraComponentState createState() => CameraComponentState();
 }
 
-class CameraPageState extends State<CameraPage> {
+class CameraComponentState extends State<CameraComponent> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
@@ -82,7 +82,7 @@ class CameraPageState extends State<CameraPage> {
             if (!context.mounted) return;
 
             // If the picture was taken, display it on a new screen.
-            await Navigator.of(context).push(
+            final bool satisfiedImage = await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => DisplayPictureScreen(
                   // Pass the automatically generated path to
@@ -91,6 +91,9 @@ class CameraPageState extends State<CameraPage> {
                 ),
               ),
             );
+            if (satisfiedImage) {
+              Navigator.of(context).pop(XFile(image.path));
+            }
           } catch (e) {
             // If an error occurs, log the error to the console.
             print(e);
@@ -123,12 +126,7 @@ class DisplayPictureScreen extends StatelessWidget {
             onPressed: () {
               print('Save button pressed');
               // Navigate to our previous page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PostDishPage(imagePath: imagePath),
-                ),
-              );
+              Navigator.of(context).pop(true);
             },
             child: Text('Save'),
           ),

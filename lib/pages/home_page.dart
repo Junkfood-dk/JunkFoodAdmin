@@ -27,12 +27,11 @@ class HomePage extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return const CircularProgressIndicator();
                   } else {
-                    if (snapshot.data!) {
-                      //!snapshot.data!
+                    if (!snapshot.data!) {
                       return TextButton(
                         onPressed: () =>
                             Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PostDishPage(imagePath: ""),
+                          builder: (context) => PostDishPage(),
                         )),
                         child:
                             Text(AppLocalizations.of(context)!.postDishButton),

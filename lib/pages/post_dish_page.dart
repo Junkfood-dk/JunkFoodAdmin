@@ -6,18 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:chefapp/pages/camera_page.dart';
+import 'package:chefapp/components/camera_component.dart';
 import 'package:camera/camera.dart';
 
 final _formKey = GlobalKey<FormState>();
 
 class PostDishPage extends StatelessWidget {
-  const PostDishPage({super.key, required this.imagePath});
+  const PostDishPage({super.key});
 
   final TextStyle labelText =
       const TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
 
-  final String imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -91,13 +90,13 @@ class PostDishPage extends StatelessWidget {
                             final firstCamera = cameras.first;
 
                             // Navigate to the CameraPage and pass the camera
-                            Navigator.push(
-                              context,
+                            final XFile image = await Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    CameraPage(camera: firstCamera),
+                                builder: (context) => CameraComponent(camera: firstCamera),
                               ),
                             );
+                            print(image.path);
+                            state.setCameraImage(image);
                           },
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
@@ -209,7 +208,7 @@ class _PostDishPageState extends ChangeNotifier {
   String description = "";
   int calories = 0;
   String imageUrl = "";
-  Image? cameraImage;
+  XFile? cameraImage;
   List<AllergenModel> selectedAllergens = [];
   Map<AllergenModel, bool> allergenToggles = {};
 
@@ -237,7 +236,7 @@ class _PostDishPageState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCameraImage(Image image) {
+  void setCameraImage(XFile image) {
     cameraImage = image;
     notifyListeners();
   }
