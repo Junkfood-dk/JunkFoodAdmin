@@ -61,18 +61,4 @@ class CategoryService extends ChangeNotifier {
       .from("Categories_to_Dishes")
       .insert({"category_id" : category.id, "dish_id": dishId});
   }
-
-  /*List<String> getSelectedCategories() {
-    return _categoryToggles.entries
-      .where((entry) => entry.value)
-      .map((entry) => entry.key)
-      .toList();
-  }
-
-  void toggleCategory(String categoryName) {
-    if (_categoryToggles.containsKey(categoryName)) {
-      _categoryToggles[categoryName] = !_categoryToggles[categoryName]!;
-      notifyListeners();
-    }
-  }*/
 }
