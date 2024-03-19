@@ -1,21 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final cameras = await availableCameras();
-  final firstCamera = cameras.first;
-  runApp(
-    MaterialApp(
-      theme: ThemeData.dark(),
-      home: CameraPage(
-        // Pass the appropriate camera to the CameraPage widget.
-        camera: firstCamera,
-      ),
-    ),
-  );
-}
-
 class CameraPage extends StatefulWidget {
   const CameraPage({
     super.key,
@@ -106,6 +91,23 @@ class CameraPageState extends State<CameraPage> {
         },
         child: const Icon(Icons.camera_alt),
       ),
+    );
+  }
+}
+
+// A widget that displays the picture taken by the user.
+class DisplayPictureScreen extends StatelessWidget {
+  final String imagePath;
+
+  const DisplayPictureScreen({super.key, required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Display the Picture')),
+      // The image is stored as a file on the device. Use the `Image.file`
+      // constructor with the given path to display the image.
+      body: Image.network(imagePath),
     );
   }
 }

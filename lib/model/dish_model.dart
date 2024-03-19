@@ -36,8 +36,8 @@ class DishModel {
         calories: input.containsKey("calories") ? input["calories"] : 0,
         imageUrl: input.containsKey("image") ? input["image"] : "",
         cameraImage: input.containsKey("cameraImage")
-            ? Image.network(input[
-                "cameraImage"]) // Example: Assuming cameraImage is a network image
+            ? Image.file(input[
+                "cameraImage"]) 
             : null);
   }
 }

@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return const CircularProgressIndicator();
                   } else {
-                    if (!snapshot.data!) {
+                    if (!snapshot.data!) { 
                       return TextButton(
                         onPressed: () =>
                             Navigator.of(context).push(MaterialPageRoute(

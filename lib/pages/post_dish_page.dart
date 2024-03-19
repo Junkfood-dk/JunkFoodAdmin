@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chefapp/pages/camera_page.dart';
+import 'package:camera/camera.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -81,15 +83,25 @@ class PostDishPage extends StatelessWidget {
                       children: [
                         SizedBox(height: 20),
                         OutlinedButton(
-                          onPressed: () {
-                            // Placeholder callback
-                            // TODO: add logic for handling picture upload
-                            print('Add Picture button pressed');
+                          onPressed: () async {
+                            // Initialize the camera
+                            final cameras = await availableCameras();
+                            final firstCamera = cameras.first;
+
+                            // Navigate to the CameraPage and pass the camera
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    CameraPage(camera: firstCamera),
+                              ),
+                            );
                           },
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
-                                color: Color.fromARGB(
-                                    255, 206, 33, 33)), // Add border color here
+                              color: Color.fromARGB(
+                                  255, 206, 33, 33), // Add border color here
+                            ),
                           ),
                           child: Text('Add Picture From Camera'),
                         ),
