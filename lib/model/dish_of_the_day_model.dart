@@ -1,4 +1,5 @@
 import 'package:chefapp/model/dish_model.dart';
+import 'package:chefapp/model/dish_type_model.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
@@ -40,12 +41,13 @@ class DishOfTheDayModel extends ChangeNotifier {
   }
 
   Future<int> postDishOfTheDay(
-      String title, String description, int calories, String imageUrl) async {
+      String title, String description, int calories, String imageUrl, DishTypeModel dishType) async {
     DishModel newDish = DishModel(
         title: title,
         description: description,
         calories: calories,
-        imageUrl: imageUrl);
+        imageUrl: imageUrl,
+        dishType: dishType.id);
     var row = await database.from("Dishes").insert(newDish).select("id");
     var id = row[0]['id'];
     await database.from("Dish_Schedule").insert(

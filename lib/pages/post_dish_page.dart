@@ -175,7 +175,8 @@ class PostDishPage extends StatelessWidget {
                                           state.title,
                                           state.description,
                                           state.calories,
-                                          state.imageUrl);
+                                          state.imageUrl,
+                                          state.selectedType!);
                                   final selectedAllergens =
                                       state.getSelectedAllergens();
                                   for (var allergene in selectedAllergens) {
