@@ -4,12 +4,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CategoryService extends ChangeNotifier {
   final SupabaseClient database;
-  final Map<String, bool> _categoryToggles = {
-    "Vegan": false,
-    "Fish": false,
-    "Pork": false,
-    "Beef": false,
-  };
   final List<CategoryModel> _categories = [];
 
   CategoryService({required this.database});
