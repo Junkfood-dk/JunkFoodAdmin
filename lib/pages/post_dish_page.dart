@@ -61,6 +61,25 @@ class PostDishPage extends StatelessWidget {
                                 state.setCalories(int.parse(value)),
                           )),
                   Consumer<_PostDishPageState>(
+                    builder: (context, state, _) {
+                      if (state.imageUrl != "" ) {
+                        return Column(
+                          children: [
+                            SizedBox(height: 200,
+                            child: Image.network(
+                                state.imageUrl,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        // If state.imageUrl is null or empty, return an empty container or placeholder.
+                        return Container(); // You can replace this with any other widget you want to show.
+                      }
+                    },
+                  ),
+                  Consumer<_PostDishPageState>(
                     builder: (context, state, _) => Column(
                       children: [
                         SizedBox(height: 20),
@@ -86,7 +105,9 @@ class PostDishPage extends StatelessWidget {
                                   255, 206, 33, 33), // Add border color here
                             ),
                           ),
-                          child: Text('Add Picture From Camera'),
+                          child: state.imageUrl != ""
+                                  ?  Text('Add other Picture From Camera')
+                                  :  Text('Add Picture From Camera'),
                         ),
                       ],
                     ),
