@@ -295,10 +295,11 @@ class _PostDishPageState extends ChangeNotifier {
     }
   }
 
-  void updateToggle(List<AllergenModel> allergens) {
-    allergenToggles = {};
-    for (var allergen in allergens) {
-      allergenToggles[allergen] = false;
+  void updateToggle(List<AllergenModel> allergenes) {
+    for (var allergen in allergenes) {
+      if (!allergenToggles.containsKey(allergen)) {
+        allergenToggles[allergen] = false;
+      }
     }
   }
  
