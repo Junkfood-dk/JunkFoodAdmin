@@ -1,3 +1,4 @@
+import 'package:chefapp/model/allergen_service.dart';
 import 'package:chefapp/model/category_service.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:chefapp/model/locale.dart';
@@ -15,11 +16,13 @@ void main() {
     final fakeSupabaseClient = FakeSupabase();
 
     final categoryService = CategoryService(database: fakeSupabaseClient);
+    final allergenService = AllergeneService(database: fakeSupabaseClient);
     final dishOfTheDayModel = DishOfTheDayModel(database: fakeSupabaseClient);
     final localeModel = LocaleModel();
 
     await tester.pumpWidget(MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => allergenService),
         ChangeNotifierProvider<CategoryService>(create: (_) => categoryService),
         ChangeNotifierProvider<DishOfTheDayModel>(create: (_) => dishOfTheDayModel),
         ChangeNotifierProvider<LocaleModel>(create: (_) => localeModel),
