@@ -1,3 +1,4 @@
+import 'package:chefapp/model/allergen_service.dart';
 import 'package:chefapp/model/category_service.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,9 @@ Future<void> main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => DishOfTheDayModel(database: _supabase),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => AllergeneService(database: _supabase),
     ),
     ChangeNotifierProvider(
       create: (context) => CategoryService(database: _supabase),
