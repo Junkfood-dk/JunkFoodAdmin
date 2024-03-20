@@ -334,7 +334,9 @@ class _PostDishPageState extends ChangeNotifier {
   void updateToggleCategory(List<CategoryModel> categories) {
     categoryToggles = {};
     for (var category in categories) {
-      categoryToggles[category] = false;
+      if (!categoryToggles.containsKey(category)) {
+        categoryToggles[category] = false;
+      }
     }
   }
 }
