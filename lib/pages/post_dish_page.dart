@@ -119,7 +119,7 @@ class PostDishPage extends StatelessWidget {
                             builder: (context, postDishState, child) => 
                             TextFormField(
                               decoration: InputDecoration(
-                                labelText: "Add New Allergen",
+                                labelText: AppLocalizations.of(context)!.addAllergenField,
                                 labelStyle: labelText,
                               ),
                               onFieldSubmitted: (value) async {

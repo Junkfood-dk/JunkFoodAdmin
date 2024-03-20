@@ -49,6 +49,10 @@
   },
   "addCategoryField": "Add new category",
   "@addCategoryField": {
-    "description": "Field that add new category to dish"
+    "description": "Field that adds new category to dish"
+  },
+  "addAllergenField": "Add new allergen",
+  "@addAllergenField": {
+    "description": "Field that adds new allergen to dish"
   }
 }
