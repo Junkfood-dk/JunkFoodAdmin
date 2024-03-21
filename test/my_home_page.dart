@@ -26,7 +26,6 @@ void main() {
         )));
 
     //Act
-
     final appBarFinder = find.byType(AppBar);
     final popupMenuButtonFinder = find.byType(LanguageDropdown);
     final buttonInAppBarFinder =

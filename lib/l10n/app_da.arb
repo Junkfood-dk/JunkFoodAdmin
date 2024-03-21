@@ -46,5 +46,13 @@
   "submitButton": "Skub",
   "@submitButton": {
     "description": "Button that submits something"
+  },
+  "addCategoryField": "Tilføj ny kategori",
+  "@addCategoryField": {
+    "description": "Fields that adds new category to dish"
+  },
+  "addAllergenField": "Tiløj nyt allergen",
+  "@addAllergenField": {
+    "description": "Field that adds new allergen to dish"
   }
 }

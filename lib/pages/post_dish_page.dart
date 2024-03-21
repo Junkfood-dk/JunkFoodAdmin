@@ -1,6 +1,9 @@
 import 'package:chefapp/components/language_dropdown_component.dart';
+import 'package:chefapp/main.dart';
 import 'package:chefapp/model/allergen_model.dart';
-import 'package:chefapp/model/allergene_service.dart';
+import 'package:chefapp/model/allergen_service.dart';
+import 'package:chefapp/model/category_model.dart';
+import 'package:chefapp/model/category_service.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,8 +27,9 @@ class PostDishPage extends StatelessWidget {
             title: Text(AppLocalizations.of(context)!.addDishPageTitle),
             actions: [LanguageDropdown()],
           ),
-          body: Center(
-              child: SizedBox(
+          body: SingleChildScrollView(
+            child: Center(
+            child: SizedBox(
             width: MediaQuery.sizeOf(context).width * 0.6,
             child: Form(
               key: _formKey,
@@ -77,35 +81,34 @@ class PostDishPage extends StatelessWidget {
                             },
                           )),
                   Consumer<AllergeneService>(
-                    // Displaying allergenes from fetched from the DB
                     builder: (context, allergeneService, _) {
                       return FutureBuilder(
-                          future: allergeneService.fetchAllergens(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return CircularProgressIndicator();
-                            }
-                            return Consumer<_PostDishPageState>(
-                                builder: (context, state, child) {
+                        future: allergeneService.fetchAllergens(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return CircularProgressIndicator();
+                          }
+                          return Consumer<_PostDishPageState>(
+                            builder: (context, state, child) {
                               if (state.allergenToggles.length !=
-                                  allergeneService.allergenes.length) {
+                              allergeneService.allergenes.length) {
                                 state.updateToggle(allergeneService.allergenes);
                               }
                               return Column(
-                                children:
-                                    state.allergenToggles.entries.map((entry) {
-                                  var key = entry.key;
-                                  return CheckboxListTile(
-                                    title: Text(key.name),
-                                    value: state.allergenToggles[key],
-                                    onChanged: (bool? newValue) {
-                                      state.toggleAllergen(key);
-                                    },
-                                  );
-                                }).toList(),
+                                children: 
+                                  state.allergenToggles.entries.map((entry) {
+                                    var key = entry.key;
+                                    return CheckboxListTile(
+                                      title: Text(key.name),
+                                      value: state.allergenToggles[key],
+                                      onChanged: (bool? newValue) {
+                                        state.toggleAllergen(key);
+                                      },
+                                    );
+                                  }).toList(),
                               );
                             });
-                          });
+                        });
                     },
                   ),
                   Consumer<AllergeneService>(
@@ -113,54 +116,115 @@ class PostDishPage extends StatelessWidget {
                       return Column(
                         children: [
                           Consumer<_PostDishPageState>(
-                            builder: (context, postDishPageState, child) =>
-                                TextFormField(
+                            builder: (context, postDishPageState, child) => 
+                            TextFormField(
                               decoration: InputDecoration(
-                                labelText: "Add New Allergen",
+                                labelText: AppLocalizations.of(context)!.addAllergenField,
                                 labelStyle: labelText,
                               ),
                               onFieldSubmitted: (value) async {
                                 debugPrint("Saving ${value}");
-                                AllergenModel newAllergen =
-                                    await state.saveNewAllergen(value);
-                                debugPrint("Saved ${newAllergen.name}");
-                                postDishPageState.addAllergen(newAllergen);
+                                AllergenModel newAllergen = 
+                                  await state.saveNewAllergen(value);
+                                  debugPrint("Saved ${newAllergen.name}");
+                                  postDishPageState.addAllergen(newAllergen);
                               },
                             ),
                           )
                         ],
                       );
+                    } ,
+                  ),
+                  Consumer<CategoryService>(
+                      builder: (context, categoryService, _) {
+                        return FutureBuilder(
+                          future: categoryService.fetchCategories(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return CircularProgressIndicator();
+                            }
+                            return Consumer<_PostDishPageState>(
+                              builder: (context, state, child) {
+                                if (state.categoryToggles.length !=
+                                  categoryService.categories.length) {
+                                    state.updateToggleCategory(categoryService.categories);
+                                  }
+                                return Column(
+                                  children: 
+                                    state.categoryToggles.entries.map((entry) {
+                                      var key = entry.key;
+                                      return CheckboxListTile(
+                                        title: Text(key.name),
+                                        value: state.categoryToggles[key],
+                                        onChanged: (bool? newValue) {
+                                          state.toggleCategory(key);
+                                        },
+                                      );
+                                    }).toList(),
+                                );
+                              } ,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  Consumer<CategoryService>(
+                    builder: (context, state, _) {
+                      return Column(
+                        children: [
+                          Consumer<_PostDishPageState>(
+                            builder: (context, postDishPageState, child) => 
+                              TextFormField(
+                                decoration: InputDecoration (
+                                  labelText: AppLocalizations.of(context)!.addCategoryField,
+                                  labelStyle: labelText, 
+                                ),
+                                 onFieldSubmitted: (value) async {
+                                debugPrint("Saving ${value}");
+                                CategoryModel newCategory =
+                                    await state.saveNewCategory(value);
+                                debugPrint("Saved ${newCategory.name}");
+                                postDishPageState.addCategory(newCategory);
+                                },
+                              ),
+                          )
+                        ],
+                      );
                     },
                   ),
-                  Consumer3<DishOfTheDayModel, _PostDishPageState,
-                          AllergeneService>(
-                      builder: (context, dishOfTheDayModel, state,
-                              allergeneService, _) =>
-                          TextButton(
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  int id =
-                                      await dishOfTheDayModel.postDishOfTheDay(
-                                          state.title,
-                                          state.description,
-                                          state.calories,
-                                          state.imageUrl);
-                                  final selectedAllergens =
-                                      state.getSelectedAllergens();
-                                  for (var allergene in selectedAllergens) {
-                                    allergeneService.addAllergeneToDish(
-                                        allergene, id);
-                                  }
-                                  Navigator.of(context).pop();
-                                }
-                              },
-                              child: Text(
-                                  AppLocalizations.of(context)!.submitButton)))
+                  Consumer4<DishOfTheDayModel,_PostDishPageState,AllergeneService,CategoryService>(
+                    builder: (context, dishOfTheDayModel, state, allergenService,categoryService, _) => 
+                      TextButton(
+                        onPressed: () async {
+                          if(_formKey.currentState!.validate()) {
+                            int id = 
+                              await dishOfTheDayModel.postDishOfTheDay(
+                                state.title,
+                                state.description,
+                                state.calories,
+                                state.imageUrl,
+                              );
+                            final selectedAllergens = 
+                              state.getSelectedAllergens();
+                            for (var allergene in selectedAllergens) {
+                              allergenService.addAllergeneToDish(allergene, id);
+                            }
+                            final selectedCategories = 
+                              state.getSelectedCategories();
+                            for (var category in selectedCategories) {
+                              categoryService.addCategoryToDish(category, id);
+                            }
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        child: Text(AppLocalizations.of(context)!.submitButton),
+                      ),
+                  )
                 ],
               ),
-            ),
-          ))),
-    );
+            ))),
+          ),
+    ));
   }
 
   bool isValidUrl(String protenitalUri) {
@@ -176,6 +240,8 @@ class _PostDishPageState extends ChangeNotifier {
   String imageUrl = "";
   List<AllergenModel> selectedAllergens = [];
   Map<AllergenModel, bool> allergenToggles = {};
+  List<CategoryModel> selectedCategories = [];
+  Map<CategoryModel, bool> categoryToggles = {};
 
   void setTitle(String newValue) {
     title = newValue;
@@ -219,7 +285,6 @@ class _PostDishPageState extends ChangeNotifier {
         .where((entry) => entry.value)
         .map((entry) => entry.key)
         .toList());
-
     return list;
   }
 
@@ -234,6 +299,43 @@ class _PostDishPageState extends ChangeNotifier {
     for (var allergen in allergenes) {
       if (!allergenToggles.containsKey(allergen)) {
         allergenToggles[allergen] = false;
+      }
+    }
+  }
+ 
+  void addCategory(CategoryModel category) async {
+    if (!selectedCategories.any((c) => c.name == category.name)) {
+      selectedCategories.add(category);
+      notifyListeners();
+    }
+  }
+
+  void removeCategory(String categoryName) {
+    selectedCategories.removeWhere((category) => category.name == categoryName);
+    notifyListeners();
+  }
+
+  List<CategoryModel> getSelectedCategories() {
+    var list = selectedCategories;
+    list.addAll(categoryToggles.entries
+      .where((entry) => entry.value)
+      .map((entry) => entry.key)
+      .toList());
+    return list;
+  }
+
+  void toggleCategory(CategoryModel category) {
+    if (categoryToggles.containsKey(category)) {
+      categoryToggles[category] = !categoryToggles[category]!;
+      notifyListeners();
+    }
+  }
+
+  void updateToggleCategory(List<CategoryModel> categories) {
+    categoryToggles = {};
+    for (var category in categories) {
+      if (!categoryToggles.containsKey(category)) {
+        categoryToggles[category] = false;
       }
     }
   }

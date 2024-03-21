@@ -1,14 +1,11 @@
 import 'package:chefapp/components/language_dropdown_component.dart';
-import 'package:chefapp/my_home_page.dart';
+import 'package:chefapp/model/locale.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chefapp/model/language.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:supabase/supabase.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:chefapp/model/locale.dart';
 
 void main() {
   test('English is present in language list', () {
@@ -72,7 +69,7 @@ void main() {
 
   testWidgets('Language_dropdown_component contains danish and english options',
     (WidgetTester tester) async {
-      
+
       //Arrange
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (context) => LocaleModel(),
@@ -101,7 +98,7 @@ void main() {
       //Assert
       expect(englishItemFinder, findsOneWidget);
       expect(danishItemFinder, findsOneWidget);
-  
+
   });
 
 //Test if locale changes when language is selected in dropdown-menu
@@ -139,10 +136,10 @@ void main() {
 
     await tester.tap(find.byType(LanguageDropdown)); // Open the language dropdown.
     await tester.pumpAndSettle();
-    
+
     await tester.tap(find.text('English'));
     await tester.pumpAndSettle();
-   
+
     Locale? localeAfterEnglishIsPressed = Localizations.localeOf(tester.element(find.byType(LanguageDropdown)));
 
     //Assert
@@ -151,5 +148,5 @@ void main() {
     expect(localeAfterEnglishIsPressed, equals(Locale('en')));
   });
 
-  
+
 }
