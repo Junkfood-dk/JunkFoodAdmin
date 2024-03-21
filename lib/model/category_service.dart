@@ -17,7 +17,7 @@ class CategoryService extends ChangeNotifier {
       final List<CategoryModel> categories= List<CategoryModel>.from(
           response.map((categoryData) => CategoryModel.fromJson(categoryData)));
 
-
+      // Iterate through fetched categories, add to interal list of categories (_categories) if not already present
       for (var category in categories) {
         bool exists = false;
         for (var existingCategory in _categories) {
