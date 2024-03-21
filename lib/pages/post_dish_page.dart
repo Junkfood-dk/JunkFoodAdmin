@@ -116,7 +116,7 @@ class PostDishPage extends StatelessWidget {
                       return Column(
                         children: [
                           Consumer<_PostDishPageState>(
-                            builder: (context, postDishState, child) => 
+                            builder: (context, postDishPageState, child) => 
                             TextFormField(
                               decoration: InputDecoration(
                                 labelText: AppLocalizations.of(context)!.addAllergenField,
@@ -127,7 +127,7 @@ class PostDishPage extends StatelessWidget {
                                 AllergenModel newAllergen = 
                                   await state.saveNewAllergen(value);
                                   debugPrint("Saved ${newAllergen.name}");
-                                  postDishState.addAllergen(newAllergen);
+                                  postDishPageState.addAllergen(newAllergen);
                               },
                             ),
                           )
