@@ -79,7 +79,6 @@ class FakeGotrue extends Fake implements GoTrueClient {
           tokenType: 'Bearer',
           user: _user,
         ),
-        user: _user,
       );
     } else {
       // Simulate a failed login

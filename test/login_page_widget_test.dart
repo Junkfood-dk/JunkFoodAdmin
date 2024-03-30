@@ -1,22 +1,16 @@
-import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:chefapp/model/locale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chefapp/pages/login_page.dart';
 import 'package:provider/provider.dart';
 import 'fakeSupaBase.dart';
-import 'package:chefapp/my_home_page.dart';
-import 'package:chefapp/model/language.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:chefapp/model/locale.dart';
 
 void main() {
   // SharedPreferences.setMockInitialValues({});
   final supabase = FakeSupabase();
 
   testWidgets('Sign In page shows', (WidgetTester tester) async {
-    await tester.pumpWidget(
+     await tester.pumpWidget(
       MaterialApp(
         home: MultiProvider(providers: [
           ChangeNotifierProvider(create: (context) => LocaleModel())
@@ -54,7 +48,7 @@ void main() {
     expect(signInButtonFinder, findsOneWidget);
   });
 
-  testWidgets('Sign In fails with invalid credentials',
+   testWidgets('Sign In fails with invalid credentials',
       (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -90,20 +84,17 @@ void main() {
         ], child: LoginPage(database: supabase)),
       ),
     );
-
     // Act
     await tester.enterText(find.bySemanticsLabel('Email'), 'test@nytest.dk');
     await tester.enterText(find.bySemanticsLabel('Password'), '1234');
     await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
     await tester.pumpAndSettle();
-
     final snackBarFinder = find.byType(SnackBar);
     final textFinder = find.text('Sign in successful!');
     final textOnSnackBarFinder = find.descendant(
       of: snackBarFinder,
       matching: textFinder,
     );
-
     //Assert
     expect(textOnSnackBarFinder, findsWidgets);
   });*/

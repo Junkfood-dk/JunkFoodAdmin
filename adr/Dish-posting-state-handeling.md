@@ -14,7 +14,7 @@ These attributes makes for a great and scalable state management system, that su
 
 ### Implementation
 
-The current implementation consits of two models, [DishModel](../lib/model/dish_model.dart) and [DishOfTheDayModel](../lib/model/dish_of_the_day_model.dart). The DishModel is not in relation to provider, but acts as the applications implementation of the dish model. It has a set of helper functions, that respectively parses from and to JSON objects, postable to the DB.
+The current implementation consits of two models, [DishModel](../lib/model/dish_model.dart) and [DishOfTheDayModel](../lib/model/dish_of_the_day_model.dart). The DishModel is not in realtion to provider, but acts as the applications implementaion of the dish model. It has a set of helper functions, that respecitvetly parses from and to JSON objects, postable to the DB.
 The DishOfTheDayModel acts as an example of a ChangeNotifier, providing the applicaiton with some functions for interacting with the dish of the day. It can post a new dish of the day, or check whether of not there already is one. The smart thing here is, that with the function `notifyListeners()` we can update all Consumers (subscribers) listening on the DishOfTheDayModel, that a change has been made, and while having full control over when this is done. Further we can place these Consumers as low as needed in the widget tree, limiting implications of the rebuild.
 
 ### Internal state handeling

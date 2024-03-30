@@ -3,7 +3,6 @@ import 'package:chefapp/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Flutter code sample for [Checkbox].
-
 void main() => runApp(const AddPage());
 
 class AddPage extends StatelessWidget {

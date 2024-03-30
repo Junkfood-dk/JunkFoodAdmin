@@ -9,7 +9,7 @@ class AllergensCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build  should create some ui for every element in list of allergens 
-    
+
     throw UnimplementedError();
   }
 

@@ -1,13 +1,11 @@
-import 'dart:js';
-
-import 'package:chefapp/model/allergene_service.dart';
+import 'package:chefapp/model/allergen_service.dart';
+import 'package:chefapp/model/category_service.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:chefapp/pages/login_page.dart';
 import 'package:chefapp/pages/splash_page.dart';
-import 'package:chefapp/pages/add_menu.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:chefapp/Constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,7 +23,11 @@ Future<void> main() async {
       create: (context) => DishOfTheDayModel(database: _supabase),
     ),
     ChangeNotifierProvider(
-        create: (context) => AllergeneService(database: _supabase))
+      create: (context) => AllergeneService(database: _supabase),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => CategoryService(database: _supabase),
+    )
   ], child: const MyApp()));
 }
 
