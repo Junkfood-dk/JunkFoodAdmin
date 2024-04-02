@@ -1,9 +1,9 @@
 import 'package:chefapp/Domain/Model/dish_model.dart';
 import 'package:flutter/material.dart';
 
-class DishDisplayComponent extends StatelessWidget {
+class DishDisplayWidget extends StatelessWidget {
   final DishModel dish;
-  const DishDisplayComponent({super.key, required this.dish});
+  const DishDisplayWidget({super.key, required this.dish});
 
   @override
   Widget build(BuildContext context) {

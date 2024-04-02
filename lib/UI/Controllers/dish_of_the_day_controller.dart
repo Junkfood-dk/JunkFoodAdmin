@@ -2,9 +2,9 @@ import 'package:chefapp/Domain/Model/dish_model.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
-class DishOfTheDayModel extends ChangeNotifier {
+class DishOfTheDayController extends ChangeNotifier {
   final SupabaseClient database;
-  DishOfTheDayModel({required this.database});
+  DishOfTheDayController({required this.database});
   DishModel? _dishOfTheDay;
 
   Future<void> fetchDishOfTheDay() async {

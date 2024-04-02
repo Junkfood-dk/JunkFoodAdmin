@@ -1,23 +1,19 @@
-
-import 'package:chefapp/Domain/dish_of_the_day_model.dart';
-import 'package:chefapp/Domain/Model/locale.dart';
-import 'package:chefapp/UI/components/dish_display_component.dart';
-import 'package:chefapp/UI/components/language_dropdown_component.dart';
+import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
 import 'package:chefapp/UI/pages/post_dish_page.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<LocaleModel>(
-      builder: (context, localeModel, child) => Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.homePageTitle),
-          actions: [LanguageDropdown()],
+          actions: const [LanguageDropdownWidget()],
           automaticallyImplyLeading: false,
         ),
         body: Center(

@@ -3,8 +3,8 @@ import 'package:chefapp/UI/Controllers/locale_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class LanguageDropdown extends ConsumerWidget {
-  const LanguageDropdown({super.key});
+class LanguageDropdownWidget extends ConsumerWidget {
+  const LanguageDropdownWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
