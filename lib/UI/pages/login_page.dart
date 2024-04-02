@@ -1,11 +1,11 @@
 import 'dart:async';
+import 'package:chefapp/UI/components/language_dropdown_component.dart';
+import 'package:chefapp/UI/pages/home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:chefapp/components/language_dropdown_component.dart';
-import 'package:chefapp/pages/home_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 
 class LoginPage extends StatefulWidget {
   final SupabaseClient database;
@@ -67,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    _authStateSubscription = widget.database.auth.onAuthStateChange.listen((data) {
+    _authStateSubscription =
+        widget.database.auth.onAuthStateChange.listen((data) {
       if (_redirecting) return;
       final session = data.session;
       if (session != null) {
@@ -102,7 +103,6 @@ class _LoginPageState extends State<LoginPage> {
           TextFormField(
             controller: _emailController,
             decoration: const InputDecoration(labelText: 'Email'),
-            
           ),
           const SizedBox(height: 18),
           TextFormField(
@@ -120,4 +120,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-

@@ -1,7 +1,8 @@
-import 'package:chefapp/components/language_dropdown_component.dart';
-import 'package:chefapp/model/allergen_model.dart';
-import 'package:chefapp/model/allergene_service.dart';
-import 'package:chefapp/model/dish_of_the_day_model.dart';
+
+import 'package:chefapp/Domain/allergene_service.dart';
+import 'package:chefapp/Domain/dish_of_the_day_model.dart';
+import 'package:chefapp/Domain/model/allergen_model.dart';
+import 'package:chefapp/UI/components/language_dropdown_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

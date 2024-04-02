@@ -1,6 +1,5 @@
-import 'package:chefapp/pages/home_page.dart';
+import 'package:chefapp/UI/pages/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:chefapp/main.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
 class SplashPage extends StatefulWidget {

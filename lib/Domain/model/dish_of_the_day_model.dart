@@ -1,4 +1,4 @@
-import 'package:chefapp/model/dish_model.dart';
+import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
