@@ -1,10 +1,12 @@
 import 'package:chefapp/Domain/Model/allergen_model.dart';
+import 'package:chefapp/UI/Controllers/allergenes_controller.dart';
+import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
+import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final _formKey = GlobalKey<FormState>();
@@ -17,10 +19,12 @@ class PostDishPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var newAllergenTextController = useTextEditingController();
     var nameTextController = useTextEditingController();
     var descriptionTextController = useTextEditingController();
     var calorieCount = useState(0);
     var imageTextController = useTextEditingController();
+    var selectedAllergenes = ref.watch(selectedAllergenesControllerProvider);
     return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.addDishPageTitle),
@@ -40,110 +44,78 @@ class PostDishPage extends HookConsumerWidget {
                   controller: nameTextController,
                 ),
                 TextFormField(
-                          decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!
-                                  .textFormLabelForDescription),
-                          controller: descriptionTextController,
-                        ),
-                TextFormField(
-                          decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!
-                                  .textFormLabelForCalories),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onChanged: (value) =>
-                              calorieCount.value = int.parse(value),
-                        ),
-                      TextFormField(
-                          validator: (value) {
-                            if (!isValidUrl(value!)) {
-                              return AppLocalizations.of(context)!
-                                  .invalidURLPromt;
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: InputDecoration(
-                              label: Text(AppLocalizations.of(context)!
-                                  .textFormLabelForImageURL)),
-                          controller: imageTextController,
-                        ),
-                FutureBuilder(
-                    future: allergeneService.fetchAllergens(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return CircularProgressIndicator();
-                      }
-                      return Consumer<_PostDishPageState>(
-                          builder: (context, state, child) {
-                        if (state.allergenToggles.length !=
-                            allergeneService.allergenes.length) {
-                          state.updateToggle(allergeneService.allergenes);
-                        }
-                        return Column(
-                          children: state.allergenToggles.entries.map((entry) {
-                            var key = entry.key;
-                            return CheckboxListTile(
-                              title: Text(key.name),
-                              value: state.allergenToggles[key],
-                              onChanged: (bool? newValue) {
-                                state.toggleAllergen(key);
-                              },
-                            );
-                          }).toList(),
-                        );
-                      });
-                    }),
-                Consumer<AllergeneService>(
-                  builder: (context, state, _) {
-                    return Column(
-                      children: [
-                        Consumer<_PostDishPageState>(
-                          builder: (context, postDishPageState, child) =>
-                              TextFormField(
-                            decoration: InputDecoration(
-                              labelText: "Add New Allergen",
-                              labelStyle: labelText,
-                            ),
-                            onFieldSubmitted: (value) async {
-                              debugPrint("Saving ${value}");
-                              AllergenModel newAllergen =
-                                  await state.saveNewAllergen(value);
-                              debugPrint("Saved ${newAllergen.name}");
-                              postDishPageState.addAllergen(newAllergen);
-                            },
-                          ),
-                        )
-                      ],
-                    );
-                  },
+                  decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!
+                          .textFormLabelForDescription),
+                  controller: descriptionTextController,
                 ),
-                Consumer3<DishOfTheDayModel, _PostDishPageState,
-                        AllergeneService>(
-                    builder: (context, dishOfTheDayModel, state,
-                            allergeneService, _) =>
-                        TextButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                int id =
-                                    await dishOfTheDayModel.postDishOfTheDay(
-                                        state.title,
-                                        state.description,
-                                        state.calories,
-                                        state.imageUrl);
-                                final selectedAllergens =
-                                    state.getSelectedAllergens();
-                                for (var allergene in selectedAllergens) {
-                                  allergeneService.addAllergeneToDish(
-                                      allergene, id);
-                                }
-                                Navigator.of(context).pop();
-                              }
-                            },
-                            child: Text(
-                                AppLocalizations.of(context)!.submitButton)))
+                TextFormField(
+                  decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!
+                          .textFormLabelForCalories),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  onChanged: (value) => calorieCount.value = int.parse(value),
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (!isValidUrl(value!)) {
+                      return AppLocalizations.of(context)!.invalidURLPromt;
+                    } else {
+                      return null;
+                    }
+                  },
+                  decoration: InputDecoration(
+                      label: Text(AppLocalizations.of(context)!
+                          .textFormLabelForImageURL)),
+                  controller: imageTextController,
+                ),
+                Column(
+                  children: selectedAllergenes.entries.map((entry) {
+                    var key = entry.key;
+                    var value = entry.value;
+                    return CheckboxListTile(
+                      title: Text(key.name),
+                      value: selectedAllergenes[key],
+                      onChanged: (bool? newValue) {
+                        selectedAllergenes[key] = !value;
+                      },
+                    );
+                  }).toList(),
+                ),
+                Column(
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Add New Allergen",
+                        labelStyle: labelText,
+                      ),
+                      controller: newAllergenTextController,
+                      onFieldSubmitted: (value) async {
+                        ref
+                            .read(allergenesControllerProvider.notifier)
+                            .postNewAllergen(value);
+                        newAllergenTextController.clear();
+                      },
+                    ),
+                  ],
+                ),
+                TextButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        ref
+                            .read(dishOfTheDayControllerProvider.notifier)
+                            .postDishOfTheDay(
+                                nameTextController.text,
+                                descriptionTextController.text,
+                                calorieCount.value,
+                                imageTextController.text);
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: Text(AppLocalizations.of(context)!.submitButton))
               ],
             ),
           ),
@@ -153,75 +125,5 @@ class PostDishPage extends HookConsumerWidget {
   bool isValidUrl(String protenitalUri) {
     Uri? uri = Uri.tryParse(protenitalUri);
     return uri != null && uri.isAbsolute;
-  }
-}
-
-class _PostDishPageState extends ChangeNotifier {
-  String title = "";
-  String description = "";
-  int calories = 0;
-  String imageUrl = "";
-  List<AllergenModel> selectedAllergens = [];
-  Map<AllergenModel, bool> allergenToggles = {};
-
-  void setTitle(String newValue) {
-    title = newValue;
-    notifyListeners();
-  }
-
-  void setDescription(String newValue) {
-    description = newValue;
-    notifyListeners();
-  }
-
-  void setCalories(int newValue) {
-    if (newValue >= 0) {
-      calories = newValue;
-      notifyListeners();
-    } else {
-      throw Exception("Calory count can't be negative");
-    }
-  }
-
-  void setImageUrl(String newValue) {
-    imageUrl = newValue;
-    notifyListeners();
-  }
-
-  void addAllergen(AllergenModel allergen) async {
-    if (!selectedAllergens.any((a) => a.name == allergen.name)) {
-      selectedAllergens.add(allergen);
-      notifyListeners();
-    }
-  }
-
-  void removeAllergen(String allergenName) {
-    selectedAllergens.removeWhere((allergen) => allergen.name == allergenName);
-    notifyListeners();
-  }
-
-  List<AllergenModel> getSelectedAllergens() {
-    var list = selectedAllergens;
-    list.addAll(allergenToggles.entries
-        .where((entry) => entry.value)
-        .map((entry) => entry.key)
-        .toList());
-
-    return list;
-  }
-
-  void toggleAllergen(AllergenModel allergen) {
-    if (allergenToggles.containsKey(allergen)) {
-      allergenToggles[allergen] = !allergenToggles[allergen]!;
-      notifyListeners();
-    }
-  }
-
-  void updateToggle(List<AllergenModel> allergenes) {
-    for (var allergen in allergenes) {
-      if (!allergenToggles.containsKey(allergen)) {
-        allergenToggles[allergen] = false;
-      }
-    }
   }
 }

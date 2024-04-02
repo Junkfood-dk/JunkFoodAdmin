@@ -1,5 +1,6 @@
 import 'package:chefapp/Data/database_provider.dart';
 import 'package:chefapp/Data/interface_dish_repository.dart';
+import 'package:chefapp/Domain/Model/allergen_model.dart';
 import 'package:chefapp/Domain/Model/dish_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
@@ -21,7 +22,7 @@ class DishRepository implements IDishRepository {
   }
 
   @override
-  void postDishOfTheDay(
+  Future<int> postDishOfTheDay(
       String title, String description, int calories, String imageUrl) async {
     DishModel newDish = DishModel(
         title: title,
@@ -30,8 +31,16 @@ class DishRepository implements IDishRepository {
         imageUrl: imageUrl);
     var row = await database.from("Dishes").insert(newDish).select("id");
     var id = row[0]['id'];
-    await database.from("Dish_Schedule").insert(
+    var response = await database.from("Dish_Schedule").insert(
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
+    return response[0]['id'];
+  }
+
+  @override
+  void addAllergeneToDish(AllergenModel allergene, int dishId) async {
+    await database
+        .from("Allergens_to_Dishes")
+        .insert({"allergen_id": allergene.id, "dish_id": dishId});
   }
 }
 
