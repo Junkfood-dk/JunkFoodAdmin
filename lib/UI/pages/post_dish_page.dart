@@ -19,6 +19,8 @@ class PostDishPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var nameTextController = useTextEditingController();
     var descriptionTextController = useTextEditingController();
+    var calorieCount = useState(0);
+    var imageTextController = useTextEditingController();
     return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.addDishPageTitle),
@@ -43,8 +45,7 @@ class PostDishPage extends HookConsumerWidget {
                                   .textFormLabelForDescription),
                           controller: descriptionTextController,
                         ),
-                Consumer<_PostDishPageState>(
-                    builder: (context, state, _) => TextFormField(
+                TextFormField(
                           decoration: InputDecoration(
                               labelText: AppLocalizations.of(context)!
                                   .textFormLabelForCalories),
@@ -53,10 +54,9 @@ class PostDishPage extends HookConsumerWidget {
                             FilteringTextInputFormatter.digitsOnly
                           ],
                           onChanged: (value) =>
-                              state.setCalories(int.parse(value)),
-                        )),
-                Consumer<_PostDishPageState>(
-                    builder: (context, state, _) => TextFormField(
+                              calorieCount.value = int.parse(value),
+                        ),
+                      TextFormField(
                           validator: (value) {
                             if (!isValidUrl(value!)) {
                               return AppLocalizations.of(context)!
@@ -68,12 +68,8 @@ class PostDishPage extends HookConsumerWidget {
                           decoration: InputDecoration(
                               label: Text(AppLocalizations.of(context)!
                                   .textFormLabelForImageURL)),
-                          onChanged: (value) {
-                            if (isValidUrl(value)) {
-                              state.setImageUrl(value);
-                            }
-                          },
-                        )),
+                          controller: imageTextController,
+                        ),
                 FutureBuilder(
                     future: allergeneService.fetchAllergens(),
                     builder: (context, snapshot) {
