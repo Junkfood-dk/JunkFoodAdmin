@@ -1,55 +1,32 @@
+import 'package:chefapp/Data/dish_repository.dart';
 import 'package:chefapp/Domain/Model/dish_model.dart';
-import 'package:flutter/material.dart';
-import 'package:supabase_auth_ui/supabase_auth_ui.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class DishOfTheDayController extends ChangeNotifier {
-  final SupabaseClient database;
-  DishOfTheDayController({required this.database});
-  DishModel? _dishOfTheDay;
+part 'dish_of_the_day_controller.g.dart';
 
-  Future<void> fetchDishOfTheDay() async {
-    Future.microtask(() async {
-      var response = await database
-          .from("Dish_Schedule")
-          .select()
-          .filter("date", "eq", DateTime.now().toIso8601String());
-      if (response.isNotEmpty) {
-        var dishOfTheDay = await database
-            .from("Dishes")
-            .select()
-            .filter("id", "eq", response[0]["id"]);
-        _dishOfTheDay = DishModel.fromJson(dishOfTheDay[0]);
-      } else {
-        _dishOfTheDay = null;
-      }
-      notifyListeners();
-    });
+@riverpod
+class DishOfTheDayController extends _$DishOfTheDayController {
+  @override
+  // Initial fetch of dishes
+  Future<List<DishModel>> build() async {
+    var repository = ref.read(dishRepositoryProvider);
+    List<DishModel> dishModelList = await repository.fetchDishOfTheDay();
+    return dishModelList.isEmpty
+        ? dishModelList
+        : [DishModel(title: "There is no dish of the day")];
   }
 
-  DishModel get dishOfTheDay {
-    if (_dishOfTheDay != null) {
-      return _dishOfTheDay!;
-    } else {
-      return DishModel(title: "There is no dish of the day");
-    }
+  Future<void> updateDishOfTheDay() async {
+    var repository = ref.read(dishRepositoryProvider);
+    List<DishModel> dishModelList = await repository.fetchDishOfTheDay();
+    state = dishModelList.isEmpty
+        ? AsyncData(dishModelList)
+        : AsyncData([DishModel(title: "There is no dish of the day")]);
   }
 
-  Future<bool> get hasDishOfTheDay async {
-    await fetchDishOfTheDay();
-    return _dishOfTheDay != null;
-  }
-
-  Future<int> postDishOfTheDay(
+  Future<void> postDishOfTheDay(
       String title, String description, int calories, String imageUrl) async {
-    DishModel newDish = DishModel(
-        title: title,
-        description: description,
-        calories: calories,
-        imageUrl: imageUrl);
-    var row = await database.from("Dishes").insert(newDish).select("id");
-    var id = row[0]['id'];
-    await database.from("Dish_Schedule").insert(
-        {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
-    return id;
+    var repository = ref.read(dishRepositoryProvider);
+    repository.postDishOfTheDay(title, description, calories, imageUrl);
   }
 }
