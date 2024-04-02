@@ -2,7 +2,7 @@ import 'dart:js';
 
 import 'package:chefapp/Domain/allergene_service.dart';
 import 'package:chefapp/Domain/dish_of_the_day_model.dart';
-import 'package:chefapp/Domain/model/locale.dart';
+import 'package:chefapp/Domain/Model/locale.dart';
 import 'package:chefapp/UI/pages/login_page.dart';
 import 'package:chefapp/UI/pages/splash_page.dart';
 import 'package:chefapp/Utilities/constants.dart';

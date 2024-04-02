@@ -1,4 +1,4 @@
-import 'package:chefapp/Domain/model/dish_model.dart';
+import 'package:chefapp/Domain/Model/dish_model.dart';
 import 'package:flutter/material.dart';
 
 class DishDisplayComponent extends StatelessWidget {

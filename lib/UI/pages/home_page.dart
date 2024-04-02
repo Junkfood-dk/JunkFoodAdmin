@@ -1,6 +1,6 @@
 
 import 'package:chefapp/Domain/dish_of_the_day_model.dart';
-import 'package:chefapp/Domain/model/locale.dart';
+import 'package:chefapp/Domain/Model/locale.dart';
 import 'package:chefapp/UI/components/dish_display_component.dart';
 import 'package:chefapp/UI/components/language_dropdown_component.dart';
 import 'package:chefapp/UI/pages/post_dish_page.dart';

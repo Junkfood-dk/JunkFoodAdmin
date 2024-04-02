@@ -1,6 +1,6 @@
 
-import 'package:chefapp/Domain/model/language.dart';
-import 'package:chefapp/Domain/model/locale.dart';
+import 'package:chefapp/Domain/Model/language.dart';
+import 'package:chefapp/Domain/Model/locale.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
