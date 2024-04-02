@@ -1,21 +1,36 @@
+import 'package:chefapp/Data/allergenes_repository.dart';
 import 'package:chefapp/Domain/Model/allergen_model.dart';
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:supabase_auth_ui/supabase_auth_ui.dart';
+
+part 'allergenes_controller.g.dart';
 
 @riverpod
-class AllergenesController extends _$AllergenesControllerProvider {
-  final SupabaseClient database;
-  final List<AllergenModel> _allergenes = [];
-  Future<List<AllergenModel>> build() {}
+class AllergenesController extends _$AllergenesController {
+  @override
+  Future<List<AllergenModel>> build() async {
+    var repository = ref.read(allergenesRepositoryProvider);
+    return await repository.fetchAllergenes();
+  }
 
-  List<AllergenModel> get allergenes => _allergenes;
+  void updateAllergenes() async {
+    var repository = ref.read(allergenesRepositoryProvider);
+    var allergenes = await repository.fetchAllergenes();
+    for (var allergen in allergenes) {
+      bool exists = false;
+      for (var existingAllergen in state.value!) {
+        if (allergen.name == existingAllergen.name) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        state.value!.add(allergen);
+      }
+    }
+  }
 
-  void postNewAllergen(String allergenName) {}
-
-  Future<void> addAllergeneToDish(AllergenModel allergene, int dishId) async {
-    await database
-        .from("Allergens_to_Dishes")
-        .insert({"allergen_id": allergene.id, "dish_id": dishId});
+  void postNewAllergen(String allergenName) {
+    var repository = ref.read(allergenesRepositoryProvider);
+    repository.postNewAllergen(allergenName);
   }
 }
