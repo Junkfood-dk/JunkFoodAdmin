@@ -14,7 +14,7 @@ class DishRepository implements IDishRepository {
     return await database
         .from("Dish_Schedule")
         .select(
-            "Dish(id, title, description, calories, Dish_type(dish_type), image)")
+            "Dishes(id, title, description, calories, Dish_type(dish_type), image)")
         .filter("date", "eq", DateTime.now().toIso8601String())
         .then((rows) => rows.map((json) => DishModel.fromJson(json)).toList());
   }

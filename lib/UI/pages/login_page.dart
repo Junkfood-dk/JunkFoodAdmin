@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:chefapp/UI/components/language_dropdown_component.dart';
+import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
 import 'package:chefapp/UI/pages/home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign In'),
-        actions: [LanguageDropdown()],
+        actions: [LanguageDropdownWidget()],
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),

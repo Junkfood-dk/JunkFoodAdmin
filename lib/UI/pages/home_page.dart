@@ -22,7 +22,7 @@ class HomePage extends ConsumerWidget {
           AsyncData(:final value) => Column(
               children: [Center(child: DishDisplayWidget(dish: value[0]))],
             ),
-          AsyncError() => const Text("error"),
+          AsyncError(:final error) => Text(error.toString()),
           _ => const CircularProgressIndicator()
         }));
   }
