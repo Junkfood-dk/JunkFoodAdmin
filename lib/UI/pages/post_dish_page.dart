@@ -1,6 +1,3 @@
-
-import 'package:chefapp/Domain/allergene_service.dart';
-import 'package:chefapp/Domain/dish_of_the_day_model.dart';
 import 'package:chefapp/Domain/Model/allergen_model.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
 import 'package:flutter/material.dart';

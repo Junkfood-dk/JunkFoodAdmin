@@ -11,17 +11,17 @@ class DishOfTheDayController extends _$DishOfTheDayController {
   Future<List<DishModel>> build() async {
     var repository = ref.read(dishRepositoryProvider);
     List<DishModel> dishModelList = await repository.fetchDishOfTheDay();
-    return dishModelList.isEmpty
+    return dishModelList.isNotEmpty
         ? dishModelList
-        : [DishModel(title: "There is no dish of the day")];
+        : [];
   }
 
   Future<void> updateDishOfTheDay() async {
     var repository = ref.read(dishRepositoryProvider);
     List<DishModel> dishModelList = await repository.fetchDishOfTheDay();
-    state = dishModelList.isEmpty
+    state = dishModelList.isNotEmpty
         ? AsyncData(dishModelList)
-        : AsyncData([DishModel(title: "There is no dish of the day")]);
+        : const AsyncData([]);
   }
 
   Future<void> postDishOfTheDay(

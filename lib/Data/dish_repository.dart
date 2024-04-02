@@ -16,7 +16,8 @@ class DishRepository implements IDishRepository {
         .select(
             "Dishes(id, title, description, calories, Dish_type(dish_type), image)")
         .filter("date", "eq", DateTime.now().toIso8601String())
-        .then((rows) => rows.map((json) => DishModel.fromJson(json)).toList());
+        .then((rows) =>
+            rows.map((json) => DishModel.fromJson(json["Dishes"])).toList());
   }
 
   @override
