@@ -464,4 +464,33 @@ grant truncate on table "public"."Serving_spots" to "service_role";
 
 grant update on table "public"."Serving_spots" to "service_role";
 
+-- POLICIES
 
+-- Allergens
+create policy "Enable insert for authenticated users only" on "public"."Allergens" as permissive for insert to authenticated with check (true);
+create policy "Enable read access for all users" on "public"."Allergens" as permissive for select to public using (true);
+
+-- Allergens_to_Dishes
+create policy "Enable insert for authenticated users only" on "public"."Allergens_to_Dishes" as permissive for insert to authenticated with check (true);
+create policy "Enable read access for all users" on "public"."Allergens_to_Dishes" as permissive for select to public using (true);
+
+-- Categories
+create policy "Enable insert for authenticated users only" on "public"."Categories" as permissive for insert to authenticated with check (true);
+create policy "Enable read access for all users" on "public"."Categories" as permissive for select to public using (true);
+
+-- Categoreis_to_dishes
+create policy "Enable insert for authenticated users only" on "public"."Categories_to_Dishes" as permissive for insert to authenticated with check (true);
+create policy "Enable read access for all users" on "public"."Categories_to_Dishes" as permissive for select to public using (true);
+
+-- Dish_schedule
+create policy "Enable insert for authenticated anon only" on "public"."Dish_Schedule" as permissive for insert to authenticated with check (true);
+create policy "Enable read access for all users" on "public"."Dish_Schedule" as permissive for select to public using (true);
+
+-- Dish_type
+create policy "Enable read access for all users" on "public"."Dish_type" as permissive for select to public using (true);
+
+-- Dishes
+create policy "Enable insert for anon users" on "public"."Dishes" as permissive for insert to authenticated with check (true);
+create policy "Enable read access for all users" on "public"."Dishes" as permissive for select to public using (true);
+
+-- Bucket
