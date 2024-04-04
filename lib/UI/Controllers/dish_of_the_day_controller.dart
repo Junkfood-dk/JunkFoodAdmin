@@ -1,7 +1,7 @@
-import 'package:chefapp/Data/allergenes_repository.dart';
 import 'package:chefapp/Data/dish_repository.dart';
 import 'package:chefapp/Domain/Model/allergen_model.dart';
 import 'package:chefapp/Domain/Model/dish_model.dart';
+import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dish_of_the_day_controller.g.dart';
@@ -27,8 +27,15 @@ class DishOfTheDayController extends _$DishOfTheDayController {
   Future<void> postDishOfTheDay(
       String title, String description, int calories, String imageUrl) async {
     var repository = ref.read(dishRepositoryProvider);
-    var newDishId =
-        repository.postDishOfTheDay(title, description, calories, imageUrl);
+    var newDishId = await repository.postDishOfTheDay(
+        title, description, calories, imageUrl);
+    var selectedAllergens = ref
+        .read(selectedAllergenesControllerProvider.notifier)
+        .getAllSelectedAllergenes();
+    for (var allergen in selectedAllergens) {
+      _addAllergenToDish(allergen, newDishId);
+    }
+    updateDishOfTheDay();
   }
 
   void _addAllergenToDish(AllergenModel allergen, int id) {

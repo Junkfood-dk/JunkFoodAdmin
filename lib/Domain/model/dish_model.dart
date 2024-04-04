@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class DishModel {
   String title;
   String description;
@@ -21,7 +19,6 @@ class DishModel {
   }
 
   static DishModel fromJson(Map<String, dynamic> input) {
-    debugPrint(input.toString());
     return DishModel(
         title: input.containsKey("title")
             ? input["title"]

@@ -7,11 +7,11 @@ part of 'selected_allergenes_controller.dart';
 // **************************************************************************
 
 String _$selectedAllergenesControllerHash() =>
-    r'bae7597b090de8e0ad00f092fd676a46be7b632c';
+    r'8b4c909ec3f70d298c6e42b20ef449b463b6780e';
 
 /// See also [SelectedAllergenesController].
 @ProviderFor(SelectedAllergenesController)
-final selectedAllergenesControllerProvider = AutoDisposeNotifierProvider<
+final selectedAllergenesControllerProvider = AutoDisposeAsyncNotifierProvider<
     SelectedAllergenesController, Map<AllergenModel, bool>>.internal(
   SelectedAllergenesController.new,
   name: r'selectedAllergenesControllerProvider',
@@ -23,6 +23,6 @@ final selectedAllergenesControllerProvider = AutoDisposeNotifierProvider<
 );
 
 typedef _$SelectedAllergenesController
-    = AutoDisposeNotifier<Map<AllergenModel, bool>>;
+    = AutoDisposeAsyncNotifier<Map<AllergenModel, bool>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

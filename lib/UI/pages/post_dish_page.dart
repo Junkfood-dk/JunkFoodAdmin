@@ -1,4 +1,3 @@
-import 'package:chefapp/Domain/Model/allergen_model.dart';
 import 'package:chefapp/UI/Controllers/allergenes_controller.dart';
 import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
@@ -57,7 +56,8 @@ class PostDishPage extends HookConsumerWidget {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
                   ],
-                  onChanged: (value) => calorieCount.value = int.parse(value),
+                  onChanged: (value) =>
+                      calorieCount.value = int.tryParse(value) ?? 0,
                 ),
                 TextFormField(
                   validator: (value) {
@@ -73,18 +73,22 @@ class PostDishPage extends HookConsumerWidget {
                   controller: imageTextController,
                 ),
                 Column(
-                  children: selectedAllergenes.entries.map((entry) {
-                    var key = entry.key;
-                    var value = entry.value;
-                    return CheckboxListTile(
-                      title: Text(key.name),
-                      value: selectedAllergenes[key],
-                      onChanged: (bool? newValue) {
-                        selectedAllergenes[key] = !value;
-                      },
-                    );
-                  }).toList(),
-                ),
+                    children: switch (selectedAllergenes) {
+                  AsyncData(:final value) => value.entries.map((entry) {
+                      var key = entry.key;
+                      return CheckboxListTile(
+                        title: Text(key.name),
+                        value: value[key],
+                        onChanged: (bool? newValue) {
+                          ref
+                              .read(
+                                  selectedAllergenesControllerProvider.notifier)
+                              .setSelected(key);
+                        },
+                      );
+                    }).toList(),
+                  _ => [CircularProgressIndicator()]
+                }),
                 Column(
                   children: [
                     TextFormField(

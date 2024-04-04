@@ -27,10 +27,14 @@ class AllergenesRepository implements IAllergenesRepository {
   }
 
   @override
-  void postNewAllergen(String allergenName) async {
+  Future<AllergenModel> postNewAllergen(String allergenName) async {
     final allergen = AllergenModel(name: allergenName);
     try {
-      await database.from("Allergens").insert(allergen.toJson()).select();
+      return await database
+          .from("Allergens")
+          .insert(allergen.toJson())
+          .select()
+          .then((rows) => AllergenModel.fromJson(rows[0]));
     } catch (error) {
       debugPrint("Error saving new allergen: $error");
       throw Exception("Failed to save new allergen: $error");
