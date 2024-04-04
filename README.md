@@ -19,6 +19,39 @@ samples, guidance on mobile development, and a full API reference.
 # Commit template
 git commit -m"<commitmessage>
 
+### Develop locally
+To setup and connect to a local instance of supabase do the following.:
+
+Start by ensuring that supabase cli is installed on you computer.
+
+This can be done on Mac by homebrew like this:
+```shell
+brew install supabase/tap/supabase
+```
+
+Ensure that you have docker running.
+
+Then run following command in you terminal:
+```shell
+supabase login
+```
+This will open a window in your browser, and create a token. You have to do nothing but.
+
+Finally run:
+```shell
+supabase start
+```
+
+This will run a local supabase in a dockercontainer.
+
+When running the project, give it the following flags:
+
+```shell
+flutter run --dart-define=SUPABASE_URL=<API URL> --dart-define=SUPABASE_ANONKEY=<ANON KEY>
+```
+API URL and ANON KEY, is printed in your terminal when running the command from above.
+
+
 ### Startup the app
 
 To be able to run the app locally you have to set up two environment variables.
