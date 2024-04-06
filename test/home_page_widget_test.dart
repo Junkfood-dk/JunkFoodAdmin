@@ -1,5 +1,6 @@
+import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/model/dish_of_the_day_model.dart';
-import 'package:chefapp/model/locale.dart';
+import 'package:chefapp/model/locale_controller.dart';
 import 'package:chefapp/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,8 +15,8 @@ void main() {
     await tester.pumpWidget(MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => LocaleModel()),
-          ChangeNotifierProvider<DishOfTheDayModel>(
-              create: (context) => DishOfTheDayModel(database: FakeSupabase()))
+          ChangeNotifierProvider<DishOfTheDayController>(
+              create: (context) => DishOfTheDayController(database: FakeSupabase()))
         ],
         child: const MaterialApp(
             localizationsDelegates: [AppLocalizations.delegate],

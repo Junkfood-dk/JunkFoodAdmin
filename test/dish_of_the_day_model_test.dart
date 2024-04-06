@@ -1,7 +1,5 @@
-import 'package:chefapp/model/dish_of_the_day_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
-
 import 'fakeSupaBase.dart';
 
 void main() {

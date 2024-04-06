@@ -1,3 +1,4 @@
+import 'package:chefapp/UI/Controllers/locale_controller.dart';
 import 'package:chefapp/components/language_dropdown_component.dart';
 import 'package:chefapp/model/locale.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: MultiProvider(providers: [
-          ChangeNotifierProvider(create: (context) => LocaleModel())
+          ChangeNotifierProvider(create: (context) => LocaleController())
         ], child: LoginPage(database: supabase)),
       ),
     );
@@ -59,7 +60,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: MultiProvider(providers: [
-          ChangeNotifierProvider(create: (context) => LocaleModel())
+          ChangeNotifierProvider(create: (context) => LocaleController())
         ], child: LoginPage(database: supabase)),
       ),
     );

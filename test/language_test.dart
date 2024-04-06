@@ -1,19 +1,18 @@
-import 'package:chefapp/components/language_dropdown_component.dart';
-import 'package:chefapp/my_home_page.dart';
+
+import 'package:chefapp/Domain/model/language_model.dart';
+import 'package:chefapp/UI/Controllers/locale_controller.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:chefapp/model/language.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase/supabase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:chefapp/model/locale.dart';
 
 void main() {
   test('English is present in language list', () {
     // Arrange
-    final List<Language> languages = Language.languageList();
+    final List<LanguageModel> languages = LanguageModel.languageList();
 
     // Act
     final bool englishExists =
@@ -25,7 +24,7 @@ void main() {
 
   test('Spanish is not present in language list', () {
     // Arrange
-    final List<Language> languages = Language.languageList();
+    final List<LanguageModel> languages = LanguageModel.languageList();
 
     // Act
     final bool englishExists =
@@ -37,10 +36,10 @@ void main() {
 
   test('Language object for English (id: 1) exists', () {
     // Arrange
-    final List<Language> languages = Language.languageList();
+    final List<LanguageModel> languages = LanguageModel.languageList();
 
     // Act
-    final Language englishLanguage =
+    final LanguageModel englishLanguage =
         languages.firstWhere((language) => language.id == 1);
 
     // Assert
@@ -49,10 +48,10 @@ void main() {
 
   test('Language object for Danish (id: 2) exists', () {
     // Arrange
-    final List<Language> languages = Language.languageList();
+    final List<LanguageModel> languages = LanguageModel.languageList();
 
     // Act
-    final Language danishLanguage =
+    final LanguageModel danishLanguage =
         languages.firstWhere((language) => language.id == 2);
 
     // Assert
@@ -61,7 +60,7 @@ void main() {
 
   test('Language object with id 3000 does not exist', () {
     // Arrange
-    final List<Language> languages = Language.languageList();
+    final List<LanguageModel> languages = LanguageModel.languageList();
 
     // Act
     final bool id3Exists = languages.any((language) => language.id == 3000);
@@ -75,8 +74,8 @@ void main() {
       
       //Arrange
       await tester.pumpWidget(ChangeNotifierProvider(
-        create: (context) => LocaleModel(),
-        child: Consumer<LocaleModel>(
+        create: (context) => LocaleController(),
+        child: Consumer<LocaleController>(
           builder: (context, localeModel, child) => MaterialApp(
             title: 'Chef App',
             localizationsDelegates: const [
@@ -109,8 +108,8 @@ void main() {
       (WidgetTester tester) async {
     //Arrange
     await tester.pumpWidget(ChangeNotifierProvider(
-        create: (context) => LocaleModel(),
-        child: Consumer<LocaleModel>(
+        create: (context) => LocaleController(),
+        child: Consumer<LocaleController>(
           builder: (context, localeModel, child) => MaterialApp(
             title: 'Chef App',
             localizationsDelegates: const [
