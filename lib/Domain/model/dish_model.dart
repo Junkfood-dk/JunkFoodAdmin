@@ -1,5 +1,4 @@
 import 'package:chefapp/Domain/model/dish_type_model.dart';
-import 'package:flutter/material.dart';
 
 class DishModel {
   String title;

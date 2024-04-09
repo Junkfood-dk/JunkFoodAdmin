@@ -23,6 +23,7 @@ class DishOfTheDayController extends _$DishOfTheDayController {
     state = dishModelList.isNotEmpty
         ? AsyncData(dishModelList)
         : const AsyncData([]);
+    ref.notifyListeners();
   }
 
   Future<void> postDishOfTheDay(
