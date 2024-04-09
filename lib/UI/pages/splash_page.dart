@@ -1,42 +1,40 @@
 import 'package:chefapp/UI/pages/home_page.dart';
+import 'package:chefapp/UI/Controllers/authentication_controller.dart';
+import 'package:chefapp/UI/pages/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_auth_ui/supabase_auth_ui.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SplashPage extends StatefulWidget {
-  final SupabaseClient database;
-  const SplashPage({super.key, required this.database});
-
-  @override
-  _SplashPageState createState() => _SplashPageState();
-}
-
-class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    super.initState();
-    _redirect();
-  }
-
-  Future<void> _redirect() async {
-    await Future.delayed(Duration.zero);
-    if (!mounted) {
-      return;
-    }
-
-    final session = widget.database.auth.currentSession;
-    if (session != null) {
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const HomePage(),
-      ));
-    } else {
-      Navigator.of(context).pushReplacementNamed('/login');
-    }
-  }
+class SplashPage extends ConsumerWidget {
+  const SplashPage({Key? key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authenticationControllerProvider);
+
+    return authState.when(
+      data: (value) {
+        value.listen((data) {
+          final session = data.session;
+          if (session != null) {
+            // User is authenticated, navigate to HomePage
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ));
+          } else {
+            // User is not authenticated, navigate to LoginPage
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => const LoginPage(),
+            ));
+          }
+        });
+        return const SizedBox(); // Placeholder widget, not used
+      },
+      loading: () => const CircularProgressIndicator(),
+      error: (error, stackTrace) => Scaffold(
+        body: Center(
+          child: Text(error.toString()),
+        ),
+      ),
     );
   }
 }
