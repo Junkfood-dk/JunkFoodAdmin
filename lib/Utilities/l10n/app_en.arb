@@ -19,6 +19,14 @@
   "@signInError": {
     "description": "When an unexpected error occurs"
   },
+  "signInTitle": "Sign In",
+  "@signInTitle": {
+    "description": "Title of the login page"
+  },
+  "signInText": "Sign in with your email and password below",
+  "@signInText": {
+    "description": "Text to describe what to do on the login page"
+  },
   "addDishPageTitle": "Add dish",
   "@addDishPageTitle": {
     "description": "Title of the add dish page"
