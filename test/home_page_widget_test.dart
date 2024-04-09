@@ -1,5 +1,5 @@
 import 'package:chefapp/Data/dish_repository.dart';
-import 'package:chefapp/Domain/Model/dish_model.dart';
+import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:chefapp/UI/Controllers/locale_controller.dart';
 import 'package:chefapp/UI/pages/home_page.dart';
 import 'package:flutter/material.dart';

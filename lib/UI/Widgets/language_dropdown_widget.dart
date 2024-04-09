@@ -1,4 +1,4 @@
-import 'package:chefapp/Domain/Model/language_model.dart';
+import 'package:chefapp/Domain/model/language_model.dart';
 import 'package:chefapp/UI/Controllers/locale_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

@@ -1,5 +1,6 @@
 import 'package:chefapp/Data/dish_repository.dart';
-import 'package:chefapp/Domain/Model/dish_model.dart';
+import 'package:chefapp/Domain/model/dish_model.dart';
+import 'package:chefapp/Domain/model/dish_type_model.dart';
 import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -48,7 +49,7 @@ void main() {
     // Arrange
     final mockDishRepository = MockDishRepository();
     when(mockDishRepository.fetchDishOfTheDay()).thenAnswer((realInvocation) =>
-        Future.value(<DishModel>[DishModel(title: "Test1")]));
+        Future.value(<DishModel>[DishModel(title: "Test1", dishType: DishTypeModel(id: -1, type: ""))]));
     mockDishRepository.fetchDishOfTheDay();
     final container = createContainer(overrides: [
       dishRepositoryProvider.overrideWithValue(mockDishRepository)

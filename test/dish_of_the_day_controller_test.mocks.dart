@@ -6,8 +6,9 @@
 import 'dart:async' as _i4;
 
 import 'package:chefapp/Data/dish_repository.dart' as _i3;
-import 'package:chefapp/Domain/Model/allergen_model.dart' as _i6;
-import 'package:chefapp/Domain/Model/dish_model.dart' as _i5;
+import 'package:chefapp/Domain/model/allergen_model.dart' as _i6;
+import 'package:chefapp/Domain/model/dish_model.dart' as _i5;
+import 'package:chefapp/Domain/model/dish_type_model.dart';
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:supabase_auth_ui/supabase_auth_ui.dart' as _i2;
 
@@ -78,6 +79,7 @@ class MockDishRepository extends _i1.Mock implements _i3.DishRepository {
     String? description,
     int? calories,
     String? imageUrl,
+    DishTypeModel? dishType
   ) =>
       (super.noSuchMethod(
         Invocation.method(

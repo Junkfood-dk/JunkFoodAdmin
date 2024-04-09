@@ -1,4 +1,5 @@
 import 'package:chefapp/Domain/model/dish_model.dart';
+import 'package:chefapp/Domain/model/dish_type_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -7,14 +8,18 @@ void main() {
       () {
     // Arrange
     var testDish = DishModel(
-        title: "Test", description: "Test", calories: 0, imageUrl: "Test");
+        title: "Test",
+        description: "Test",
+        calories: 0,
+        imageUrl: "Test",
+        dishType: DishTypeModel(id: -1, type: "Empty"));
     var json = testDish.toJson();
 
     // Act
     var length = json.length;
 
     // Assert
-    expect(length, 4);
+    expect(length, 5);
   });
 
   test(
