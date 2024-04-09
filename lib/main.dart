@@ -1,6 +1,5 @@
 import 'package:chefapp/UI/Controllers/locale_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:chefapp/UI/pages/login_page.dart';
 import 'package:chefapp/UI/pages/splash_page.dart';
 import 'package:chefapp/Utilities/constants.dart';
 import 'package:flutter/material.dart';

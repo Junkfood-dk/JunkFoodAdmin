@@ -1,29 +1,33 @@
+import 'package:chefapp/Data/user_repository.dart';
 import 'package:chefapp/UI/Controllers/locale_controller.dart';
-import 'package:chefapp/components/language_dropdown_component.dart';
-import 'package:chefapp/model/locale.dart';
+import 'package:chefapp/UI/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:chefapp/pages/login_page.dart';
-import 'package:provider/provider.dart';
-import 'fakeSupaBase.dart';
-import 'package:chefapp/my_home_page.dart';
-import 'package:chefapp/model/language.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mockito/annotations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:chefapp/model/locale.dart';
+
+import 'login_page_widget_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<UserRepository>()])
 
 void main() {
-  // SharedPreferences.setMockInitialValues({});
-  final supabase = FakeSupabase();
 
   testWidgets('Sign In page shows', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        home: MultiProvider(providers: [
-          ChangeNotifierProvider(create: (context) => LocaleController())
-        ], child: LoginPage(database: supabase)),
-      ),
-    );
+    await tester.pumpWidget(ProviderScope(
+        child: Consumer(
+          builder: (context, ref, child) => MaterialApp(
+              locale: ref.watch(localeControllerProvider),
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: const LoginPage()),
+        )));
 
     // Act
     final appBarFinder = find.byType(AppBar);
@@ -57,13 +61,23 @@ void main() {
 
   testWidgets('Sign In fails with invalid credentials',
       (WidgetTester tester) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        home: MultiProvider(providers: [
-          ChangeNotifierProvider(create: (context) => LocaleController())
-        ], child: LoginPage(database: supabase)),
-      ),
-    );
+      final mockUserRepository = MockUserRepository();
+     await tester.pumpWidget(ProviderScope(
+        overrides: [
+          userRepositoryProvider.overrideWithValue(mockUserRepository),
+        ],
+        child: Consumer(
+          builder: (context, ref, child) => MaterialApp(
+              locale: ref.watch(localeControllerProvider),
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: const LoginPage()),
+        )));
 
     // Act
     await tester.enterText(find.bySemanticsLabel('Email'), 'test@nytest.dk');

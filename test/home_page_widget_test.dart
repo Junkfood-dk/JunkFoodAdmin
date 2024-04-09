@@ -10,7 +10,7 @@ import 'package:mockito/mockito.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'dish_of_the_day_controller_test.mocks.dart';
+import 'home_page_widget_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<DishRepository>()])
 void main() {
