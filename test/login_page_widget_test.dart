@@ -105,16 +105,11 @@ void main() {
   testWidgets('Sign In succeeds with valid credentials',
       (WidgetTester tester) async {
     final mockUserRepository = MockUserRepository();
-    // ignore: void_checks
-    when(mockUserRepository.signUserIn("test@test.dk", "SecurePassword1234"))
-        // ignore: void_checks
-        .thenAnswer((realInvocation) => Future.value(AuthResponse(
-              session: Session(
+    AuthException exp =
+        const AuthException("Sign in successful!", statusCode: "200");
+    AuthResponse authR = AuthResponse(session: Session(
                 accessToken: 'mocked_access_token',
                 refreshToken: 'mocked_refresh_token',
-                expiresIn: int.parse(DateTime.now()
-                    .add(const Duration(days: 7))
-                    .toString()), // Expiry time, e.g., 7 days from now
                 tokenType: 'bearer',
                 user: User(
                   id: 'mocked_user_id',
@@ -125,8 +120,11 @@ void main() {
                   userMetadata: {},
                   aud: '',
                 ),
-              ),
-            )));
+              ),);
+    // ignore: void_checks
+    when(mockUserRepository.signUserIn("test@test.dk", "SecurePassword1234"))
+        // ignore: void_checks
+        .thenAnswer((realInvocation) => Future.value(authR));
     await tester.pumpWidget(ProviderScope(
         overrides: [
           userRepositoryProvider.overrideWithValue(mockUserRepository),
@@ -145,8 +143,8 @@ void main() {
         )));
 
     // Act
-    await tester.enterText(find.bySemanticsLabel('Email'), 'test@nytest.dk');
-    await tester.enterText(find.bySemanticsLabel('Password'), '1234');
+    await tester.enterText(find.bySemanticsLabel('Email'), 'test@test.dk');
+    await tester.enterText(find.bySemanticsLabel('Password'), 'SecurePassword1234');
     await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
     await tester.pumpAndSettle();
 
