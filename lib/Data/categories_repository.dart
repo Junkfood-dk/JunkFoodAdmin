@@ -14,30 +14,30 @@ class CategoriesRepository implements ICategoriesRepository {
   @override
   Future<List<CategoryModel>> fetchCategories() async {
     try {
-      final response = await database.from("Allergens").select();
+      final response = await database.from("Categories").select();
 
-      final List<CategoryModel> allergens = List<CategoryModel>.from(
-          response.map((allergenData) => CategoryModel.fromJson(allergenData)));
+      final List<CategoryModel> category = List<CategoryModel>.from(
+          response.map((categoryData) => CategoryModel.fromJson(categoryData)));
 
-      return allergens;
+      return category;
     } catch (error) {
-      debugPrint("Error fetching allergens: $error");
+      debugPrint("Error fetching categories: $error");
       return [];
     }
   }
 
   @override
   Future<CategoryModel> postNewCategory(String categoryName) async {
-    final allergen = CategoryModel(name: categoryName);
+    final category = CategoryModel(name: categoryName);
     try {
       return await database
-          .from("Allergens")
-          .insert(allergen.toJson())
+          .from("Categories")
+          .insert(category.toJson())
           .select()
           .then((rows) => CategoryModel.fromJson(rows[0]));
     } catch (error) {
-      debugPrint("Error saving new allergen: $error");
-      throw Exception("Failed to save new allergen: $error");
+      debugPrint("Error saving new category: $error");
+      throw Exception("Failed to save new category: $error");
     }
   }
 }

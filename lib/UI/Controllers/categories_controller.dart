@@ -20,7 +20,7 @@ class CategoriesController extends _$CategoriesController {
     return newMap;
   }
 
-  void postNewAllergen(String categoryName) async {
+  void postNewCategory(String categoryName) async {
     var repository = ref.read(categoriesRepositoryProvider);
     var newCategory = await repository.postNewCategory(categoryName);
     var oldState =

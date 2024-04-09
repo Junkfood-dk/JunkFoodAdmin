@@ -1,7 +1,7 @@
 import 'package:chefapp/Data/database_provider.dart';
 import 'package:chefapp/Data/interface_dish_repository.dart';
-import 'package:chefapp/Domain/Model/allergen_model.dart';
-import 'package:chefapp/Domain/Model/dish_model.dart';
+import 'package:chefapp/Domain/model/allergen_model.dart';
+import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
