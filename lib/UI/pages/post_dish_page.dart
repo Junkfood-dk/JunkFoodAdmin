@@ -1,6 +1,7 @@
 import 'package:chefapp/UI/Controllers/allergenes_controller.dart';
 import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
+import 'package:chefapp/UI/Widgets/dish_type_dropdown_widget.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -106,6 +107,7 @@ class PostDishPage extends HookConsumerWidget {
                     ),
                   ],
                 ),
+                const DishTypeDropdownWidget(),
                 TextButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
