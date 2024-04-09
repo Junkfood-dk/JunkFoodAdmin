@@ -3,5 +3,6 @@
         "chefapp",
         "Supabase"
     ],
-    "FSharp.suggestGitignore": false
+    "FSharp.suggestGitignore": false,
+    "cmake.sourceDirectory": "C:/Users/Jonkr/Desktop/Skole/4/ISE/Project/admin/JunkFoodAdmin/linux"
 }

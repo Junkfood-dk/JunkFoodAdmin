@@ -1,6 +1,6 @@
-## Approach to state management for Dish posting
+## Approach to state management
 
-This ADR serves the role as to clarify the decisions made, in regards to state management for the part of the Admin app that handles dish posting.
+The following ADR serves as a clarification as to the decision we have made in regards to state management in our application.
 
 ### Why use Riverpod?
 Initially, we started out using the Provider package for state management. However, upon revising our code base, and after refactoring much of our code, we instead decided to use Riverpod going forward. There are several reasons for this:
