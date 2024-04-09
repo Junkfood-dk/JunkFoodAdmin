@@ -61,7 +61,7 @@ void main() {
     expect(signInButtonFinder, findsOneWidget);
   });
 
-  testWidgets('Sign In fails with invalid credentials',
+   testWidgets('Sign In fails with invalid credentials',
       (WidgetTester tester) async {
     final mockUserRepository = MockUserRepository();
     AuthException exp = const AuthException("Invalid login credentials", statusCode: "400");
@@ -147,14 +147,12 @@ void main() {
     await tester.enterText(find.bySemanticsLabel('Password'), 'SecurePassword1234');
     await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
     await tester.pumpAndSettle();
-
     final snackBarFinder = find.byType(SnackBar);
     final textFinder = find.text('Sign in successful!');
     final textOnSnackBarFinder = find.descendant(
       of: snackBarFinder,
       matching: textFinder,
     );
-
     //Assert
     expect(textOnSnackBarFinder, findsWidgets);
   });
