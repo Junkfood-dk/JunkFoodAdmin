@@ -43,10 +43,7 @@ class MyApp extends ConsumerWidget {
         supportedLocales: AppLocalizations.supportedLocales,
         locale: locale,
         debugShowCheckedModeBanner: false,
-        initialRoute: '/',
-        routes: <String, WidgetBuilder>{
-          '/': (_) => SplashPage(database: _supabase),
-          '/login': (_) => LoginPage(database: _supabase),
-        });
+        home: const SplashPage(),
+    );
   }
 }
