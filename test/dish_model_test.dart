@@ -30,7 +30,8 @@ void main() {
       'title': 'Test',
       'description': 'Test',
       'calories': 0,
-      'image': 'Test'
+      'image': 'Test',
+      'Dish_type': {'id': -1, 'dish_type': 'Test'}
     };
 
     // Act
@@ -50,7 +51,8 @@ void main() {
     Map<String, dynamic> json = {
       'description': 'Test',
       'calories': 0,
-      'image': 'Test'
+      'image': 'Test',
+      'Dish_type': {'id': -1, 'dish_type': 'Test'}
     };
 
     // Assert
@@ -64,7 +66,8 @@ void main() {
     Map<String, dynamic> json = {
       'title': 'Test',
       'calories': 0,
-      'image': 'Test'
+      'image': 'Test',
+      'Dish_type': {'id': -1, 'dish_type': 'Test'}
     };
 
     // Act
@@ -82,7 +85,8 @@ void main() {
     Map<String, dynamic> json = {
       'title': 'Test',
       'description': 'Test',
-      'image': 'Test'
+      'image': 'Test',
+      'Dish_type': {'id': -1, 'dish_type': 'Test'}
     };
 
     // Act
@@ -103,6 +107,7 @@ void main() {
       'title': 'Test',
       'description': 'Test',
       'calories': 0,
+      'Dish_type': {'id': -1, 'dish_type': 'Test'}
     };
 
     // Act

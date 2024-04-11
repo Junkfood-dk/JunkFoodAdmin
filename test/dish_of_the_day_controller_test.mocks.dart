@@ -74,13 +74,8 @@ class MockDishRepository extends _i1.Mock implements _i3.DishRepository {
       ) as _i4.Future<List<_i5.DishModel>>);
 
   @override
-  _i4.Future<int> postDishOfTheDay(
-    String? title,
-    String? description,
-    int? calories,
-    String? imageUrl,
-    DishTypeModel? dishType
-  ) =>
+  _i4.Future<int> postDishOfTheDay(String? title, String? description,
+          int? calories, String? imageUrl, DishTypeModel? dishType) =>
       (super.noSuchMethod(
         Invocation.method(
           #postDishOfTheDay,

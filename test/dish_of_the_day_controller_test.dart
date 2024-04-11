@@ -49,7 +49,9 @@ void main() {
     // Arrange
     final mockDishRepository = MockDishRepository();
     when(mockDishRepository.fetchDishOfTheDay()).thenAnswer((realInvocation) =>
-        Future.value(<DishModel>[DishModel(title: "Test1", dishType: DishTypeModel(id: -1, type: ""))]));
+        Future.value(<DishModel>[
+          DishModel(title: "Test1", dishType: DishTypeModel(id: -1, type: ""))
+        ]));
     mockDishRepository.fetchDishOfTheDay();
     final container = createContainer(overrides: [
       dishRepositoryProvider.overrideWithValue(mockDishRepository)
