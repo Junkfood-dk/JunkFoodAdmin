@@ -1,16 +1,17 @@
-import 'package:chefapp/components/language_dropdown_component.dart';
-import 'package:chefapp/model/locale.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:chefapp/Domain/model/language_model.dart';
+import 'package:chefapp/UI/Controllers/locale_controller.dart';
+import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
+
 import 'package:flutter_test/flutter_test.dart';
-import 'package:chefapp/model/language.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   test('English is present in language list', () {
     // Arrange
-    final List<Language> languages = Language.languageList();
+    final List<LanguageModel> languages = LanguageModel.languageList();
 
     // Act
     final bool englishExists =
@@ -22,7 +23,7 @@ void main() {
 
   test('Spanish is not present in language list', () {
     // Arrange
-    final List<Language> languages = Language.languageList();
+    final List<LanguageModel> languages = LanguageModel.languageList();
 
     // Act
     final bool englishExists =
@@ -34,10 +35,10 @@ void main() {
 
   test('Language object for English (id: 1) exists', () {
     // Arrange
-    final List<Language> languages = Language.languageList();
+    final List<LanguageModel> languages = LanguageModel.languageList();
 
     // Act
-    final Language englishLanguage =
+    final LanguageModel englishLanguage =
         languages.firstWhere((language) => language.id == 1);
 
     // Assert
@@ -46,10 +47,10 @@ void main() {
 
   test('Language object for Danish (id: 2) exists', () {
     // Arrange
-    final List<Language> languages = Language.languageList();
+    final List<LanguageModel> languages = LanguageModel.languageList();
 
     // Act
-    final Language danishLanguage =
+    final LanguageModel danishLanguage =
         languages.firstWhere((language) => language.id == 2);
 
     // Assert
@@ -58,7 +59,7 @@ void main() {
 
   test('Language object with id 3000 does not exist', () {
     // Arrange
-    final List<Language> languages = Language.languageList();
+    final List<LanguageModel> languages = LanguageModel.languageList();
 
     // Act
     final bool id3Exists = languages.any((language) => language.id == 3000);
@@ -68,48 +69,36 @@ void main() {
   });
 
   testWidgets('Language_dropdown_component contains danish and english options',
-    (WidgetTester tester) async {
+      (WidgetTester tester) async {
+    //Arrange
+    await tester.pumpWidget(ProviderScope(
+      child: MaterialApp(home: LanguageDropdownWidget()),
+    ));
 
-      //Arrange
-      await tester.pumpWidget(ChangeNotifierProvider(
-        create: (context) => LocaleModel(),
-        child: Consumer<LocaleModel>(
-          builder: (context, localeModel, child) => MaterialApp(
-            title: 'Chef App',
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-            ],
-            supportedLocales: AppLocalizations.supportedLocales,
-            locale: localeModel.locale,
-            debugShowCheckedModeBanner: false,
-            home: LanguageDropdown(),
-          ),
-        )));
+    //Act
 
-      //Act
+    // Open the language dropdown.
+    await tester.tap(find.byType(LanguageDropdownWidget));
+    await tester.pumpAndSettle();
 
-      // Open the language dropdown.
-      await tester.tap(find.byType(LanguageDropdown));
-      await tester.pumpAndSettle();
+    final englishItemFinder = find.text('English');
+    final danishItemFinder = find.text('Dansk');
 
-      final englishItemFinder = find.text('English');
-      final danishItemFinder = find.text('Dansk');
-
-      //Assert
-      expect(englishItemFinder, findsOneWidget);
-      expect(danishItemFinder, findsOneWidget);
-
+    //Assert
+    expect(englishItemFinder, findsOneWidget);
+    expect(danishItemFinder, findsOneWidget);
   });
 
 //Test if locale changes when language is selected in dropdown-menu
-   testWidgets('Language_dropdown_component changes locale when option is pressed',
+  testWidgets(
+      'Language_dropdown_component changes locale when option is pressed',
       (WidgetTester tester) async {
     //Arrange
-    await tester.pumpWidget(ChangeNotifierProvider(
-        create: (context) => LocaleModel(),
-        child: Consumer<LocaleModel>(
-          builder: (context, localeModel, child) => MaterialApp(
-            title: 'Chef App',
+    await tester.pumpWidget(
+      ProviderScope(
+          child: Consumer(
+        builder: (context, ref, child) => MaterialApp(
+            locale: ref.watch(localeControllerProvider),
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -117,36 +106,37 @@ void main() {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: AppLocalizations.supportedLocales,
-            locale: localeModel.locale,
-            debugShowCheckedModeBanner: false,
-            home: LanguageDropdown(),
-          ),
-        )));
+            home: const LanguageDropdownWidget()),
+      )),
+    );
 
     //Act
-    Locale? initialLocale = Localizations.localeOf(tester.element(find.byType(LanguageDropdown)));
+    Locale? initialLocale = Localizations.localeOf(
+        tester.element(find.byType(LanguageDropdownWidget)));
 
-    await tester.tap(find.byType(LanguageDropdown)); // Open the language dropdown.
+    await tester.tap(
+        find.byType(LanguageDropdownWidget)); // Open the language dropdown.
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Dansk'));
     await tester.pumpAndSettle();
 
-    Locale? localeAfterDanishIsPressed = Localizations.localeOf(tester.element(find.byType(LanguageDropdown)));
+    Locale? localeAfterDanishIsPressed = Localizations.localeOf(
+        tester.element(find.byType(LanguageDropdownWidget)));
 
-    await tester.tap(find.byType(LanguageDropdown)); // Open the language dropdown.
+    await tester.tap(
+        find.byType(LanguageDropdownWidget)); // Open the language dropdown.
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('English'));
     await tester.pumpAndSettle();
 
-    Locale? localeAfterEnglishIsPressed = Localizations.localeOf(tester.element(find.byType(LanguageDropdown)));
+    Locale? localeAfterEnglishIsPressed = Localizations.localeOf(
+        tester.element(find.byType(LanguageDropdownWidget)));
 
     //Assert
-    expect(initialLocale, equals(Locale('en')));
-    expect(localeAfterDanishIsPressed, equals(Locale('da')));
-    expect(localeAfterEnglishIsPressed, equals(Locale('en')));
+    expect(initialLocale.languageCode, equals('en'));
+    expect(localeAfterDanishIsPressed.languageCode, equals('da'));
+    expect(localeAfterEnglishIsPressed.languageCode, equals('en'));
   });
-
-
 }

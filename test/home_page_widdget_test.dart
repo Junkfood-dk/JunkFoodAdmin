@@ -1,25 +1,40 @@
-import 'package:chefapp/model/dish_of_the_day_model.dart';
-import 'package:chefapp/model/locale.dart';
-import 'package:chefapp/pages/home_page.dart';
+import 'package:chefapp/Data/dish_repository.dart';
+import 'package:chefapp/Domain/model/dish_model.dart';
+import 'package:chefapp/UI/Controllers/locale_controller.dart';
+import 'package:chefapp/UI/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
-import 'fakeSupaBase.dart';
+import 'home_page_widget_test.mocks.dart';
 
+@GenerateNiceMocks([MockSpec<DishRepository>()])
 void main() {
   testWidgets('HomePage shows the AppBar with the expected title',
       (WidgetTester tester) async {
-    await tester.pumpWidget(MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => LocaleModel()),
-          ChangeNotifierProvider<DishOfTheDayModel>(
-              create: (context) => DishOfTheDayModel(database: FakeSupabase()))
+    final mockDishRepository = MockDishRepository();
+    when(mockDishRepository.fetchDishOfTheDay())
+        .thenAnswer((realInvocation) => Future.value(<DishModel>[]));
+    await tester.pumpWidget(ProviderScope(
+        overrides: [
+          dishRepositoryProvider.overrideWithValue(mockDishRepository),
         ],
-        child: const MaterialApp(
-            localizationsDelegates: [AppLocalizations.delegate],
-            home: HomePage())));
+        child: Consumer(
+          builder: (context, ref, child) => MaterialApp(
+              locale: ref.watch(localeControllerProvider),
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: const HomePage()),
+        )));
 
     final appBarFinder = find.byType(AppBar);
     final titleFinder = find.text('Homepage');
