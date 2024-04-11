@@ -1,50 +1,74 @@
-import 'package:chefapp/model/allergen_service.dart';
-import 'package:chefapp/model/category_service.dart';
-import 'package:chefapp/model/dish_of_the_day_model.dart';
-import 'package:chefapp/model/locale.dart';
-import 'package:chefapp/pages/post_dish_page.dart';
+import 'package:chefapp/Data/allergenes_repository.dart';
+import 'package:chefapp/Data/categories_repository.dart';
+import 'package:chefapp/UI/pages/post_dish_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mockito/annotations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'fakeSupaBase.dart';
+import 'muteable_checkbow_widget_test.mocks.dart';
 
+@GenerateNiceMocks([MockSpec<CategoriesRepository>()])
+@GenerateNiceMocks([MockSpec<AllergenesRepository>()])
 void main() {
-  testWidgets('PostDishPage should contain text with "category"', (WidgetTester tester) async {
-    final fakeSupabaseClient = FakeSupabase();
-
-    final categoryService = CategoryService(database: fakeSupabaseClient);
-    final allergenService = AllergeneService(database: fakeSupabaseClient);
-    final dishOfTheDayModel = DishOfTheDayModel(database: fakeSupabaseClient);
-    final localeModel = LocaleModel();
-
-    await tester.pumpWidget(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => allergenService),
-        ChangeNotifierProvider<CategoryService>(create: (_) => categoryService),
-        ChangeNotifierProvider<DishOfTheDayModel>(create: (_) => dishOfTheDayModel),
-        ChangeNotifierProvider<LocaleModel>(create: (_) => localeModel),
-      ],
-      child: const MaterialApp(
-        home: PostDishPage(),
-        localizationsDelegates: [
-          AppLocalizations.delegate, 
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
+  testWidgets('PostDishPage should contain text with "category" and "allergen"',
+      (WidgetTester tester) async {
+    final mockCategoryRepositoryProvider = MockCategoriesRepository();
+    await tester.pumpWidget(ProviderScope(
+        overrides: [
+          categoriesRepositoryProvider
+              .overrideWithValue(mockCategoryRepositoryProvider),
         ],
-        supportedLocales: [
-          Locale('en', ''),
-          Locale('da', '')],  
-      ),
-    ));
+        child: Consumer(
+          builder: (context, ref, child) => const MaterialApp(
+              locale: Locale('en'),
+              localizationsDelegates: [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: PostDishPage()),
+        )));
 
-    await tester.pumpAndSettle();
+    await tester.pump();
 
-    final categoryTextFinder = find.textContaining(RegExp('category', caseSensitive: false));
+    final categoryTextFinder =
+        find.textContaining(RegExp('category', caseSensitive: false));
 
     expect(categoryTextFinder, findsWidgets);
+  });
+
+  testWidgets('PostDishPage should contain text with "category" and "allergen"',
+      (WidgetTester tester) async {
+    final mockAllergenesRepositoryProvider = MockAllergenesRepository();
+    await tester.pumpWidget(ProviderScope(
+        overrides: [
+          allergenesRepositoryProvider
+              .overrideWithValue(mockAllergenesRepositoryProvider),
+        ],
+        child: Consumer(
+          builder: (context, ref, child) => const MaterialApp(
+              locale: Locale('en'),
+              localizationsDelegates: [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: PostDishPage()),
+        )));
+
+    await tester.pump();
+
+    final allergenTextFinder =
+        find.textContaining(RegExp('allergen', caseSensitive: false));
+
+    expect(allergenTextFinder, findsWidgets);
   });
 }
