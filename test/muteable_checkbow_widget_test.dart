@@ -1,7 +1,6 @@
 import 'package:chefapp/Data/allergenes_repository.dart';
 import 'package:chefapp/Data/categories_repository.dart';
 import 'package:chefapp/UI/pages/post_dish_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';

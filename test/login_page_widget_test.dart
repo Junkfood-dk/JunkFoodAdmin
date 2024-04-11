@@ -105,8 +105,6 @@ void main() {
   testWidgets('Sign In succeeds with valid credentials',
       (WidgetTester tester) async {
     final mockUserRepository = MockUserRepository();
-    AuthException exp =
-        const AuthException("Sign in successful!", statusCode: "200");
     AuthResponse authR = AuthResponse(session: Session(
                 accessToken: 'mocked_access_token',
                 refreshToken: 'mocked_refresh_token',
