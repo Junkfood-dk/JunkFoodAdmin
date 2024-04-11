@@ -41,6 +41,10 @@ dependencies:
   intl: any
   supabase_auth_ui: ^0.4.3
   flutter_dotenv: ^5.1.0
+  hooks_riverpod: ^2.5.1
+  flutter_hooks: ^0.20.5
+  riverpod_annotation: ^2.3.5
+  mockito: ^5.4.4
   camera: ^0.10.5+9
   path: ^1.9.0
   image: ^4.1.7
@@ -50,7 +54,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  mockito: ^5.0.15
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -58,6 +61,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  riverpod_generator: ^2.4.0
+  build_runner: ^2.4.9
+  custom_lint: ^0.6.4
+  riverpod_lint: ^2.3.10
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

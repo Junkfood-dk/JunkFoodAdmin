@@ -6,7 +6,7 @@ We have chosen an initial database model based on our interviews with the chef a
 A table consisting of the title, image, and description of the dish.
 
 ### DishType
-We have chosen to create a table called Dish Type to differentiate between main, alternative, and desserts, making it easier to present the dishes in the correct order. Therefore, each dish is associated with a dish type.
+We have chosen to create a table called DishType to differentiate between main course, alternative, and desserts, making it easier to present the dishes in the correct order. Therefore, each dish is associated with a dish type.
 
 ### Category
 Junkfood wishes to collect data on their dishes and user preferences. We add this table to collect data for future use. This way, a dish does not need to be rated directly, but its category can be. This is because it may not be the same instance of the dish that is used multiple times, which could corrupt the data.
