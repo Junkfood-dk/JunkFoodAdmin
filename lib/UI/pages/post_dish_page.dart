@@ -67,6 +67,7 @@ class PostDishPage extends HookConsumerWidget {
             child: Column(
               children: [
                 TextFormField(
+                  key: const Key("titleField"),
                   decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context)!.textFormLabelForName),
@@ -92,6 +93,7 @@ class PostDishPage extends HookConsumerWidget {
                   },
                 ),
                 TextFormField(
+                  key: const Key("descriptionField"),
                   decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!
                           .textFormLabelForDescription),
