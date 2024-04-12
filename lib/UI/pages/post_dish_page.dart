@@ -26,6 +26,27 @@ class PostDishPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var newAllergenTextController = useTextEditingController();
+    newAllergenTextController.addListener(() {
+      final text = newAllergenTextController.text;
+      String capitalizedValue = text.replaceAllMapped(
+        RegExp(r'\b\p{L}+', unicode: true),
+        (match) {
+          String matchedWord = match.group(0)!;
+          if (matchedWord.isNotEmpty) {
+            return matchedWord[0].toUpperCase() + matchedWord.substring(1).toLowerCase();
+          }
+          return matchedWord;
+        }
+      );
+      int cursorPosition = newAllergenTextController.selection.baseOffset;
+      newAllergenTextController.value = TextEditingValue(
+        text: capitalizedValue,
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: min(cursorPosition, capitalizedValue.length))
+        )
+      );
+    });
+
     var newCategoryTextController = useTextEditingController();
     var nameTextController = useTextEditingController();
     var descriptionTextController = useTextEditingController();
