@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:chefapp/Domain/model/allergen_model.dart';
 import 'package:chefapp/Domain/model/category_model.dart';
 import 'package:chefapp/UI/Controllers/allergenes_controller.dart';
@@ -48,12 +50,45 @@ class PostDishPage extends HookConsumerWidget {
                       labelText:
                           AppLocalizations.of(context)!.textFormLabelForName),
                   controller: nameTextController,
+                  onChanged: (value) {
+                    String capitalizedValue = value.replaceAllMapped(
+                      RegExp(r'\b\p{L}+', unicode: true),
+                      (match) {
+                        String matchedWord = match.group(0)!;
+                        if (matchedWord.isNotEmpty) {
+                          return matchedWord[0].toUpperCase() + matchedWord.substring(1).toLowerCase();
+                        }
+                        return matchedWord;
+                      }
+                    );
+                    int cursorPosition = nameTextController.selection.baseOffset;
+                    nameTextController.value = TextEditingValue(
+                      text: capitalizedValue,
+                      selection: TextSelection.fromPosition(
+                        TextPosition(offset: min(cursorPosition, capitalizedValue.length))
+                      )
+                    );
+                  },
                 ),
                 TextFormField(
                   decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!
                           .textFormLabelForDescription),
                   controller: descriptionTextController,
+                  keyboardType: TextInputType.multiline,
+                  onChanged: (value) {
+                    String capitalizedValue = value.replaceAllMapped(
+                      RegExp(r'(?<=(?:^|[.!?]\s))\w'),
+                      (match) => match.group(0)!.toUpperCase()
+                    );
+                    int cursorPosition = descriptionTextController.selection.baseOffset;
+                    descriptionTextController.value = TextEditingValue(
+                      text: capitalizedValue,
+                      selection: TextSelection.fromPosition(
+                        TextPosition(offset: min(cursorPosition, capitalizedValue.length))
+                      )
+                    );
+                  },
                 ),
                 TextFormField(
                   decoration: InputDecoration(
