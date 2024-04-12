@@ -29,7 +29,7 @@ class PostDishPage extends HookConsumerWidget {
     newAllergenTextController.addListener(() {
       final text = newAllergenTextController.text;
       String capitalizedValue = text.replaceAllMapped(
-        RegExp(r'\b\p{L}+', unicode: true),
+        RegExp(r'(?<=^|\P{L})\p{L}', unicode: true),
         (match) {
           String matchedWord = match.group(0)!;
           if (matchedWord.isNotEmpty) {
@@ -74,7 +74,7 @@ class PostDishPage extends HookConsumerWidget {
                   controller: nameTextController,
                   onChanged: (value) {
                     String capitalizedValue = value.replaceAllMapped(
-                      RegExp(r'\b\p{L}+', unicode: true),
+                      RegExp(r'(?<=^|\P{L})\p{L}', unicode: true),
                       (match) {
                         String matchedWord = match.group(0)!;
                         if (matchedWord.isNotEmpty) {
@@ -101,7 +101,7 @@ class PostDishPage extends HookConsumerWidget {
                   keyboardType: TextInputType.multiline,
                   onChanged: (value) {
                     String capitalizedValue = value.replaceAllMapped(
-                      RegExp(r'(?<=(?:^|[.!?]\s))\w'),
+                      RegExp(r'(?<=(?:^|[.!?]\s))\p{L}', unicode: true),
                       (match) => match.group(0)!.toUpperCase()
                     );
                     int cursorPosition = descriptionTextController.selection.baseOffset;
