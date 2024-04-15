@@ -1,4 +1,5 @@
 import 'package:chefapp/Domain/model/dish_model.dart';
+import 'package:chefapp/Domain/model/dish_type_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -7,14 +8,18 @@ void main() {
       () {
     // Arrange
     var testDish = DishModel(
-        title: "Test", description: "Test", calories: 0, imageUrl: "Test");
+        title: "Test",
+        description: "Test",
+        calories: 0,
+        imageUrl: "Test",
+        dishType: DishTypeModel(id: -1, type: "Empty"));
     var json = testDish.toJson();
 
     // Act
     var length = json.length;
 
     // Assert
-    expect(length, 4);
+    expect(length, 5);
   });
 
   test(
@@ -25,7 +30,8 @@ void main() {
       'title': 'Test',
       'description': 'Test',
       'calories': 0,
-      'image': 'Test'
+      'image': 'Test',
+      'Dish_type': {'id': -1, 'dish_type': 'Test'}
     };
 
     // Act
@@ -45,7 +51,8 @@ void main() {
     Map<String, dynamic> json = {
       'description': 'Test',
       'calories': 0,
-      'image': 'Test'
+      'image': 'Test',
+      'Dish_type': {'id': -1, 'dish_type': 'Test'}
     };
 
     // Assert
@@ -59,7 +66,8 @@ void main() {
     Map<String, dynamic> json = {
       'title': 'Test',
       'calories': 0,
-      'image': 'Test'
+      'image': 'Test',
+      'Dish_type': {'id': -1, 'dish_type': 'Test'}
     };
 
     // Act
@@ -77,7 +85,8 @@ void main() {
     Map<String, dynamic> json = {
       'title': 'Test',
       'description': 'Test',
-      'image': 'Test'
+      'image': 'Test',
+      'Dish_type': {'id': -1, 'dish_type': 'Test'}
     };
 
     // Act
@@ -98,6 +107,7 @@ void main() {
       'title': 'Test',
       'description': 'Test',
       'calories': 0,
+      'Dish_type': {'id': -1, 'dish_type': 'Test'}
     };
 
     // Act

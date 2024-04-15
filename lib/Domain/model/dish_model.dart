@@ -1,10 +1,15 @@
+import 'package:chefapp/Domain/model/dish_type_model.dart';
+
 class DishModel {
   String title;
   String description;
   int calories;
+  DishTypeModel dishType;
   String imageUrl;
+
   DishModel(
       {required this.title,
+      required this.dishType,
       this.description = "",
       this.calories = 0,
       this.imageUrl = ""});
@@ -14,7 +19,8 @@ class DishModel {
       'title': title,
       'description': description,
       'calories': calories,
-      'image': imageUrl
+      'image': imageUrl,
+      'dish_type': dishType.id,
     };
   }
 
@@ -26,6 +32,9 @@ class DishModel {
         description:
             input.containsKey("description") ? input["description"] : "",
         calories: input.containsKey("calories") ? input["calories"] : 0,
-        imageUrl: input.containsKey("image") ? input["image"] : "");
+        imageUrl: input.containsKey("image") ? input["image"] : "",
+        dishType: input.containsKey("Dish_type")
+            ? DishTypeModel.fromJson(input["Dish_type"])
+            : throw Exception("No dish type"));
   }
 }
