@@ -21,21 +21,23 @@ class HomePage extends ConsumerWidget {
         ),
         body: Center(
             child: switch (dishOfTheDay) {
-          AsyncData(:final value) => Column(
-              children: [
-                FlutterCarousel(
-                  items: value
-                      .map((dish) =>
-                          Center(child: DishDisplayWidget(dish: dish)))
-                      .toList(),
-                  options: CarouselOptions(),
-                ),
-                TextButton(
-                    onPressed: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const PostDishPage())),
-                    child: Text(AppLocalizations.of(context)!.postDishButton))
-              ],
+          AsyncData(:final value) => SingleChildScrollView(
+              child: Column(
+                children: [
+                  FlutterCarousel(
+                    items: value
+                        .map((dish) =>
+                            Center(child: DishDisplayWidget(dish: dish)))
+                        .toList(),
+                    options: CarouselOptions(),
+                  ),
+                  TextButton(
+                      onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => const PostDishPage())),
+                      child: Text(AppLocalizations.of(context)!.postDishButton))
+                ],
+              ),
             ),
           AsyncError(:final error) => Text(error.toString()),
           _ => const CircularProgressIndicator()
