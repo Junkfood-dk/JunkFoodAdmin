@@ -61,4 +61,22 @@ void main() {
 
     completion(hasLength(1));
   });
+
+  test('DishOfTheDayProvider returns a list with two element', () async {
+    // Arrange
+    final mockDishRepository = MockDishRepository();
+    when(mockDishRepository.fetchDishOfTheDay()).thenAnswer((realInvocation) =>
+        Future.value(<DishModel>[
+          DishModel(title: "Test1", dishType: DishTypeModel(id: -1, type: "")),
+          DishModel(title: "Test2", dishType: DishTypeModel(id: -1, type: ""))
+        ]));
+    mockDishRepository.fetchDishOfTheDay();
+    final container = createContainer(overrides: [
+      dishRepositoryProvider.overrideWithValue(mockDishRepository)
+    ]);
+
+    container.read(dishOfTheDayControllerProvider.future);
+
+    completion(hasLength(2));
+  });
 }
