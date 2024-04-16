@@ -14,7 +14,7 @@ Then run following command in you terminal:
 ```shell
 supabase login
 ```
-This will open a window in your browser, and create a token. You have to do nothing but.
+This will open a window in your browser, and create a token. You have to do nothing further.
 
 Finally run:
 ```shell
