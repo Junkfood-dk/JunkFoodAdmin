@@ -10,7 +10,7 @@ brew install supabase/tap/supabase
 
 Ensure that you have docker running.
 
-Then run following command in you terminal:
+Then run following command in your terminal:
 ```shell
 supabase login
 ```
