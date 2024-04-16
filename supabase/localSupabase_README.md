@@ -37,7 +37,7 @@ Navigate to Authentication -> Add user.
 This ensures that you are able to login on the admin app.
 
 ## Migration of DB
-You can use the local studio url to browse the Supabase dashboard, and make changes in tables etc.
+You can use the local studio URL to browse the Supabase dashboard, and make changes in tables etc.
 
 After creating changes you save theese to migrations by running following command from root of project.
 
