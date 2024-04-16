@@ -1,7 +1,7 @@
 ### Develop locally
 To setup and connect to a local instance of supabase do the following.:
 
-Start by ensuring that supabase cli is installed on you computer.
+Start by ensuring that Supabase CLI is installed on your computer.
 
 This can be done on Mac by homebrew like this:
 ```shell
