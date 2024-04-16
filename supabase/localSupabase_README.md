@@ -31,7 +31,7 @@ flutter run --dart-define=SUPABASE_URL=<API URL> --dart-define=SUPABASE_ANONKEY=
 API URL and ANON KEY, is printed in your terminal when running the command from above.
 
 (ONLY NECESSARY FOR RUNNING UI PART OF APP)
-In order to create a user for our app inside supabase. Go to the url for Supabase Studio. (Also printed in terminal).
+In order to create a user for our app inside Supabase. Go to the URL for Supabase Studio. (Also printed in terminal).
 Navigate to Authentication -> Add user. 
 
 This ensures that you are able to login on the admin app.
