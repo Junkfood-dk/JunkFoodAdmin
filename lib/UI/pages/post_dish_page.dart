@@ -7,6 +7,7 @@ import 'package:chefapp/UI/Controllers/categories_controller.dart';
 import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
 import 'package:chefapp/UI/Controllers/selected_categories_controller.dart';
+import 'package:chefapp/UI/Widgets/dish_type_dropdown_widget.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
 import 'package:chefapp/UI/Widgets/mutable_checkbox_widget.dart';
 import 'package:flutter/material.dart';
@@ -159,6 +160,7 @@ class PostDishPage extends HookConsumerWidget {
                         .read(categoriesControllerProvider.notifier)
                         .postNewCategory,
                     labelStyle: labelText),
+                const DishTypeDropdownWidget(),
                 TextButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
