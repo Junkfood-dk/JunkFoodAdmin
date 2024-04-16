@@ -39,7 +39,7 @@ This ensures that you are able to login on the admin app.
 ## Migration of DB
 You can use the local studio URL to browse the Supabase dashboard, and make changes in tables etc.
 
-After creating changes you save theese to migrations by running following command from root of project.
+After creating changes you save these to migrations by running following command from the root of the project.
 
 ```shell
 supabase db diff --use-migra -f <name of migration>
