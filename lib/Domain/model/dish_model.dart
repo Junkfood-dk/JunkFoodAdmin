@@ -33,8 +33,8 @@ class DishModel {
             input.containsKey("description") ? input["description"] : "",
         calories: input.containsKey("calories") ? input["calories"] : 0,
         imageUrl: input.containsKey("image") ? input["image"] : "",
-        dishType: input.containsKey("Dish_type")
+        dishType: input.containsKey("Dish_type") && input["Dish_type"] != null
             ? DishTypeModel.fromJson(input["Dish_type"])
-            : throw Exception("No dish type"));
+            : DishTypeModel(id: -1, type: "No dish type"));
   }
 }
