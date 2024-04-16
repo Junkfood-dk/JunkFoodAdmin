@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,20 +23,25 @@ class MutableCheckboxWidget<T> extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        Column(
-            children: switch (map) {
-          AsyncData(:final value) => value.entries.map((entry) {
-              var key = entry.key;
-              return CheckboxListTile(
-                title: Text(key.name),
-                value: value[key],
-                onChanged: (bool? newValue) {
-                  onSelected(key);
-                },
-              );
-            }).toList(),
-          _ => const [CircularProgressIndicator()]
-        }),
+        SizedBox(
+          height: 150,
+          child: SingleChildScrollView(
+            child: Column(
+                children: switch (map) {
+              AsyncData(:final value) => value.entries.map((entry) {
+                  var key = entry.key;
+                  return CheckboxListTile(
+                    title: Text(key.name),
+                    value: value[key],
+                    onChanged: (bool? newValue) {
+                      onSelected(key);
+                    },
+                  );
+                }).toList(),
+              _ => const [CircularProgressIndicator()]
+            }),
+          ),
+        ),
         Column(
           children: [
             TextFormField(
