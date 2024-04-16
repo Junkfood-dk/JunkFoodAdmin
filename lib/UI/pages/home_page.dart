@@ -29,7 +29,8 @@ class HomePage extends ConsumerWidget {
                         .map((dish) =>
                             Center(child: DishDisplayWidget(dish: dish)))
                         .toList(),
-                    options: CarouselOptions(),
+                    options: CarouselOptions(
+                        height: MediaQuery.sizeOf(context).height * 0.6),
                   ),
                   TextButton(
                       onPressed: () => Navigator.of(context).push(

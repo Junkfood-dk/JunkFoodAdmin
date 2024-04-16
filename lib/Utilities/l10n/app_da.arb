@@ -62,5 +62,25 @@
   "addAllergenField": "Tiløj nyt allergen",
   "@addAllergenField": {
     "description": "Field that adds new allergen to dish"
+  },
+  "noDishType": "Ingen type ret",
+  "@noDishType": {
+    "description": "Display message for when no dishtype"
+  },
+  "noTitle": "Ingen titel",
+  "@noTitle": {
+    "description": "Display message for when no title"
+  },
+  "noDescription": "Ingen beskrivelse",
+  "@noDescription": {
+    "description": "Display message for when no description"
+  },
+  "noCalories": "Ingen kalorier",
+  "@noCalories": {
+    "description": "Display message for when no calories"
+  },
+  "calories": "Kalorier",
+  "@calories": {
+    "description": "Calories info on dish page"
   }
 }

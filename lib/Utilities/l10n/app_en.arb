@@ -62,5 +62,25 @@
   "addAllergenField": "Add new allergen",
   "@addAllergenField": {
     "description": "Field that adds new allergen to dish"
+  },
+  "noDescription": "No description",
+  "@noDescription": {
+    "description": "Display message for when no description"
+  },
+  "noCalories": "No calories",
+  "@noCalories": {
+    "description": "Display message for when no calories"
+  },
+  "noTitle": "No title",
+  "@noTitle": {
+    "description": "Display message for when no title"
+  },
+  "noDishType": "No dishtype",
+  "@noDishType": {
+    "description": "Display message for when no dishtype"
+  },
+  "calories": "Calories",
+  "@calories": {
+    "description": "Calories info on dish page"
   }
 }
