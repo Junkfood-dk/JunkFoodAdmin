@@ -363,14 +363,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_riverpod:
-    dependency: transitive
-    description:
-      name: flutter_riverpod
-      sha256: "0f1974eff5bbe774bf1d870e406fc6f29e3d6f1c46bd9c58e7172ff68a785d7d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.5.1"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -379,6 +371,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.17"
+  flutter_riverpod:
+    dependency: transitive
+    description:
+      name: flutter_riverpod
+      sha256: "0f1974eff5bbe774bf1d870e406fc6f29e3d6f1c46bd9c58e7172ff68a785d7d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -765,14 +765,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  pool:
-    dependency: transitive
-    description:
-      name: pool
-      sha256: "20fe868b6314b322ea036ba325e6fc0711a22948856475e2c2b6306e8ab39c2a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.5.1"
   pointycastle:
     dependency: transitive
     description:
@@ -781,6 +773,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.4"
+  pool:
+    dependency: transitive
+    description:
+      name: pool
+      sha256: "20fe868b6314b322ea036ba325e6fc0711a22948856475e2c2b6306e8ab39c2a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.1"
   postgrest:
     dependency: transitive
     description:

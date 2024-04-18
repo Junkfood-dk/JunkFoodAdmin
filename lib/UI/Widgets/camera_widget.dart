@@ -1,22 +1,77 @@
+import 'package:chefapp/UI/Controllers/camera_state_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:chefapp/pages/post_dish_page.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /*
 The following tutorial has been utilised in order to create the CameraPage:
 https://docs.flutter.dev/cookbook/plugins/picture-using-camera 
 */
 
-class CameraComponent extends StatefulWidget {
+class CameraComponent extends ConsumerWidget {
+  final CameraDescription camera;
   const CameraComponent({
     super.key,
     required this.camera,
   });
 
-  final CameraDescription camera;
-
   @override
-  CameraComponentState createState() => CameraComponentState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Take a picture')),
+      // You must wait until the controller is initialized before displaying the
+      // camera preview. Use a FutureBuilder to display a loading spinner until the
+      // controller has finished initializing.
+      body: FutureBuilder<void>(
+        future: ref.watch(CameraStateControllerProvider(camera) as ProviderListenable<Future<void>?>),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            // If the Future is complete, display the preview.
+            return CameraPreview(
+                ref.read(CameraStateControllerProvider(camera) as ProviderListenable<CameraController>));
+          } else {
+            // Otherwise, display a loading indicator.
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        // Provide an onPressed callback.
+        onPressed: () async {
+          // Take the Picture in a try / catch block. If anything goes wrong,
+          // catch the error.
+          try {
+            // Ensure that the camera is initialized.
+            await ref.read(CameraStateControllerProvider(camera));
+
+            // Attempt to take a picture and get the file `image`
+            // where it was saved.
+            final image = await ref.watch(CameraStateControllerProvider(camera)).takePicture();
+
+            if (!context.mounted) return;
+
+            // If the picture was taken, display it on a new screen.
+            final bool satisfiedImage = await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => DisplayPictureScreen(
+                  // Pass the automatically generated path to
+                  // the DisplayPictureScreen widget.
+                  imagePath: image.path,
+                ),
+              ),
+            );
+            if (satisfiedImage) {
+              Navigator.of(context).pop(XFile(image.path));
+            }
+          } catch (e) {
+            // If an error occurs, log the error to the console.
+            print(e);
+          }
+        },
+        child: const Icon(Icons.camera_alt),
+      ),
+    );
+  }
 }
 
 class CameraComponentState extends State<CameraComponent> {
