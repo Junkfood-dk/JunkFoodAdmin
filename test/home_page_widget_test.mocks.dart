@@ -6,8 +6,8 @@
 import 'dart:async' as _i4;
 
 import 'package:chefapp/Data/dish_repository.dart' as _i3;
-import 'package:chefapp/Domain/model/allergen_model.dart' as _i6;
-import 'package:chefapp/Domain/model/dish_model.dart' as _i5;
+import 'package:chefapp/Domain/model/dish_model.dart';
+import 'package:chefapp/Domain/model/dish_type_model.dart';
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:supabase_auth_ui/supabase_auth_ui.dart' as _i2;
 
@@ -62,15 +62,15 @@ class MockDishRepository extends _i1.Mock implements _i3.DishRepository {
       );
 
   @override
-  _i4.Future<List<_i5.DishModel>> fetchDishOfTheDay() => (super.noSuchMethod(
+  _i4.Future<List<DishModel>> fetchDishOfTheDay() => (super.noSuchMethod(
         Invocation.method(
           #fetchDishOfTheDay,
           [],
         ),
-        returnValue: _i4.Future<List<_i5.DishModel>>.value(<_i5.DishModel>[]),
+        returnValue: _i4.Future<List<DishModel>>.value(<DishModel>[]),
         returnValueForMissingStub:
-            _i4.Future<List<_i5.DishModel>>.value(<_i5.DishModel>[]),
-      ) as _i4.Future<List<_i5.DishModel>>);
+            _i4.Future<List<DishModel>>.value(<DishModel>[]),
+      ) as _i4.Future<List<DishModel>>);
 
   @override
   _i4.Future<int> postDishOfTheDay(
@@ -78,6 +78,7 @@ class MockDishRepository extends _i1.Mock implements _i3.DishRepository {
     String? description,
     int? calories,
     String? imageUrl,
+    DishTypeModel? dishType
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -95,7 +96,7 @@ class MockDishRepository extends _i1.Mock implements _i3.DishRepository {
 
   @override
   void addAllergeneToDish(
-    _i6.AllergenModel? allergene,
+    dynamic allergene,
     int? dishId,
   ) =>
       super.noSuchMethod(

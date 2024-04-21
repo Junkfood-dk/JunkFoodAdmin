@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:chefapp/Domain/model/allergen_model.dart';
 import 'package:chefapp/Domain/model/category_model.dart';
@@ -7,6 +8,7 @@ import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/UI/Widgets/camera_widget.dart';
 import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
 import 'package:chefapp/UI/Controllers/selected_categories_controller.dart';
+import 'package:chefapp/UI/Widgets/dish_type_dropdown_widget.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
 import 'package:chefapp/UI/Widgets/mutable_checkbox_widget.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,27 @@ class PostDishPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var newAllergenTextController = useTextEditingController();
+    newAllergenTextController.addListener(() {
+      final text = newAllergenTextController.text;
+      String capitalizedValue = text.replaceAllMapped(
+        RegExp(r'(?<=^|\P{L})\p{L}', unicode: true),
+        (match) {
+          String matchedWord = match.group(0)!;
+          if (matchedWord.isNotEmpty) {
+            return matchedWord[0].toUpperCase() + matchedWord.substring(1).toLowerCase();
+          }
+          return matchedWord;
+        }
+      );
+      int cursorPosition = newAllergenTextController.selection.baseOffset;
+      newAllergenTextController.value = TextEditingValue(
+        text: capitalizedValue,
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: min(cursorPosition, capitalizedValue.length))
+        )
+      );
+    });
+
     var newCategoryTextController = useTextEditingController();
     var nameTextController = useTextEditingController();
     var descriptionTextController = useTextEditingController();
@@ -46,16 +69,51 @@ class PostDishPage extends HookConsumerWidget {
             child: Column(
               children: [
                 TextFormField(
+                  key: const Key("titleField"),
                   decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context)!.textFormLabelForName),
                   controller: nameTextController,
+                  onChanged: (value) {
+                    String capitalizedValue = value.replaceAllMapped(
+                      RegExp(r'(?<=^|\P{L})\p{L}', unicode: true),
+                      (match) {
+                        String matchedWord = match.group(0)!;
+                        if (matchedWord.isNotEmpty) {
+                          return matchedWord[0].toUpperCase() + matchedWord.substring(1).toLowerCase();
+                        }
+                        return matchedWord;
+                      }
+                    );
+                    int cursorPosition = nameTextController.selection.baseOffset;
+                    nameTextController.value = TextEditingValue(
+                      text: capitalizedValue,
+                      selection: TextSelection.fromPosition(
+                        TextPosition(offset: min(cursorPosition, capitalizedValue.length))
+                      )
+                    );
+                  },
                 ),
                 TextFormField(
+                  key: const Key("descriptionField"),
                   decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!
                           .textFormLabelForDescription),
                   controller: descriptionTextController,
+                  keyboardType: TextInputType.multiline,
+                  onChanged: (value) {
+                    String capitalizedValue = value.replaceAllMapped(
+                      RegExp(r'(?<=(?:^|[.!?]\s))\p{L}', unicode: true),
+                      (match) => match.group(0)!.toUpperCase()
+                    );
+                    int cursorPosition = descriptionTextController.selection.baseOffset;
+                    descriptionTextController.value = TextEditingValue(
+                      text: capitalizedValue,
+                      selection: TextSelection.fromPosition(
+                        TextPosition(offset: min(cursorPosition, capitalizedValue.length))
+                      )
+                    );
+                  },
                 ),
                 TextFormField(
                   decoration: InputDecoration(
@@ -116,6 +174,7 @@ class PostDishPage extends HookConsumerWidget {
                         .read(categoriesControllerProvider.notifier)
                         .postNewCategory,
                     labelStyle: labelText),
+                const DishTypeDropdownWidget(),
                 TextButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {

@@ -3,6 +3,7 @@ import 'package:chefapp/Data/database_provider.dart';
 import 'package:chefapp/Data/interface_dish_repository.dart';
 import 'package:chefapp/Domain/model/allergen_model.dart';
 import 'package:chefapp/Domain/model/dish_model.dart';
+import 'package:chefapp/Domain/model/dish_type_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
@@ -16,17 +17,18 @@ class DishRepository implements IDishRepository {
     return await database
         .from("Dish_Schedule")
         .select(
-            "Dishes(id, title, description, calories, Dish_type(dish_type), image)")
+            "Dishes(id, title, description, calories, Dish_type(id, dish_type), image)")
         .filter("date", "eq", DateTime.now().toIso8601String())
         .then((rows) =>
             rows.map((json) => DishModel.fromJson(json["Dishes"])).toList());
   }
 
   @override
-  Future<int> postDishOfTheDay(
-      String title, String description, int calories, String imageUrl) async {
+  Future<int> postDishOfTheDay(String title, String description, int calories,
+      String imageUrl, DishTypeModel dishType) async {
     DishModel newDish = DishModel(
         title: title,
+        dishType: dishType,
         description: description,
         calories: calories,
         imageUrl: imageUrl);

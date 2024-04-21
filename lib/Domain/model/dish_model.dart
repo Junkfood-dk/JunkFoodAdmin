@@ -1,18 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
+import 'package:chefapp/Domain/model/dish_type_model.dart';
 
 class DishModel {
   String title;
   String description;
   int calories;
-  String? imageUrl;
+  DishTypeModel dishType;
+  String imageUrl;
 
-  DishModel({
-    required this.title,
-    this.description = "",
-    this.calories = 0,
-    this.imageUrl = "",
-  });
+  DishModel(
+      {required this.title,
+      required this.dishType,
+      this.description = "",
+      this.calories = 0,
+      this.imageUrl = ""});
 
   Map<String, dynamic> toJson() {
     return {
@@ -20,6 +20,7 @@ class DishModel {
       'description': description,
       'calories': calories,
       'image': imageUrl,
+      'dish_type': dishType.id,
     };
   }
 
@@ -31,6 +32,9 @@ class DishModel {
         description:
             input.containsKey("description") ? input["description"] : "",
         calories: input.containsKey("calories") ? input["calories"] : 0,
-        imageUrl: input.containsKey("image") ? input["image"] : "");
+        imageUrl: input.containsKey("image") ? input["image"] : "",
+        dishType: input.containsKey("Dish_type") && input["Dish_type"] != null
+            ? DishTypeModel.fromJson(input["Dish_type"])
+            : DishTypeModel(id: -1, type: "No dish type"));
   }
 }

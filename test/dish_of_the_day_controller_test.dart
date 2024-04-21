@@ -1,5 +1,6 @@
 import 'package:chefapp/Data/dish_repository.dart';
 import 'package:chefapp/Domain/model/dish_model.dart';
+import 'package:chefapp/Domain/model/dish_type_model.dart';
 import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -48,7 +49,9 @@ void main() {
     // Arrange
     final mockDishRepository = MockDishRepository();
     when(mockDishRepository.fetchDishOfTheDay()).thenAnswer((realInvocation) =>
-        Future.value(<DishModel>[DishModel(title: "Test1")]));
+        Future.value(<DishModel>[
+          DishModel(title: "Test1", dishType: DishTypeModel(id: -1, type: ""))
+        ]));
     mockDishRepository.fetchDishOfTheDay();
     final container = createContainer(overrides: [
       dishRepositoryProvider.overrideWithValue(mockDishRepository)
@@ -57,5 +60,23 @@ void main() {
     container.read(dishOfTheDayControllerProvider.future);
 
     completion(hasLength(1));
+  });
+
+  test('DishOfTheDayProvider returns a list with two element', () async {
+    // Arrange
+    final mockDishRepository = MockDishRepository();
+    when(mockDishRepository.fetchDishOfTheDay()).thenAnswer((realInvocation) =>
+        Future.value(<DishModel>[
+          DishModel(title: "Test1", dishType: DishTypeModel(id: -1, type: "")),
+          DishModel(title: "Test2", dishType: DishTypeModel(id: -1, type: ""))
+        ]));
+    mockDishRepository.fetchDishOfTheDay();
+    final container = createContainer(overrides: [
+      dishRepositoryProvider.overrideWithValue(mockDishRepository)
+    ]);
+
+    container.read(dishOfTheDayControllerProvider.future);
+
+    completion(hasLength(2));
   });
 }
