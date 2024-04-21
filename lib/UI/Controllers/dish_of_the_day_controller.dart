@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:chefapp/Data/dish_repository.dart';
 import 'package:chefapp/Domain/model/allergen_model.dart';
 import 'package:chefapp/Domain/model/dish_model.dart';
@@ -25,10 +26,12 @@ class DishOfTheDayController extends _$DishOfTheDayController {
   }
 
   Future<void> postDishOfTheDay(
-      String title, String description, int calories, String imageUrl) async {
+      String title, String description, int calories, XFile image) async {
     var repository = ref.read(dishRepositoryProvider);
+    //Gets the url path to where Supabase saves the image internally
+    var imageUrl = await repository.uploadImage(image);
     var newDishId = await repository.postDishOfTheDay(
-        title, description, calories, imageUrl);
+        title, description, calories, imageUrl!);
     var selectedAllergens = ref
         .read(selectedAllergenesControllerProvider.notifier)
         .getAllSelectedAllergenes();

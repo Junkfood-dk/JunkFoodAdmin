@@ -4,12 +4,12 @@ import 'package:camera/camera.dart';
 part 'camera_state_controller.g.dart';
 
 @riverpod
-class CameraStateController extends _$CameraStateController{
+class CameraStateController extends _$CameraStateController {
   CameraController? _cameraController;
   @override
-  Future<void> build(CameraDescription camera) async {
+  Future<CameraController?> build(CameraDescription camera) async {
     _cameraController = CameraController(
-       // Get a specific camera from the list of available cameras.
+      // Get a specific camera from the list of available cameras.
       camera,
       // Define the resolution to use.
       ResolutionPreset.medium,
@@ -17,27 +17,14 @@ class CameraStateController extends _$CameraStateController{
     );
 
     await _cameraController!.initialize();
+    return _cameraController;
   }
 
-  Future<void> setCamera(CameraDescription camera) async {
-    _cameraController = CameraController(
-      camera,
-      ResolutionPreset.medium,
-      enableAudio: false,
-    );
-
-    await _cameraController!.initialize();
-
-    // Set the state to the initialized camera controller.
-    state = AsyncValue.data(_cameraController!);
+  Future<XFile> takePicture() async {
+    return await _cameraController!.takePicture();
   }
 
-  void takePicture() {
-    // Ensure that the camera controller is initialized and not null.
-    if (_cameraController != null && _cameraController!.value.isInitialized) {
-      _cameraController!.takePicture();
-    } else {
-      print('Camera controller is not initialized');
-    }
+  void dispose() {
+    _cameraController?.dispose();
   }
 }

@@ -1,8 +1,10 @@
+import 'package:camera/camera.dart';
 import 'package:chefapp/Domain/model/allergen_model.dart';
 import 'package:chefapp/Domain/model/category_model.dart';
 import 'package:chefapp/UI/Controllers/allergenes_controller.dart';
 import 'package:chefapp/UI/Controllers/categories_controller.dart';
 import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
+import 'package:chefapp/UI/Widgets/camera_widget.dart';
 import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
 import 'package:chefapp/UI/Controllers/selected_categories_controller.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
@@ -66,25 +68,38 @@ class PostDishPage extends HookConsumerWidget {
                   onChanged: (value) =>
                       calorieCount.value = int.tryParse(value) ?? 0,
                 ),
-                TextFormField(
-                  validator: (value) {
-                    if (!isValidUrl(value!)) {
-                      return AppLocalizations.of(context)!.invalidURLPromt;
-                    } else {
-                      return null;
-                    }
+                OutlinedButton(
+                  onPressed: () async {
+                    print("before :" + imageTextController.text);
+                    // Initialize the camera
+                    final cameras = await availableCameras();
+                    final firstCamera = cameras.first;
+
+                    // Navigate to the CameraPage and pass the camera
+                    final XFile image = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            CameraWidget(camera: firstCamera),
+                      ),
+                    );
+                    imageTextController.text = image.path;
+                    print("after :" + imageTextController.text);
                   },
-                  decoration: InputDecoration(
-                      label: Text(AppLocalizations.of(context)!
-                          .textFormLabelForImageURL)),
-                  controller: imageTextController,
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(
+                      color: Color.fromARGB(
+                          255, 206, 33, 33), // Add border color here
+                    ),
+                  ),
+                  child: Text(AppLocalizations.of(context)!
+                          .takePictureLabel),
                 ),
                 MutableCheckboxWidget<AllergenModel>(
                     map: selectedAllergenes,
                     onSelected: ref
                         .read(selectedAllergenesControllerProvider.notifier)
                         .setSelected,
-                    labelText: "Add allergenes",
+                    labelText: AppLocalizations.of(context)!.addAllergenField,
                     textController: newAllergenTextController,
                     postNew: ref
                         .read(allergenesControllerProvider.notifier)
@@ -95,7 +110,7 @@ class PostDishPage extends HookConsumerWidget {
                     onSelected: ref
                         .read(selectedCategoriesControllerProvider.notifier)
                         .setSelected,
-                    labelText: "Add category",
+                    labelText: AppLocalizations.of(context)!.addCategoryField,
                     textController: newCategoryTextController,
                     postNew: ref
                         .read(categoriesControllerProvider.notifier)
@@ -110,7 +125,7 @@ class PostDishPage extends HookConsumerWidget {
                                 nameTextController.text,
                                 descriptionTextController.text,
                                 calorieCount.value,
-                                imageTextController.text);
+                                XFile(imageTextController.text));
                         Navigator.of(context).pop();
                       }
                     },

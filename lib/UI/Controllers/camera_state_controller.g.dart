@@ -7,7 +7,7 @@ part of 'camera_state_controller.dart';
 // **************************************************************************
 
 String _$cameraStateControllerHash() =>
-    r'7933724b57832b4836a3e81f08fc7a9a44037325';
+    r'20f16844c21147ab948edae8bb314e0ba3695399';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,10 @@ class _SystemHash {
 }
 
 abstract class _$CameraStateController
-    extends BuildlessAutoDisposeAsyncNotifier<void> {
+    extends BuildlessAutoDisposeAsyncNotifier<CameraController?> {
   late final CameraDescription camera;
 
-  FutureOr<void> build(
+  FutureOr<CameraController?> build(
     CameraDescription camera,
   );
 }
@@ -44,7 +44,8 @@ abstract class _$CameraStateController
 const cameraStateControllerProvider = CameraStateControllerFamily();
 
 /// See also [CameraStateController].
-class CameraStateControllerFamily extends Family<AsyncValue<void>> {
+class CameraStateControllerFamily
+    extends Family<AsyncValue<CameraController?>> {
   /// See also [CameraStateController].
   const CameraStateControllerFamily();
 
@@ -83,7 +84,8 @@ class CameraStateControllerFamily extends Family<AsyncValue<void>> {
 
 /// See also [CameraStateController].
 class CameraStateControllerProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<CameraStateController, void> {
+    extends AutoDisposeAsyncNotifierProviderImpl<CameraStateController,
+        CameraController?> {
   /// See also [CameraStateController].
   CameraStateControllerProvider(
     CameraDescription camera,
@@ -114,7 +116,7 @@ class CameraStateControllerProvider
   final CameraDescription camera;
 
   @override
-  FutureOr<void> runNotifierBuild(
+  FutureOr<CameraController?> runNotifierBuild(
     covariant CameraStateController notifier,
   ) {
     return notifier.build(
@@ -139,8 +141,8 @@ class CameraStateControllerProvider
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<CameraStateController, void>
-      createElement() {
+  AutoDisposeAsyncNotifierProviderElement<CameraStateController,
+      CameraController?> createElement() {
     return _CameraStateControllerProviderElement(this);
   }
 
@@ -158,14 +160,15 @@ class CameraStateControllerProvider
   }
 }
 
-mixin CameraStateControllerRef on AutoDisposeAsyncNotifierProviderRef<void> {
+mixin CameraStateControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<CameraController?> {
   /// The parameter `camera` of this provider.
   CameraDescription get camera;
 }
 
 class _CameraStateControllerProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<CameraStateController, void>
-    with CameraStateControllerRef {
+    extends AutoDisposeAsyncNotifierProviderElement<CameraStateController,
+        CameraController?> with CameraStateControllerRef {
   _CameraStateControllerProviderElement(super.provider);
 
   @override

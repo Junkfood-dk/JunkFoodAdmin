@@ -5,6 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
+import 'package:camera/camera.dart' as _i7;
 import 'package:chefapp/Data/dish_repository.dart' as _i3;
 import 'package:chefapp/Domain/model/allergen_model.dart' as _i6;
 import 'package:chefapp/Domain/model/dish_model.dart' as _i5;
@@ -108,4 +109,14 @@ class MockDishRepository extends _i1.Mock implements _i3.DishRepository {
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  _i4.Future<String?> uploadImage(_i7.XFile? imageFile) => (super.noSuchMethod(
+        Invocation.method(
+          #uploadImage,
+          [imageFile],
+        ),
+        returnValue: _i4.Future<String?>.value(),
+        returnValueForMissingStub: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
 }

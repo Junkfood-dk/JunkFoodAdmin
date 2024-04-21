@@ -55,6 +55,10 @@
   "@submitButton": {
     "description": "Button that submits something"
   },
+  "takePictureLabel": "Add Picture From Camera",
+  "@takePictureLabel": {
+    "description": "Label describing that the button is where to take aa picture of the dish"
+  },
   "addCategoryField": "Add new category",
   "@addCategoryField": {
     "description": "Field that adds new category to dish"
@@ -62,5 +66,17 @@
   "addAllergenField": "Add new allergen",
   "@addAllergenField": {
     "description": "Field that adds new allergen to dish"
+  },
+  "cameraTitle": "Take a picture",
+  "@cameraTitle": {
+    "description": "Title with instruction on what to do"
+  },
+  "pictureSatisfied": "Are you happy with this picture?",
+  "@pictureSatisfied": {
+    "description": "Ask the user if they are satisfied with the picture of the dish"
+  },
+  "saveButton": "Save",
+  "@saveButton": {
+    "description": "Text for save button"
   }
 }

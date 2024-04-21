@@ -55,6 +55,10 @@
   "@submitButton": {
     "description": "Button that submits something"
   },
+  "takePictureLabel": "Tag billede med kamera",
+  "@takePictureLabel": {
+    "description": "Label describing that the button is where to take aa picture of the dish"
+  },
   "addCategoryField": "Tilføj ny kategori",
   "@addCategoryField": {
     "description": "Fields that adds new category to dish"
@@ -62,5 +66,17 @@
   "addAllergenField": "Tiløj nyt allergen",
   "@addAllergenField": {
     "description": "Field that adds new allergen to dish"
+  },
+  "cameraTitle": "Tag et billede",
+  "@cameraTitle": {
+    "description": "Title with instruction on what to do"
+  },
+  "pictureSatisfied": "Er du tilfreds med billedet?",
+  "@pictureSatisfied": {
+    "description": "Ask the user if they are satisfied with the picture of the dish"
+  },
+  "saveButton": "Gem",
+  "@saveButton": {
+    "description": "Text for save button"
   }
 }
