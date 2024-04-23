@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:chefapp/UI/Controllers/camera_state_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -6,8 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DisplayPicturePage extends HookConsumerWidget {
   final String imagePath;
-  final CameraDescription camera;
-  const DisplayPicturePage({super.key, required this.imagePath, required this.camera,
+  const DisplayPicturePage({super.key, required this.imagePath,
   });
 
   @override
@@ -25,7 +23,7 @@ class DisplayPicturePage extends HookConsumerWidget {
             onPressed: () {
               print('Save button pressed');
               //Dispose  the camera when not used
-              ref.watch(CameraStateControllerProvider(camera).notifier).dispose();
+              ref.watch(cameraStateControllerProvider.notifier).dispose();
               // Navigate to our previous page
               Navigator.of(context).pop(true);
             },

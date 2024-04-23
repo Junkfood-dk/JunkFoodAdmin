@@ -129,15 +129,11 @@ class PostDishPage extends HookConsumerWidget {
                 OutlinedButton(
                   onPressed: () async {
                     print("before :" + imageTextController.text);
-                    // Initialize the camera
-                    final cameras = await availableCameras();
-                    final firstCamera = cameras.first;
-
                     // Navigate to the CameraPage and pass the camera
                     final XFile image = await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) =>
-                            CameraWidget(camera: firstCamera),
+                            const CameraWidget(),
                       ),
                     );
                     imageTextController.text = image.path;

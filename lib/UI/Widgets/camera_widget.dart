@@ -6,10 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CameraWidget extends ConsumerWidget {
-  final CameraDescription camera;
   const CameraWidget({
     Key? key,
-    required this.camera,
   }) : super(key: key);
 
   @override
@@ -21,16 +19,17 @@ class CameraWidget extends ConsumerWidget {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             // Dispose the CameraStateController
-            ref.watch(cameraStateControllerProvider(camera).notifier).dispose();
+            ref.watch(cameraStateControllerProvider.notifier).dispose();
             // Navigate back
             Navigator.of(context).pop();
           },
-        ),),
+        ),
+      ),
       body: FutureBuilder<CameraController?>(
-        future: ref.watch(cameraStateControllerProvider(camera).future),
+        future: ref.watch(cameraStateControllerProvider.future),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData && snapshot.data != null) {
+            if (snapshot.hasData && snapshot.data != null) {
               return CameraPreview(
                 snapshot.data!,
               );
@@ -45,16 +44,17 @@ class CameraWidget extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           try {
-            await ref.watch(cameraStateControllerProvider(camera).future);
+            await ref.watch(cameraStateControllerProvider.future);
 
-            final image = await ref.watch(cameraStateControllerProvider(camera).notifier).takePicture();
+            final image = await ref
+                .watch(cameraStateControllerProvider.notifier)
+                .takePicture();
 
             if (!context.mounted) return;
 
             final bool satisfiedImage = await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => DisplayPicturePage(
-                  camera: camera,
                   imagePath: image.path,
                 ),
               ),

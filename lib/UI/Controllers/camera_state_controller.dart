@@ -7,10 +7,12 @@ part 'camera_state_controller.g.dart';
 class CameraStateController extends _$CameraStateController {
   CameraController? _cameraController;
   @override
-  Future<CameraController?> build(CameraDescription camera) async {
+  Future<CameraController?> build() async {
+    final cameras = await availableCameras();
+    final firstCamera = cameras.first;
     _cameraController = CameraController(
       // Get a specific camera from the list of available cameras.
-      camera,
+      firstCamera,
       // Define the resolution to use.
       ResolutionPreset.medium,
       enableAudio: false,

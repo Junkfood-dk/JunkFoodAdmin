@@ -45,23 +45,6 @@ class DishRepository implements IDishRepository {
         .from("Allergens_to_Dishes")
         .insert({"allergen_id": allergene.id, "dish_id": dishId});
   }
-
-  @override
-  Future<String?> uploadImage(XFile imageFile) async {
-    final bytes = await imageFile.readAsBytes();
-    try {
-      final response = await database.storage
-          .from('CameraImages')
-          .uploadBinary('${DateTime.now().millisecondsSinceEpoch}.jpg', bytes);
-
-      // Return the URL of the uploaded image
-      return response;
-    } catch (e) {
-      // Handle error
-      print('Error uploading image: $e');
-      return null;
-    }
-  }
 }
 
 @riverpod
