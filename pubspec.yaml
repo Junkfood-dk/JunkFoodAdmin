@@ -47,6 +47,9 @@ dependencies:
   mockito: ^5.4.4
   flutter_carousel_widget: ^2.2.0
   network_image_mock: ^2.1.1
+  camera: ^0.10.5+9
+  riverpod: ^2.5.1
+  flutter_riverpod: ^2.5.1
 
 dev_dependencies:
   flutter_test:
