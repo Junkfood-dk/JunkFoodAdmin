@@ -32,9 +32,12 @@ class HomePage extends ConsumerWidget {
                     options: CarouselOptions(),
                   ),
                   TextButton(
-                      onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => const PostDishPage())),
+                      onPressed: () async {
+                       await Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const PostDishPage()));
+                        dishOfTheDay =
+                            ref.watch(dishOfTheDayControllerProvider);    
+                      },
                       child: Text(AppLocalizations.of(context)!.postDishButton))
                 ],
               ),
