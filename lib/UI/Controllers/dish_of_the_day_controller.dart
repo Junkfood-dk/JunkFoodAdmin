@@ -1,4 +1,6 @@
+import 'package:camera/camera.dart';
 import 'package:chefapp/Data/dish_repository.dart';
+import 'package:chefapp/Data/image_repository.dart';
 import 'package:chefapp/Domain/model/allergen_model.dart';
 import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
@@ -30,8 +32,9 @@ class DishOfTheDayController extends _$DishOfTheDayController {
       String title, String description, int calories, String imageUrl) async {
     var repository = ref.read(dishRepositoryProvider);
     var selectedDishType = ref.read(selectedDishTypeControllerProvider);
+    var dbImageUrl = await ref.read(imageRepositoryProvider).uploadImage(XFile(imageUrl));
     var newDishId = await repository.postDishOfTheDay(
-        title, description, calories, imageUrl, selectedDishType!);
+        title, description, calories, dbImageUrl!, selectedDishType!);
     var selectedAllergens = ref
         .read(selectedAllergenesControllerProvider.notifier)
         .getAllSelectedAllergenes();

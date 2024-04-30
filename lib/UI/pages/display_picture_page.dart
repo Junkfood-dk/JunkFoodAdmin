@@ -24,7 +24,6 @@ class DisplayPicturePage extends HookConsumerWidget {
           const SizedBox(height: 20),
           TextButton(
             onPressed: () {
-              print('Save button pressed');
               //Dispose  the camera when not used
               ref.watch(cameraStateControllerProvider.notifier).dispose();
               // Navigate to our previous page
