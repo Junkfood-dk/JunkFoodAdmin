@@ -63,6 +63,26 @@
   "@addAllergenField": {
     "description": "Field that adds new allergen to dish"
   },
+  "noDescription": "No description",
+  "@noDescription": {
+    "description": "Display message for when no description"
+  },
+  "noCalories": "No calories",
+  "@noCalories": {
+    "description": "Display message for when no calories"
+  },
+  "noTitle": "No title",
+  "@noTitle": {
+    "description": "Display message for when no title"
+  },
+  "noDishType": "No dishtype",
+  "@noDishType": {
+    "description": "Display message for when no dishtype"
+  },
+  "calories": "Calories",
+  "@calories": {
+    "description": "Calories info on dish page"
+  },
   "takePictureLabel": "Add Picture From Camera",
   "@takePictureLabel": {
     "description": "Label describing that the button is where to take aa picture of the dish"
