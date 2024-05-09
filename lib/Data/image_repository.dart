@@ -17,8 +17,11 @@ class ImageRepository implements IImageRepository {
           .from('CameraImages')
           .uploadBinary('${DateTime.now().millisecondsSinceEpoch}.jpg', bytes);
 
+      final url =
+          await database.storage.from('CameraImages').getPublicUrl(response.split('/')[1]);
+
       // Return the URL of the uploaded image
-      return "https://urbobrehwtipbujkbbyb.supabase.co/storage/v1/object/public/$response";
+      return url;
     } catch (e) {
       // Handle error
       print('Error uploading image: $e');
