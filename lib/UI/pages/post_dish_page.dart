@@ -180,12 +180,13 @@ class PostDishPage extends HookConsumerWidget {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           ref
-                              .read(dishOfTheDayControllerProvider.notifier)
+                              .watch(dishOfTheDayControllerProvider.notifier)
                               .postDishOfTheDay(
                                   nameTextController.text,
                                   descriptionTextController.text,
                                   calorieCount.value,
                                   imageTextController.text);
+                          await ref.read(dishOfTheDayControllerProvider.notifier).updateDishOfTheDay();
                           Navigator.of(context).pop();
                         }
                       },
