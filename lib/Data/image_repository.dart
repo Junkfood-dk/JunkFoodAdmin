@@ -18,7 +18,7 @@ class ImageRepository implements IImageRepository {
           .uploadBinary('${DateTime.now().millisecondsSinceEpoch}.jpg', bytes);
 
       // Return the URL of the uploaded image
-      return response;
+      return "https://urbobrehwtipbujkbbyb.supabase.co/storage/v1/object/public/$response";
     } catch (e) {
       // Handle error
       print('Error uploading image: $e');
