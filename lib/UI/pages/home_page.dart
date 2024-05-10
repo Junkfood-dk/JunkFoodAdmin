@@ -1,3 +1,4 @@
+import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/UI/Widgets/dish_display_widget.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
@@ -12,7 +13,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var dishOfTheDay = ref.watch(dishOfTheDayControllerProvider);
+    final dishOfTheDay = ref.watch(dishOfTheDayControllerProvider);
     return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.homePageTitle),
@@ -36,8 +37,9 @@ class HomePage extends ConsumerWidget {
                       onPressed: () async {
                         await Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const PostDishPage()));
-                        dishOfTheDay =
-                            ref.watch(dishOfTheDayControllerProvider);
+                        await ref
+                            .read(dishOfTheDayControllerProvider.notifier)
+                            .updateDishOfTheDay();
                       },
                       child: Text(AppLocalizations.of(context)!.postDishButton))
                 ],
