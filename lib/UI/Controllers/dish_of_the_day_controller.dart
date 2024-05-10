@@ -5,6 +5,7 @@ import 'package:chefapp/Domain/model/allergen_model.dart';
 import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
 import 'package:chefapp/UI/Controllers/selected_dish_type_controller.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dish_of_the_day_controller.g.dart';
@@ -22,7 +23,7 @@ class DishOfTheDayController extends _$DishOfTheDayController {
   Future<void> updateDishOfTheDay() async {
     var repository = ref.read(dishRepositoryProvider);
     List<DishModel> dishModelList = await repository.fetchDishOfTheDay();
-    state = dishModelList.isNotEmpty
+    state =  dishModelList.isNotEmpty
         ? AsyncData(dishModelList)
         : const AsyncData([]);
     ref.notifyListeners();
@@ -42,7 +43,6 @@ class DishOfTheDayController extends _$DishOfTheDayController {
     for (var allergen in selectedAllergens) {
       _addAllergenToDish(allergen, newDishId);
     }
-    updateDishOfTheDay();
   }
 
   void _addAllergenToDish(AllergenModel allergen, int id) {

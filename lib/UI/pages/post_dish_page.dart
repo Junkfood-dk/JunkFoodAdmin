@@ -179,8 +179,8 @@ class PostDishPage extends HookConsumerWidget {
                   TextButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          ref
-                              .read(dishOfTheDayControllerProvider.notifier)
+                          await ref
+                              .watch(dishOfTheDayControllerProvider.notifier)
                               .postDishOfTheDay(
                                   nameTextController.text,
                                   descriptionTextController.text,
