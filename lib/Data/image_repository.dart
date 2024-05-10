@@ -13,12 +13,16 @@ class ImageRepository implements IImageRepository {
   Future<String?> uploadImage(XFile imageFile) async {
     final bytes = await imageFile.readAsBytes();
     try {
-      final response = await database.storage
+      var imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+      await database.storage
           .from('CameraImages')
-          .uploadBinary('${DateTime.now().millisecondsSinceEpoch}.jpg', bytes);
+          .uploadBinary(imageName, bytes);
+
+      final url =
+          await database.storage.from('CameraImages').getPublicUrl(imageName);
 
       // Return the URL of the uploaded image
-      return "https://urbobrehwtipbujkbbyb.supabase.co/storage/v1/object/public/$response";
+      return url;
     } catch (e) {
       // Handle error
       print('Error uploading image: $e');
