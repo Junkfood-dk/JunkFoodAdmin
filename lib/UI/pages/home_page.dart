@@ -37,8 +37,9 @@ class HomePage extends ConsumerWidget {
                       onPressed: () async {
                         await Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const PostDishPage()));
-                        // dishOfTheDay =
-                        //     ref.watch(dishOfTheDayControllerProvider);
+                        await ref
+                            .read(dishOfTheDayControllerProvider.notifier)
+                            .updateDishOfTheDay();
                       },
                       child: Text(AppLocalizations.of(context)!.postDishButton))
                 ],
