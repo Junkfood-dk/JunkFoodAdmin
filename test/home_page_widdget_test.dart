@@ -3,6 +3,7 @@ import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:chefapp/Domain/model/dish_type_model.dart';
 import 'package:chefapp/UI/Controllers/locale_controller.dart';
 import 'package:chefapp/UI/pages/home_page.dart';
+import 'package:chefapp/Utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -78,7 +79,7 @@ void main() {
           )));
       await tester.pump();
 
-      final textButtonFinder = find.byType(TextButton);
+      final textButtonFinder = find.byType(GradiantButton);
       final textFinder = find.text('Add dish');
       final textInTextButtonFinder = find.descendant(
         of: textButtonFinder,
@@ -122,7 +123,7 @@ void main() {
           )));
       await tester.pump();
 
-      final textButtonFinder = find.byType(TextButton);
+      final textButtonFinder = find.byType(GradiantButton);
       final textFinder = find.text('Add dish');
       final textInTextButtonFinder = find.descendant(
         of: textButtonFinder,

@@ -2,6 +2,7 @@ import 'package:chefapp/Data/user_repository.dart';
 import 'package:chefapp/UI/Controllers/locale_controller.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
 import 'package:chefapp/UI/pages/login_page.dart';
+import 'package:chefapp/Utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -51,7 +52,10 @@ void main() {
       matching: passwordLabelFinder,
     );
 
-    final signInButtonFinder = find.widgetWithText(ElevatedButton, 'Sign In');
+    final signInButtonFinder = find.descendant(
+      of: find.byType(GradiantButton),
+      matching: find.text('Sign In'),);
+    // final signInButtonFinder = find.widgetWithText(ElevatedButton, 'Sign In');
 
     //Assert
     expect(appBarFinder, findsOneWidget);
@@ -87,7 +91,9 @@ void main() {
     // Act
     await tester.enterText(find.bySemanticsLabel('Email'), '');
     await tester.enterText(find.bySemanticsLabel('Password'), '');
-    await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
+    await tester.tap(find.descendant(
+      of: find.byType(GradiantButton),
+      matching: find.text('Sign In'),));
     await tester.pumpAndSettle();
 
     final snackBarFinder = find.byType(SnackBar);
@@ -143,7 +149,9 @@ void main() {
     // Act
     await tester.enterText(find.bySemanticsLabel('Email'), 'test@test.dk');
     await tester.enterText(find.bySemanticsLabel('Password'), 'SecurePassword1234');
-    await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
+    await tester.tap(find.descendant(
+      of: find.byType(GradiantButton),
+      matching: find.text('Sign In'),));
     await tester.pumpAndSettle();
     final snackBarFinder = find.byType(SnackBar);
     final textFinder = find.text('Sign in successful!');
