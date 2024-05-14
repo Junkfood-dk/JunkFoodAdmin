@@ -1,4 +1,5 @@
 import 'package:chefapp/UI/Controllers/locale_controller.dart';
+import 'package:chefapp/Utilities/theming/color_theme.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:chefapp/UI/pages/splash_page.dart';
 import 'package:chefapp/Utilities/constants.dart';
@@ -27,22 +28,21 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var locale = ref.watch(localeControllerProvider);
     return MaterialApp(
-        title: 'Chef App',
-        theme: ThemeData(
-          colorScheme:
-              ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 180, 14, 39)),
-          useMaterial3: true,
-        ),
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        locale: locale,
-        debugShowCheckedModeBanner: false,
-        home: const SplashPage(),
+      title: 'Chef App',
+      theme: ThemeData(
+        colorScheme: colorTheme,
+        useMaterial3: true,
+      ),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: locale,
+      debugShowCheckedModeBanner: false,
+      home: const SplashPage(),
     );
   }
 }
