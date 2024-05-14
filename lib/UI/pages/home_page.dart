@@ -3,6 +3,7 @@ import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/UI/Widgets/dish_display_widget.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
 import 'package:chefapp/UI/pages/post_dish_page.dart';
+import 'package:chefapp/Utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,7 +34,7 @@ class HomePage extends ConsumerWidget {
                     options: CarouselOptions(
                         height: MediaQuery.sizeOf(context).height * 0.6),
                   ),
-                  TextButton(
+                  GradiantButton(
                       onPressed: () async {
                         await Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const PostDishPage()));
