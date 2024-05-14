@@ -136,6 +136,7 @@ class PostDishPage extends HookConsumerWidget {
                           label: Text(AppLocalizations.of(context)!
                               .textFormLabelForImageURL)),
                       controller: imageTextController),
+                  SizedBox(height: 10),
                   GradiantButton(
                     onPressed: () async {
                       // Navigate to the CameraPage and pass the camera
@@ -172,6 +173,7 @@ class PostDishPage extends HookConsumerWidget {
                           .postNewCategory,
                       labelStyle: labelText),
                   const DishTypeDropdownWidget(),
+                  SizedBox(height: 10),
                   GradiantButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
