@@ -50,6 +50,7 @@ dependencies:
   camera: ^0.10.5+9
   riverpod: ^2.5.1
   flutter_riverpod: ^2.5.1
+  gradient_elevated_button: ^0.0.8
 
 dev_dependencies:
   flutter_test:

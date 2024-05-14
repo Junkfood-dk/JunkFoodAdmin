@@ -12,6 +12,7 @@ import 'package:chefapp/UI/Widgets/camera_widget.dart';
 import 'package:chefapp/UI/Widgets/dish_type_dropdown_widget.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
 import 'package:chefapp/UI/Widgets/mutable_checkbox_widget.dart';
+import 'package:chefapp/Utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -135,7 +136,8 @@ class PostDishPage extends HookConsumerWidget {
                           label: Text(AppLocalizations.of(context)!
                               .textFormLabelForImageURL)),
                       controller: imageTextController),
-                  OutlinedButton(
+                  SizedBox(height: 10),
+                  GradiantButton(
                     onPressed: () async {
                       // Navigate to the CameraPage and pass the camera
                       final XFile image = await Navigator.of(context).push(
@@ -145,12 +147,7 @@ class PostDishPage extends HookConsumerWidget {
                       );
                       imageTextController.text = image.path;
                     },
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(
-                        color: Color.fromARGB(
-                            255, 206, 33, 33), // Add border color here
-                      ),
-                    ),
+                  
                     child: Text(AppLocalizations.of(context)!.takePictureLabel),
                   ),
                   MutableCheckboxWidget<AllergenModel>(
@@ -176,7 +173,8 @@ class PostDishPage extends HookConsumerWidget {
                           .postNewCategory,
                       labelStyle: labelText),
                   const DishTypeDropdownWidget(),
-                  TextButton(
+                  SizedBox(height: 10),
+                  GradiantButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           await ref
