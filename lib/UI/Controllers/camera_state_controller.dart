@@ -29,23 +29,22 @@ class CameraStateController extends _$CameraStateController {
 
   void switchCameras() async {
     final cameras = await availableCameras();
-    var currentCamera = state;
-    switch (currentCamera) {
-      case AsyncData(:final value):
-        if (value!.description == cameras.first) {
-          state = AsyncData(CameraController(
-            cameras[1],
-            ResolutionPreset.medium,
-            enableAudio: false,
-          ));
-        } else {
-          state = AsyncData(CameraController(
-            cameras.first,
-            ResolutionPreset.medium,
-            enableAudio: false,
-          ));
-        }
+    var currentCamera = _cameraController;
+    if (currentCamera == cameras.first) {
+      _cameraController = CameraController(
+        cameras[1],
+        ResolutionPreset.medium,
+        enableAudio: false,
+      );
+    } else {
+      _cameraController = CameraController(
+        cameras.first,
+        ResolutionPreset.medium,
+        enableAudio: false,
+      );
     }
+    await _cameraController!.initialize();
+    state = AsyncData(_cameraController);
   }
 
   void dispose() {

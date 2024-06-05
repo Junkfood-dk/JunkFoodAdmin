@@ -29,6 +29,7 @@ class CameraWidget extends ConsumerWidget {
         future: ref.watch(cameraStateControllerProvider.future),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            debugPrint("Rebuilding...");
             if (snapshot.hasData && snapshot.data != null) {
               return CameraPreview(
                 snapshot.data!,
