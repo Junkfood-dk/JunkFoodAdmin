@@ -42,44 +42,50 @@ class CameraWidget extends ConsumerWidget {
           }
         },
       ),
-      floatingActionButton: Row(
-        children: [
-          FloatingActionButton(
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(left: 30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FloatingActionButton(
+              onPressed: () async {
+                try {
+                  await ref.watch(cameraStateControllerProvider.future);
+
+                  final image = await ref
+                      .watch(cameraStateControllerProvider.notifier)
+                      .takePicture();
+
+                  if (!context.mounted) return;
+
+                  final bool satisfiedImage = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => DisplayPicturePage(
+                        imagePath: image.path,
+                      ),
+                    ),
+                  );
+
+                  if (satisfiedImage) {
+                    Navigator.of(context).pop(XFile(image.path));
+                  }
+                } catch (e) {
+                  print(e);
+                }
+              },
+              child: const Icon(Icons.camera_alt),
+            ),
+            FloatingActionButton(
               heroTag: "d",
               onPressed: () {
                 ref
                     .read(cameraStateControllerProvider.notifier)
                     .switchCameras();
-              }),
-          FloatingActionButton(
-            onPressed: () async {
-              try {
-                await ref.watch(cameraStateControllerProvider.future);
-
-                final image = await ref
-                    .watch(cameraStateControllerProvider.notifier)
-                    .takePicture();
-
-                if (!context.mounted) return;
-
-                final bool satisfiedImage = await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => DisplayPicturePage(
-                      imagePath: image.path,
-                    ),
-                  ),
-                );
-
-                if (satisfiedImage) {
-                  Navigator.of(context).pop(XFile(image.path));
-                }
-              } catch (e) {
-                print(e);
-              }
-            },
-            child: const Icon(Icons.camera_alt),
-          ),
-        ],
+              },
+              child: const Icon(Icons.switch_camera),
+            ),
+          ],
+        ),
       ),
     );
   }
