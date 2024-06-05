@@ -30,7 +30,7 @@ class CameraStateController extends _$CameraStateController {
   void switchCameras() async {
     final cameras = await availableCameras();
     var currentCamera = _cameraController;
-    if (currentCamera == cameras.first) {
+    if (currentCamera!.description == cameras.first) {
       _cameraController = CameraController(
         cameras[1],
         ResolutionPreset.medium,
