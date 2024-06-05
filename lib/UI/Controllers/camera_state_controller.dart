@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:camera/camera.dart';
 
@@ -24,6 +25,26 @@ class CameraStateController extends _$CameraStateController {
 
   Future<XFile> takePicture() async {
     return await _cameraController!.takePicture();
+  }
+
+  void switchCameras() async {
+    final cameras = await availableCameras();
+    var currentCamera = _cameraController;
+    if (currentCamera!.description.name == cameras.first.name) {
+      _cameraController = CameraController(
+        cameras[1],
+        ResolutionPreset.medium,
+        enableAudio: false,
+      );
+    } else {
+      _cameraController = CameraController(
+        cameras.first,
+        ResolutionPreset.medium,
+        enableAudio: false,
+      );
+    }
+    await _cameraController!.initialize();
+    state = AsyncData(_cameraController);
   }
 
   void dispose() {
