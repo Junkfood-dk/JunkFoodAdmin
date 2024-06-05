@@ -43,9 +43,13 @@ class CameraWidget extends ConsumerWidget {
       ),
       floatingActionButton: Row(
         children: [
-          FloatingActionButton(onPressed: () {
-            ref.read(cameraStateControllerProvider.notifier).switchCameras();
-          }),
+          FloatingActionButton(
+              heroTag: "d",
+              onPressed: () {
+                ref
+                    .read(cameraStateControllerProvider.notifier)
+                    .switchCameras();
+              }),
           FloatingActionButton(
             onPressed: () async {
               try {

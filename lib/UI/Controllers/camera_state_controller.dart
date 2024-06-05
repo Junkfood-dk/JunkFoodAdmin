@@ -29,7 +29,7 @@ class CameraStateController extends _$CameraStateController {
 
   void switchCameras() async {
     final cameras = await availableCameras();
-    var currentCamera = ref.watch(cameraStateControllerProvider);
+    var currentCamera = state;
     switch (currentCamera) {
       case AsyncData(:final value):
         if (value!.description == cameras.first) {
