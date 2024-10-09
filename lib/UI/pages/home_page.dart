@@ -1,4 +1,3 @@
-import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/UI/Widgets/dish_display_widget.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
@@ -31,7 +30,7 @@ class HomePage extends ConsumerWidget {
                         .map((dish) =>
                             Center(child: DishDisplayWidget(dish: dish)))
                         .toList(),
-                    options: CarouselOptions(
+                    options: FlutterCarouselOptions(
                         height: MediaQuery.sizeOf(context).height * 0.6),
                   ),
                   GradiantButton(

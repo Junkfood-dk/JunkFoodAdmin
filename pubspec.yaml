@@ -15,20 +15,19 @@ dependencies:
     sdk: flutter
   intl: any
 
-  camera: ^0.11.0
-  gradient_elevated_button: ^0.0.8
-  flutter_carousel_widget: ^2.2.0
+  camera: ^0.11.0+2
+  gradient_elevated_button: ^1.0.0
+  flutter_carousel_widget: ^3.0.1
   flutter_dotenv: ^5.1.0
   flutter_hooks: ^0.20.5
   flutter_riverpod: ^2.5.1
-  hooks_riverpod: ^2.5.1
-  mockito: ^5.4.4
+  hooks_riverpod: ^2.5.2
   network_image_mock: ^2.1.1
   provider: ^6.1.2
   riverpod: ^2.5.1
   riverpod_annotation: ^2.3.5
-  supabase_auth_ui: ^0.4.3
-  supabase_flutter: ^2.3.4
+  supabase_auth_ui: ^0.5.2
+  supabase_flutter: ^2.8.0
 
 dev_dependencies:
   flutter_test:
@@ -39,6 +38,7 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   riverpod_generator: ^2.4.0
   riverpod_lint: ^2.3.10
+  mockito: ^5.4.4
 
 flutter:
   uses-material-design: true
