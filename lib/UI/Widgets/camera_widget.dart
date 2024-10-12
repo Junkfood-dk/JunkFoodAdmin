@@ -29,6 +29,7 @@ class CameraWidget extends ConsumerWidget {
         future: ref.watch(cameraStateControllerProvider.future),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            debugPrint("Rebuilding...");
             if (snapshot.hasData && snapshot.data != null) {
               return CameraPreview(
                 snapshot.data!,
@@ -41,33 +42,50 @@ class CameraWidget extends ConsumerWidget {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          try {
-            await ref.watch(cameraStateControllerProvider.future);
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(left: 30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FloatingActionButton(
+              onPressed: () async {
+                try {
+                  await ref.watch(cameraStateControllerProvider.future);
 
-            final image = await ref
-                .watch(cameraStateControllerProvider.notifier)
-                .takePicture();
+                  final image = await ref
+                      .watch(cameraStateControllerProvider.notifier)
+                      .takePicture();
 
-            if (!context.mounted) return;
+                  if (!context.mounted) return;
 
-            final bool satisfiedImage = await Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DisplayPicturePage(
-                  imagePath: image.path,
-                ),
-              ),
-            );
+                  final bool satisfiedImage = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => DisplayPicturePage(
+                        imagePath: image.path,
+                      ),
+                    ),
+                  );
 
-            if (satisfiedImage) {
-              Navigator.of(context).pop(XFile(image.path));
-            }
-          } catch (e) {
-            print(e);
-          }
-        },
-        child: const Icon(Icons.camera_alt),
+                  if (satisfiedImage) {
+                    Navigator.of(context).pop(XFile(image.path));
+                  }
+                } catch (e) {
+                  print(e);
+                }
+              },
+              child: const Icon(Icons.camera_alt),
+            ),
+            FloatingActionButton(
+              heroTag: "d",
+              onPressed: () {
+                ref
+                    .read(cameraStateControllerProvider.notifier)
+                    .switchCameras();
+              },
+              child: const Icon(Icons.switch_camera),
+            ),
+          ],
+        ),
       ),
     );
   }
