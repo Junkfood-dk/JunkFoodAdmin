@@ -1,8 +1,9 @@
 {
-  "homePageTitle": "Startside",
+  "homePageTitle": "Retter",
   "@homePageTitle": {
     "description": "This is the title banner of the Homepage"
   },
+  "logoutButton": "Log ud",
   "punchText": "Du har slået knappen så mange gange:",
   "@punchText": {
     "description": "The text in the middle, describing how many times you have punched the button"
@@ -19,7 +20,7 @@
   "@signInError": {
     "description": "When an unexpected error occurs"
   },
-  "signInTitle": "Log ind",
+  "signInTitle": "Log ind på Chef's app",
   "@signInTitle": {
     "description": "Title of the login page"
   },
@@ -98,5 +99,6 @@
   "saveButton": "Gem",
   "@saveButton": {
     "description": "Text for save button"
-  }
+  },
+  "signout": "Log af" 
 }

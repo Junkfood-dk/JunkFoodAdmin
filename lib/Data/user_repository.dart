@@ -23,6 +23,11 @@ class UserRepository implements IUserRepository {
       password: password.trim(),
     );
   }
+
+  @override
+  Future<void> signUserOut() async {
+    await database.auth.signOut();
+  }
 }
 
 @riverpod
