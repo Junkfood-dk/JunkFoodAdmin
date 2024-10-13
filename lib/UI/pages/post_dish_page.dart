@@ -3,15 +3,15 @@ import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:chefapp/domain/model/category_model.dart';
-import 'package:chefapp/UI/Controllers/allergenes_controller.dart';
-import 'package:chefapp/UI/Controllers/categories_controller.dart';
-import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
-import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
-import 'package:chefapp/UI/Controllers/selected_categories_controller.dart';
-import 'package:chefapp/UI/Widgets/camera_widget.dart';
-import 'package:chefapp/UI/Widgets/dish_type_dropdown_widget.dart';
-import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
-import 'package:chefapp/UI/Widgets/mutable_checkbox_widget.dart';
+import 'package:chefapp/ui/Controllers/allergenes_controller.dart';
+import 'package:chefapp/ui/Controllers/categories_controller.dart';
+import 'package:chefapp/ui/Controllers/dish_of_the_day_controller.dart';
+import 'package:chefapp/ui/Controllers/selected_allergenes_controller.dart';
+import 'package:chefapp/ui/Controllers/selected_categories_controller.dart';
+import 'package:chefapp/ui/Widgets/camera_widget.dart';
+import 'package:chefapp/ui/Widgets/dish_type_dropdown_widget.dart';
+import 'package:chefapp/ui/Widgets/language_dropdown_widget.dart';
+import 'package:chefapp/ui/Widgets/mutable_checkbox_widget.dart';
 import 'package:chefapp/Utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -136,7 +136,7 @@ class PostDishPage extends HookConsumerWidget {
                           label: Text(AppLocalizations.of(context)!
                               .textFormLabelForImageURL)),
                       controller: imageTextController),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   GradiantButton(
                     onPressed: () async {
                       // Navigate to the CameraPage and pass the camera
@@ -172,7 +172,7 @@ class PostDishPage extends HookConsumerWidget {
                           .postNewCategory,
                       labelStyle: labelText),
                   const DishTypeDropdownWidget(),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   GradiantButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {

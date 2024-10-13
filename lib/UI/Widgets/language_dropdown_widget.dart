@@ -1,5 +1,5 @@
 import 'package:chefapp/domain/model/language_model.dart';
-import 'package:chefapp/UI/Controllers/locale_controller.dart';
+import 'package:chefapp/ui/Controllers/locale_controller.dart';
 import 'package:chefapp/Utilities/widgets/gradiant_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,7 +15,7 @@ class LanguageDropdownWidget extends ConsumerWidget {
               .read(localeControllerProvider.notifier)
               .set(Locale(language.languageCode));
         },
-        icon: const PrimaryGradiantWidget(child: const Icon(Icons.language)),
+        icon: const PrimaryGradiantWidget(child: Icon(Icons.language)),
         itemBuilder: (BuildContext context) {
           List<PopupMenuEntry<LanguageModel>> menuItems =
               LanguageModel.languageList().map((e) {

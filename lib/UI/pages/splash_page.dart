@@ -1,7 +1,7 @@
-import 'package:chefapp/UI/Widgets/logo_image.dart';
-import 'package:chefapp/UI/pages/home_page.dart';
-import 'package:chefapp/UI/Controllers/authentication_controller.dart';
-import 'package:chefapp/UI/pages/login_page.dart';
+import 'package:chefapp/ui/Widgets/logo_image.dart';
+import 'package:chefapp/ui/pages/home_page.dart';
+import 'package:chefapp/ui/Controllers/authentication_controller.dart';
+import 'package:chefapp/ui/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
