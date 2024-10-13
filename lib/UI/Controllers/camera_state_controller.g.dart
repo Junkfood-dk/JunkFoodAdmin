@@ -7,7 +7,7 @@ part of 'camera_state_controller.dart';
 // **************************************************************************
 
 String _$cameraStateControllerHash() =>
-    r'f97da441a147cc809e73a95929638381196cb302';
+    r'ca3298621b7cf75448a3a6f65ba164a2dd66486d';
 
 /// See also [CameraStateController].
 @ProviderFor(CameraStateController)
