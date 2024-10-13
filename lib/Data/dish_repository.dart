@@ -1,5 +1,5 @@
-import 'package:chefapp/Data/database_provider.dart';
-import 'package:chefapp/Data/interface_dish_repository.dart';
+import 'package:chefapp/data/database_provider.dart';
+import 'package:chefapp/data/interface_dish_repository.dart';
 import 'package:chefapp/Domain/model/allergen_model.dart';
 import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:chefapp/Domain/model/dish_type_model.dart';

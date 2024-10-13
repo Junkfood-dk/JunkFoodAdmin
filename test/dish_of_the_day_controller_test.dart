@@ -1,4 +1,4 @@
-import 'package:chefapp/Data/dish_repository.dart';
+import 'package:chefapp/data/dish_repository.dart';
 import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:chefapp/Domain/model/dish_type_model.dart';
 import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';

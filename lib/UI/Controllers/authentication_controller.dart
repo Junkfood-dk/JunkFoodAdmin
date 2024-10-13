@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:chefapp/Data/user_repository.dart';
+import 'package:chefapp/data/user_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 

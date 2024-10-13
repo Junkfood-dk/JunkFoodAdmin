@@ -1,4 +1,4 @@
-import 'package:chefapp/Data/dish_type_repository.dart';
+import 'package:chefapp/data/dish_type_repository.dart';
 import 'package:chefapp/Domain/model/dish_type_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

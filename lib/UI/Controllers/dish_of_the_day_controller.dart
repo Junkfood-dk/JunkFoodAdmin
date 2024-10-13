@@ -1,6 +1,6 @@
 import 'package:camera/camera.dart';
-import 'package:chefapp/Data/image_repository.dart';
-import 'package:chefapp/Data/dish_repository.dart';
+import 'package:chefapp/data/image_repository.dart';
+import 'package:chefapp/data/dish_repository.dart';
 import 'package:chefapp/Domain/model/allergen_model.dart';
 import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
@@ -23,7 +23,7 @@ class DishOfTheDayController extends _$DishOfTheDayController {
   Future<void> updateDishOfTheDay() async {
     var repository = ref.read(dishRepositoryProvider);
     List<DishModel> dishModelList = await repository.fetchDishOfTheDay();
-    state =  dishModelList.isNotEmpty
+    state = dishModelList.isNotEmpty
         ? AsyncData(dishModelList)
         : const AsyncData([]);
     ref.notifyListeners();

@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:chefapp/Data/dish_repository.dart' as _i3;
+import 'package:chefapp/data/dish_repository.dart' as _i3;
 import 'package:chefapp/Domain/model/dish_model.dart';
 import 'package:chefapp/Domain/model/dish_type_model.dart';
 import 'package:mockito/mockito.dart' as _i1;
@@ -73,13 +73,8 @@ class MockDishRepository extends _i1.Mock implements _i3.DishRepository {
       ) as _i4.Future<List<DishModel>>);
 
   @override
-  _i4.Future<int> postDishOfTheDay(
-    String? title,
-    String? description,
-    int? calories,
-    String? imageUrl,
-    DishTypeModel? dishType
-  ) =>
+  _i4.Future<int> postDishOfTheDay(String? title, String? description,
+          int? calories, String? imageUrl, DishTypeModel? dishType) =>
       (super.noSuchMethod(
         Invocation.method(
           #postDishOfTheDay,
