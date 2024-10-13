@@ -1,4 +1,4 @@
-import 'package:chefapp/Domain/model/language_model.dart';
+import 'package:chefapp/domain/model/language_model.dart';
 import 'package:chefapp/UI/Controllers/locale_controller.dart';
 import 'package:chefapp/Utilities/widgets/gradiant_wrapper.dart';
 import 'package:flutter/material.dart';

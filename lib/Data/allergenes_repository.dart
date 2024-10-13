@@ -1,6 +1,6 @@
 import 'package:chefapp/data/database_provider.dart';
 import 'package:chefapp/data/interface_allergenes_repository.dart';
-import 'package:chefapp/Domain/model/allergen_model.dart';
+import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';

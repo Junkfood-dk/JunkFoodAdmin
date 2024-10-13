@@ -1,4 +1,4 @@
-import 'package:chefapp/Domain/model/dish_type_model.dart';
+import 'package:chefapp/domain/model/dish_type_model.dart';
 import 'package:chefapp/UI/Controllers/dish_types_controller.dart';
 import 'package:chefapp/UI/Controllers/selected_dish_type_controller.dart';
 import 'package:flutter/material.dart';

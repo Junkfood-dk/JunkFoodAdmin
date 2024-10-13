@@ -1,5 +1,5 @@
-import 'package:chefapp/Domain/model/dish_model.dart';
-import 'package:chefapp/Domain/model/dish_type_model.dart';
+import 'package:chefapp/domain/model/dish_model.dart';
+import 'package:chefapp/domain/model/dish_type_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

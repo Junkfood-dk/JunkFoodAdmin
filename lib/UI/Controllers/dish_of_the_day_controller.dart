@@ -1,8 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:chefapp/data/image_repository.dart';
 import 'package:chefapp/data/dish_repository.dart';
-import 'package:chefapp/Domain/model/allergen_model.dart';
-import 'package:chefapp/Domain/model/dish_model.dart';
+import 'package:chefapp/domain/model/allergen_model.dart';
+import 'package:chefapp/domain/model/dish_model.dart';
 import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
 import 'package:chefapp/UI/Controllers/selected_dish_type_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

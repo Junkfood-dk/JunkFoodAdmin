@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:camera/camera.dart';
-import 'package:chefapp/Domain/model/allergen_model.dart';
-import 'package:chefapp/Domain/model/category_model.dart';
+import 'package:chefapp/domain/model/allergen_model.dart';
+import 'package:chefapp/domain/model/category_model.dart';
 import 'package:chefapp/UI/Controllers/allergenes_controller.dart';
 import 'package:chefapp/UI/Controllers/categories_controller.dart';
 import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
@@ -89,8 +89,8 @@ class PostDishPage extends HookConsumerWidget {
                       nameTextController.value = TextEditingValue(
                           text: capitalizedValue,
                           selection: TextSelection.fromPosition(TextPosition(
-                              offset:
-                                  min(cursorPosition, capitalizedValue.length))));
+                              offset: min(
+                                  cursorPosition, capitalizedValue.length))));
                     },
                   ),
                   TextFormField(
@@ -109,8 +109,8 @@ class PostDishPage extends HookConsumerWidget {
                       descriptionTextController.value = TextEditingValue(
                           text: capitalizedValue,
                           selection: TextSelection.fromPosition(TextPosition(
-                              offset:
-                                  min(cursorPosition, capitalizedValue.length))));
+                              offset: min(
+                                  cursorPosition, capitalizedValue.length))));
                     },
                   ),
                   TextFormField(
@@ -147,7 +147,6 @@ class PostDishPage extends HookConsumerWidget {
                       );
                       imageTextController.text = image.path;
                     },
-                  
                     child: Text(AppLocalizations.of(context)!.takePictureLabel),
                   ),
                   MutableCheckboxWidget<AllergenModel>(

@@ -6,9 +6,9 @@
 import 'dart:async' as _i4;
 
 import 'package:chefapp/data/dish_repository.dart' as _i3;
-import 'package:chefapp/Domain/model/allergen_model.dart' as _i7;
-import 'package:chefapp/Domain/model/dish_model.dart' as _i5;
-import 'package:chefapp/Domain/model/dish_type_model.dart' as _i6;
+import 'package:chefapp/domain/model/allergen_model.dart' as _i7;
+import 'package:chefapp/domain/model/dish_model.dart' as _i5;
+import 'package:chefapp/domain/model/dish_type_model.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:supabase_auth_ui/supabase_auth_ui.dart' as _i2;
 
