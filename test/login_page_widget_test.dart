@@ -15,7 +15,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'login_page_widget_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<UserRepository>()])
-
 void main() {
   testWidgets('Sign In page shows', (WidgetTester tester) async {
     await tester.pumpWidget(ProviderScope(
@@ -34,7 +33,7 @@ void main() {
 
     // Act
     final appBarFinder = find.byType(AppBar);
-    final titleFinder = find.text('Sign In');
+    final titleFinder = find.text("Sign in to Chef's app");
     final textInAppBarFinder = find.descendant(
       of: appBarFinder,
       matching: titleFinder,
@@ -54,7 +53,8 @@ void main() {
 
     final signInButtonFinder = find.descendant(
       of: find.byType(GradiantButton),
-      matching: find.text('Sign In'),);
+      matching: find.text('Sign In'),
+    );
     // final signInButtonFinder = find.widgetWithText(ElevatedButton, 'Sign In');
 
     //Assert
@@ -65,10 +65,11 @@ void main() {
     expect(signInButtonFinder, findsOneWidget);
   });
 
-   testWidgets('Sign In fails with invalid credentials',
+  testWidgets('Sign In fails with invalid credentials',
       (WidgetTester tester) async {
     final mockUserRepository = MockUserRepository();
-    AuthException exp = const AuthException("Invalid login credentials", statusCode: "400");
+    AuthException exp =
+        AuthApiException("Invalid login credentials", statusCode: "400");
     when(mockUserRepository.signUserIn("", ""))
         // ignore: void_checks
         .thenAnswer((realInvocation) => Future.value(throw exp));
@@ -78,7 +79,7 @@ void main() {
         ],
         child: Consumer(
           builder: (context, ref, child) => const MaterialApp(
-              locale: Locale('en'),
+              locale: Locale.fromSubtags(languageCode: 'en'),
               localizationsDelegates: [
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
@@ -93,12 +94,13 @@ void main() {
     await tester.enterText(find.bySemanticsLabel('Password'), '');
     await tester.tap(find.descendant(
       of: find.byType(GradiantButton),
-      matching: find.text('Sign In'),));
+      matching: find.text('Sign In'),
+    ));
     await tester.pumpAndSettle();
 
     final snackBarFinder = find.byType(SnackBar);
     final textFinder =
-        find.text('Unexpected error occurredAuthException(message: Invalid login credentials, statusCode: 400)');
+        find.text('Unexpected error occurred: Invalid login credentials');
     final textOnSnackBarFinder = find.descendant(
       of: snackBarFinder,
       matching: textFinder,
@@ -111,20 +113,22 @@ void main() {
   testWidgets('Sign In succeeds with valid credentials',
       (WidgetTester tester) async {
     final mockUserRepository = MockUserRepository();
-    AuthResponse authR = AuthResponse(session: Session(
-                accessToken: 'mocked_access_token',
-                refreshToken: 'mocked_refresh_token',
-                tokenType: 'bearer',
-                user: User(
-                  id: 'mocked_user_id',
-                  email: "test@test.dk",
-                  createdAt: DateTime.now().toString(),
-                  updatedAt: DateTime.now().toString(),
-                  appMetadata: {},
-                  userMetadata: {},
-                  aud: '',
-                ),
-              ),);
+    AuthResponse authR = AuthResponse(
+      session: Session(
+        accessToken: 'mocked_access_token',
+        refreshToken: 'mocked_refresh_token',
+        tokenType: 'bearer',
+        user: User(
+          id: 'mocked_user_id',
+          email: "test@test.dk",
+          createdAt: DateTime.now().toString(),
+          updatedAt: DateTime.now().toString(),
+          appMetadata: {},
+          userMetadata: {},
+          aud: '',
+        ),
+      ),
+    );
     // ignore: void_checks
     when(mockUserRepository.signUserIn("test@test.dk", "SecurePassword1234"))
         // ignore: void_checks
@@ -148,10 +152,12 @@ void main() {
 
     // Act
     await tester.enterText(find.bySemanticsLabel('Email'), 'test@test.dk');
-    await tester.enterText(find.bySemanticsLabel('Password'), 'SecurePassword1234');
+    await tester.enterText(
+        find.bySemanticsLabel('Password'), 'SecurePassword1234');
     await tester.tap(find.descendant(
       of: find.byType(GradiantButton),
-      matching: find.text('Sign In'),));
+      matching: find.text('Sign In'),
+    ));
     await tester.pumpAndSettle();
     final snackBarFinder = find.byType(SnackBar);
     final textFinder = find.text('Sign in successful!');
@@ -169,17 +175,17 @@ void main() {
       (WidgetTester tester) async {
     await tester.pumpWidget(ProviderScope(
         child: Consumer(
-          builder: (context, ref, child) => const MaterialApp(
-              locale: Locale('en'),
-              localizationsDelegates: [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: AppLocalizations.supportedLocales,
-              home: LoginPage()),
-        )));
+      builder: (context, ref, child) => const MaterialApp(
+          locale: Locale('en'),
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: LoginPage()),
+    )));
 
     //Act
 

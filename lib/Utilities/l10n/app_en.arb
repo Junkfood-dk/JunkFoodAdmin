@@ -1,8 +1,9 @@
 {
-  "homePageTitle": "Homepage",
+  "homePageTitle": "Dishes",
   "@homePageTitle": {
     "description": "This is the title banner of the Homepage"
   },
+  "logoutButton": "Logout",
   "punchText": "You have punched the button this many times:",
   "@punchText": {
     "description": "The text in the middle, describing how many times you have punched the button"
@@ -19,7 +20,7 @@
   "@signInError": {
     "description": "When an unexpected error occurs"
   },
-  "signInTitle": "Sign In",
+  "signInTitle": "Sign in to Chef's app",
   "@signInTitle": {
     "description": "Title of the login page"
   },
@@ -98,5 +99,6 @@
   "saveButton": "Save",
   "@saveButton": {
     "description": "Text for save button"
-  }
+  },
+  "signout": "Log out"
 }

@@ -1,5 +1,6 @@
 import 'package:chefapp/UI/Controllers/locale_controller.dart';
 import 'package:chefapp/Utilities/theming/color_theme.dart';
+import 'package:chefapp/Utilities/theming/text_theming.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:chefapp/UI/pages/splash_page.dart';
 import 'package:chefapp/Utilities/constants.dart';
@@ -18,8 +19,6 @@ Future<void> main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-final _supabase = Supabase.instance.client;
-
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
@@ -28,9 +27,10 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var locale = ref.watch(localeControllerProvider);
     return MaterialApp(
-      title: 'Chef App',
+      title: 'Junkfood Chef App',
       theme: ThemeData(
         colorScheme: colorTheme,
+        textTheme: appTextTheme,
         useMaterial3: true,
       ),
       localizationsDelegates: const [

@@ -1,8 +1,9 @@
-import 'package:chefapp/Domain/model/dish_model.dart';
+import 'package:chefapp/UI/Controllers/authentication_controller.dart';
 import 'package:chefapp/UI/Controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/UI/Widgets/dish_display_widget.dart';
 import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
 import 'package:chefapp/UI/pages/post_dish_page.dart';
+import 'package:chefapp/UI/pages/splash_page.dart';
 import 'package:chefapp/Utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
@@ -17,9 +18,19 @@ class HomePage extends ConsumerWidget {
     final dishOfTheDay = ref.watch(dishOfTheDayControllerProvider);
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: AppLocalizations.of(context)!.signout,
+            onPressed: () {
+              ref.watch(authenticationControllerProvider.notifier).signOut();
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const SplashPage(),
+              ));
+            },
+          ),
           title: Text(AppLocalizations.of(context)!.homePageTitle),
+          centerTitle: true,
           actions: const [LanguageDropdownWidget()],
-          automaticallyImplyLeading: false,
         ),
         body: Center(
             child: switch (dishOfTheDay) {
@@ -31,7 +42,7 @@ class HomePage extends ConsumerWidget {
                         .map((dish) =>
                             Center(child: DishDisplayWidget(dish: dish)))
                         .toList(),
-                    options: CarouselOptions(
+                    options: FlutterCarouselOptions(
                         height: MediaQuery.sizeOf(context).height * 0.6),
                   ),
                   GradiantButton(
@@ -42,7 +53,8 @@ class HomePage extends ConsumerWidget {
                             .read(dishOfTheDayControllerProvider.notifier)
                             .updateDishOfTheDay();
                       },
-                      child: Text(AppLocalizations.of(context)!.postDishButton))
+                      child:
+                          Text(AppLocalizations.of(context)!.postDishButton)),
                 ],
               ),
             ),

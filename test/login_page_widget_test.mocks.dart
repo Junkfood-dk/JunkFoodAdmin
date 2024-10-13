@@ -88,4 +88,14 @@ class MockUserRepository extends _i1.Mock implements _i3.UserRepository {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> signUserOut() => (super.noSuchMethod(
+        Invocation.method(
+          #signUserOut,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }

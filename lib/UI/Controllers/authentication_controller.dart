@@ -16,4 +16,8 @@ class AuthenticationController extends _$AuthenticationController {
   Future<void> signIn(String email, String password) async {
     await ref.read(userRepositoryProvider).signUserIn(email, password);
   }
+
+  Future<void> signOut() async {
+    await ref.read(userRepositoryProvider).signUserOut();
+  }
 }
