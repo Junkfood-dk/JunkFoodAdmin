@@ -40,7 +40,7 @@ void main() {
         )));
 
     final appBarFinder = find.byType(AppBar);
-    final titleFinder = find.text('Homepage');
+    final titleFinder = find.text('Dishes');
     final textInAppBarFinder = find.descendant(
       of: appBarFinder,
       matching: titleFinder,

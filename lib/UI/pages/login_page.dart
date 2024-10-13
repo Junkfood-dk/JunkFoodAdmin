@@ -55,35 +55,44 @@ class LoginPage extends HookConsumerWidget {
           actions: const [LanguageDropdownWidget()]),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32.0),
-        child: Center(
-          child: Form(
-            child: SizedBox(
-              width: 300.0,
-              child: Column(
-                children: [
-                  const LogoImage(),
-                  Text(AppLocalizations.of(context)!.signInText),
-                  const SizedBox(height: 18),
-                  TextFormField(
-                    controller: emailTextController,
-                    decoration: const InputDecoration(labelText: 'Email'),
-                    textInputAction: TextInputAction.next,
+        child: Form(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const LogoImage(),
+                Text(AppLocalizations.of(context)!.signInText),
+                const SizedBox(height: 18),
+                Center(
+                  child: SizedBox(
+                    width: 300.0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TextFormField(
+                          controller: emailTextController,
+                          decoration: const InputDecoration(labelText: 'Email'),
+                          textInputAction: TextInputAction.next,
+                        ),
+                        const SizedBox(height: 18),
+                        TextFormField(
+                          controller: passwordTextController,
+                          decoration:
+                              const InputDecoration(labelText: 'Password'),
+                          obscureText: true,
+                          textInputAction: TextInputAction.done,
+                          onFieldSubmitted: (_) => signIn(),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 18),
-                  TextFormField(
-                    controller: passwordTextController,
-                    decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                    textInputAction: TextInputAction.done,
-                    onFieldSubmitted: (_) => signIn(),
-                  ),
-                  const SizedBox(height: 18),
-                  GradiantButton(
-                    onPressed: isLoading.value ? null : signIn,
-                    child: Text(isLoading.value ? 'Loading' : 'Sign In'),
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 18),
+                GradiantButton(
+                  onPressed: isLoading.value ? null : signIn,
+                  child: Text(isLoading.value ? 'Loading' : 'Sign In'),
+                ),
+              ],
             ),
           ),
         ),
