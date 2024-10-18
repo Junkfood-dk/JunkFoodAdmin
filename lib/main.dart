@@ -1,6 +1,8 @@
+import 'package:chefapp/ui/controllers/authentication_controller.dart';
 import 'package:chefapp/ui/controllers/locale_controller.dart';
 import 'package:chefapp/utilities/theming/color_theme.dart';
 import 'package:chefapp/utilities/theming/text_theming.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:chefapp/ui/pages/splash_page.dart';
 import 'package:chefapp/utilities/constants.dart';
@@ -25,6 +27,19 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Skip signing in while debugging
+    if (kDebugMode) {
+      const username = String.fromEnvironment("USERNAME");
+      const password = String.fromEnvironment("PASSWORD");
+
+      if (username.isNotEmpty && password.isNotEmpty) {
+        ref.read(authenticationControllerProvider.notifier).signIn(
+              username,
+              password,
+            );
+      }
+    }
+
     var locale = ref.watch(localeControllerProvider);
     return MaterialApp(
       title: 'Junkfood Chef App',
