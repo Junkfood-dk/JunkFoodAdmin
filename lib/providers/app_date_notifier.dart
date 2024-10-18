@@ -15,19 +15,23 @@ class AppDateNotifier extends _$AppDateNotifier {
   // ignore: avoid_public_notifier_properties
   DateTime get appDate => state;
 
-  /// Returns true if [date] is on or before next weeks date. We don't allow setting
-  /// the date further into the future as dishes are not planned that far ahead.
+  /// Returns true if [date] is within a week from todays date
   bool isNextDateAllowed() {
     final nextDate = DateTime.now().add(DurationExt.duration1week).toDate();
     return state.isBefore(nextDate);
   }
 
-  /// Returns true if [date] is on or before next weeks date. We don't allow setting
+  /// Returns true if [date] is on or within a week from now. We don't allow setting
   /// the date further into the future as dishes are not planned that far ahead.
   bool isDateAllowed(DateTime date) {
-    final dayAfterTomorrow =
-        DateTime.now().add(DurationExt.duration2days).toDate();
-    return date.isBefore(dayAfterTomorrow);
+    final dayNextWeek = DateTime.now().add(DurationExt.duration1week).toDate();
+    return date.isBefore(dayNextWeek);
+  }
+
+  // Returns true if [date] is within a week from todays date
+  bool canAddDish(DateTime date) {
+    final dayNextWeek = DateTime.now().add(DurationExt.duration1week).toDate();
+    return dayNextWeek.difference(date).inDays <= 8;
   }
 
   /// Sets the date to the day after the current date

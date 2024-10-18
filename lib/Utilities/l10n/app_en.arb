@@ -100,5 +100,12 @@
   "@saveButton": {
     "description": "Text for save button"
   },
-  "signout": "Log out"
+  "signout": "Sign out",
+  "@signout": {
+    "description": "Text for sign out button"
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Text for button for setting the date to todays date"
+  } 
 }

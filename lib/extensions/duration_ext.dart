@@ -13,7 +13,7 @@ const Duration _duration60min = Duration(minutes: 60);
 // Days
 const Duration _duration1day = Duration(days: 1);
 const Duration _duration2days = Duration(days: 2);
-const Duration _duration1week = Duration(days: 7);
+const Duration _duration1week = Duration(days: 8);
 
 // Years
 const Duration _duration1year = Duration(days: 365);

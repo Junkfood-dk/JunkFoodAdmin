@@ -14,8 +14,11 @@ extension DateTimeExt on DateTime {
     return DateTime(year, month, day, 0, 0, 0);
   }
 
-  //S Returns todays date at a specific hour
+  // Returns todays date at a specific hour
   DateTime atHour(int hour) {
     return toDate().add(Duration(hours: hour));
   }
+
+  // Returns true if this date is the same as todays date
+  bool isToday() => toDate() == DateTime.now().toDate();
 }
