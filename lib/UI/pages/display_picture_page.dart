@@ -1,4 +1,4 @@
-import 'package:chefapp/UI/Controllers/camera_state_controller.dart';
+import 'package:chefapp/ui/Controllers/camera_state_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

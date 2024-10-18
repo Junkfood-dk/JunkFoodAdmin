@@ -1,12 +1,12 @@
-import 'package:chefapp/UI/Controllers/authentication_controller.dart';
-import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
-import 'package:chefapp/UI/Widgets/logo_image.dart';
+import 'package:chefapp/ui/Controllers/authentication_controller.dart';
+import 'package:chefapp/ui/Widgets/language_dropdown_widget.dart';
+import 'package:chefapp/ui/Widgets/logo_image.dart';
 import 'package:chefapp/Utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:chefapp/UI/pages/home_page.dart';
+import 'package:chefapp/ui/pages/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends HookConsumerWidget {

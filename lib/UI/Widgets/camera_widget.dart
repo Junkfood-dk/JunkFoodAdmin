@@ -1,5 +1,5 @@
-import 'package:chefapp/UI/Controllers/camera_state_controller.dart';
-import 'package:chefapp/UI/pages/display_picture_page.dart';
+import 'package:chefapp/ui/Controllers/camera_state_controller.dart';
+import 'package:chefapp/ui/pages/display_picture_page.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,8 +7,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CameraWidget extends ConsumerWidget {
   const CameraWidget({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,7 +16,7 @@ class CameraWidget extends ConsumerWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.cameraTitle),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Dispose the CameraStateController
             ref.watch(cameraStateControllerProvider.notifier).dispose();
@@ -35,7 +35,7 @@ class CameraWidget extends ConsumerWidget {
                 snapshot.data!,
               );
             } else {
-              return Text('Failed to initialize camera');
+              return const Text('Failed to initialize camera');
             }
           } else {
             return const Center(child: CircularProgressIndicator());
@@ -43,7 +43,7 @@ class CameraWidget extends ConsumerWidget {
         },
       ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(left: 30),
+        padding: const EdgeInsets.only(left: 30),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

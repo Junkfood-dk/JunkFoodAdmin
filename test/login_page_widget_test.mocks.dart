@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:chefapp/Data/user_repository.dart' as _i3;
+import 'package:chefapp/data/user_repository.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:supabase_auth_ui/supabase_auth_ui.dart' as _i2;
 

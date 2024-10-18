@@ -1,4 +1,4 @@
-import 'package:chefapp/Domain/model/dish_model.dart';
+import 'package:chefapp/domain/model/dish_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -11,7 +11,7 @@ class DishDisplayWidget extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 5.0),
+        margin: const EdgeInsets.symmetric(horizontal: 5.0),
         child: Column(
           children: [
             Column(
@@ -30,7 +30,7 @@ class DishDisplayWidget extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
                     child: AspectRatio(
                       aspectRatio: 16 / 9,
                       child: Image.network(dish.imageUrl, fit: BoxFit.cover,

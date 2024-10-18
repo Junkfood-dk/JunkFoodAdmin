@@ -1,6 +1,6 @@
-import 'package:chefapp/Data/allergenes_repository.dart';
-import 'package:chefapp/Domain/model/allergen_model.dart';
-import 'package:chefapp/UI/Controllers/selected_allergenes_controller.dart';
+import 'package:chefapp/data/allergenes_repository.dart';
+import 'package:chefapp/domain/model/allergen_model.dart';
+import 'package:chefapp/ui/Controllers/selected_allergenes_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'allergenes_controller.g.dart';

@@ -1,6 +1,6 @@
-import 'package:chefapp/Domain/model/allergen_model.dart';
-import 'package:chefapp/Domain/model/dish_model.dart';
-import 'package:chefapp/Domain/model/dish_type_model.dart';
+import 'package:chefapp/domain/model/allergen_model.dart';
+import 'package:chefapp/domain/model/dish_model.dart';
+import 'package:chefapp/domain/model/dish_type_model.dart';
 
 abstract interface class IDishRepository {
   Future<List<DishModel>> fetchDishOfTheDay();

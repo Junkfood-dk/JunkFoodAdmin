@@ -1,5 +1,5 @@
-import 'package:chefapp/Data/categories_repository.dart';
-import 'package:chefapp/Domain/model/category_model.dart';
+import 'package:chefapp/data/categories_repository.dart';
+import 'package:chefapp/domain/model/category_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'selected_categories_controller.g.dart';

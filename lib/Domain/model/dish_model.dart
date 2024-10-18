@@ -1,4 +1,4 @@
-import 'package:chefapp/Domain/model/dish_type_model.dart';
+import 'package:chefapp/domain/model/dish_type_model.dart';
 
 class DishModel {
   String title;

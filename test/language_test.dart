@@ -1,6 +1,6 @@
-import 'package:chefapp/Domain/model/language_model.dart';
-import 'package:chefapp/UI/Controllers/locale_controller.dart';
-import 'package:chefapp/UI/Widgets/language_dropdown_widget.dart';
+import 'package:chefapp/domain/model/language_model.dart';
+import 'package:chefapp/ui/Controllers/locale_controller.dart';
+import 'package:chefapp/ui/Widgets/language_dropdown_widget.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +71,7 @@ void main() {
   testWidgets('Language_dropdown_component contains danish and english options',
       (WidgetTester tester) async {
     //Arrange
-    await tester.pumpWidget(ProviderScope(
+    await tester.pumpWidget(const ProviderScope(
       child: MaterialApp(home: LanguageDropdownWidget()),
     ));
 
