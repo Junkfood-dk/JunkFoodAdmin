@@ -1,6 +1,6 @@
 import 'package:chefapp/domain/model/dish_type_model.dart';
-import 'package:chefapp/ui/Controllers/dish_types_controller.dart';
-import 'package:chefapp/ui/Controllers/selected_dish_type_controller.dart';
+import 'package:chefapp/ui/controllers/dish_types_controller.dart';
+import 'package:chefapp/ui/controllers/selected_dish_type_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

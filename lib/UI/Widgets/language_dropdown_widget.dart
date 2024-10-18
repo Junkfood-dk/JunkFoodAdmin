@@ -1,6 +1,6 @@
 import 'package:chefapp/domain/model/language_model.dart';
-import 'package:chefapp/ui/Controllers/locale_controller.dart';
-import 'package:chefapp/Utilities/widgets/gradiant_wrapper.dart';
+import 'package:chefapp/ui/controllers/locale_controller.dart';
+import 'package:chefapp/utilities/widgets/gradiant_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
