@@ -1,7 +1,7 @@
 import 'package:chefapp/data/dish_repository.dart';
 import 'package:chefapp/domain/model/dish_model.dart';
 import 'package:chefapp/domain/model/dish_type_model.dart';
-import 'package:chefapp/ui/Controllers/dish_of_the_day_controller.dart';
+import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mockito/annotations.dart';

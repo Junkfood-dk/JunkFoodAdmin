@@ -1,7 +1,7 @@
 import 'package:chefapp/data/dish_repository.dart';
 import 'package:chefapp/domain/model/dish_model.dart';
 import 'package:chefapp/domain/model/dish_type_model.dart';
-import 'package:chefapp/ui/Controllers/locale_controller.dart';
+import 'package:chefapp/ui/controllers/locale_controller.dart';
 import 'package:chefapp/ui/pages/home_page.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';

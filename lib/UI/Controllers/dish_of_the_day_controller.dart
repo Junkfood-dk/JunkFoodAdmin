@@ -3,8 +3,8 @@ import 'package:chefapp/data/image_repository.dart';
 import 'package:chefapp/data/dish_repository.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:chefapp/domain/model/dish_model.dart';
-import 'package:chefapp/ui/Controllers/selected_allergenes_controller.dart';
-import 'package:chefapp/ui/Controllers/selected_dish_type_controller.dart';
+import 'package:chefapp/ui/controllers/selected_allergenes_controller.dart';
+import 'package:chefapp/ui/controllers/selected_dish_type_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -1,4 +1,4 @@
-import 'package:chefapp/ui/Controllers/camera_state_controller.dart';
+import 'package:chefapp/ui/controllers/camera_state_controller.dart';
 import 'package:chefapp/ui/pages/display_picture_page.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';

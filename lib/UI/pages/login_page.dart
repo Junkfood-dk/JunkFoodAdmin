@@ -1,6 +1,6 @@
-import 'package:chefapp/ui/Controllers/authentication_controller.dart';
-import 'package:chefapp/ui/Widgets/language_dropdown_widget.dart';
-import 'package:chefapp/ui/Widgets/logo_image.dart';
+import 'package:chefapp/ui/controllers/authentication_controller.dart';
+import 'package:chefapp/ui/widgets/language_dropdown_widget.dart';
+import 'package:chefapp/ui/widgets/logo_image.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';

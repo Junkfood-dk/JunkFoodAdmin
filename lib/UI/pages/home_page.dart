@@ -1,7 +1,7 @@
-import 'package:chefapp/ui/Controllers/authentication_controller.dart';
-import 'package:chefapp/ui/Controllers/dish_of_the_day_controller.dart';
-import 'package:chefapp/ui/Widgets/dish_display_widget.dart';
-import 'package:chefapp/ui/Widgets/language_dropdown_widget.dart';
+import 'package:chefapp/ui/controllers/authentication_controller.dart';
+import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
+import 'package:chefapp/ui/widgets/dish_display_widget.dart';
+import 'package:chefapp/ui/widgets/language_dropdown_widget.dart';
 import 'package:chefapp/ui/pages/post_dish_page.dart';
 import 'package:chefapp/ui/pages/splash_page.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';

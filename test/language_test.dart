@@ -1,6 +1,6 @@
 import 'package:chefapp/domain/model/language_model.dart';
-import 'package:chefapp/ui/Controllers/locale_controller.dart';
-import 'package:chefapp/ui/Widgets/language_dropdown_widget.dart';
+import 'package:chefapp/ui/controllers/locale_controller.dart';
+import 'package:chefapp/ui/widgets/language_dropdown_widget.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';

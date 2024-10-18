@@ -1,4 +1,4 @@
-import 'package:chefapp/ui/Controllers/locale_controller.dart';
+import 'package:chefapp/ui/controllers/locale_controller.dart';
 import 'package:chefapp/ui/pages/post_dish_page.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';

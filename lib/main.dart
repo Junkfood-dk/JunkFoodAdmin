@@ -1,4 +1,4 @@
-import 'package:chefapp/ui/Controllers/locale_controller.dart';
+import 'package:chefapp/ui/controllers/locale_controller.dart';
 import 'package:chefapp/utilities/theming/color_theme.dart';
 import 'package:chefapp/utilities/theming/text_theming.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
