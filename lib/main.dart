@@ -1,9 +1,9 @@
 import 'package:chefapp/ui/Controllers/locale_controller.dart';
-import 'package:chefapp/Utilities/theming/color_theme.dart';
-import 'package:chefapp/Utilities/theming/text_theming.dart';
+import 'package:chefapp/utilities/theming/color_theme.dart';
+import 'package:chefapp/utilities/theming/text_theming.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:chefapp/ui/pages/splash_page.dart';
-import 'package:chefapp/Utilities/constants.dart';
+import 'package:chefapp/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';

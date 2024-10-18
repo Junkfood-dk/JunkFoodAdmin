@@ -4,7 +4,7 @@ import 'package:chefapp/ui/Widgets/dish_display_widget.dart';
 import 'package:chefapp/ui/Widgets/language_dropdown_widget.dart';
 import 'package:chefapp/ui/pages/post_dish_page.dart';
 import 'package:chefapp/ui/pages/splash_page.dart';
-import 'package:chefapp/Utilities/widgets/gradiant_button_widget.dart';
+import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

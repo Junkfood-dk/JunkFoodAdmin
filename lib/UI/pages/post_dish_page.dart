@@ -12,7 +12,7 @@ import 'package:chefapp/ui/Widgets/camera_widget.dart';
 import 'package:chefapp/ui/Widgets/dish_type_dropdown_widget.dart';
 import 'package:chefapp/ui/Widgets/language_dropdown_widget.dart';
 import 'package:chefapp/ui/Widgets/mutable_checkbox_widget.dart';
-import 'package:chefapp/Utilities/widgets/gradiant_button_widget.dart';
+import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
