@@ -11,9 +11,20 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:io';
+
+import 'utilities/http/http_certificate_override_debug.dart'
+    if (dart.library.html) 'utilities/http/http_certificate_override_stub.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (kDebugMode) {
+    // This will ignore all invalid or self signed certificates.
+    // It should NOT go into production!
+    HttpOverrides.global = HttpCertificateOverrides();
+  }
+
   await Supabase.initialize(
     url: Constants.supabaseUrl,
     anonKey: Constants.supabaseAnonKey,

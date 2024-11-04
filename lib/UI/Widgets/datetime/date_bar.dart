@@ -1,4 +1,5 @@
 import 'package:chefapp/providers/providers.dart';
+import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/ui/widgets/today_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +23,9 @@ class DateBar extends ConsumerWidget {
             icon: const Icon(Icons.arrow_back, size: 18.0),
             onPressed: () {
               ref.read(Providers.appDate.notifier).setPreviousDate();
+              ref
+                  .read(dishOfTheDayControllerProvider.notifier)
+                  .updateDishOfTheDay();
             },
           ),
           Row(
@@ -59,6 +63,9 @@ class DateBar extends ConsumerWidget {
             onPressed: ref.read(Providers.appDate.notifier).isNextDateAllowed()
                 ? () {
                     ref.read(Providers.appDate.notifier).setNextDate();
+                    ref
+                        .read(dishOfTheDayControllerProvider.notifier)
+                        .updateDishOfTheDay();
                   }
                 : null,
           ),
@@ -78,6 +85,7 @@ class DateBar extends ConsumerWidget {
 
     if (date != null) {
       ref.read(Providers.appDate.notifier).setDate(date);
+      ref.read(dishOfTheDayControllerProvider.notifier).updateDishOfTheDay();
     }
   }
 }

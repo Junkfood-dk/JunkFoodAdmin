@@ -12,12 +12,13 @@ class DishRepository implements IDishRepository {
   SupabaseClient database;
   DishRepository({required this.database});
   @override
-  Future<List<DishModel>> fetchDishOfTheDay() async {
+  Future<List<DishModel>> fetchDishOfTheDay([DateTime? date]) async {
     return await database
         .from("Dish_Schedule")
         .select(
             "Dishes(id, title, description, calories, Dish_type(id, dish_type), image)")
-        .filter("date", "eq", DateTime.now().toIso8601String())
+        .filter("date", "eq",
+            date?.toIso8601String() ?? DateTime.now().toIso8601String())
         .then((rows) =>
             rows.map((json) => DishModel.fromJson(json["Dishes"])).toList());
   }
