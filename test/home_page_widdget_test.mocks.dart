@@ -63,10 +63,11 @@ class MockDishRepository extends _i1.Mock implements _i3.DishRepository {
       );
 
   @override
-  _i4.Future<List<_i5.DishModel>> fetchDishOfTheDay() => (super.noSuchMethod(
+  _i4.Future<List<_i5.DishModel>> fetchDishOfTheDay([DateTime? date]) =>
+      (super.noSuchMethod(
         Invocation.method(
           #fetchDishOfTheDay,
-          [],
+          [date],
         ),
         returnValue: _i4.Future<List<_i5.DishModel>>.value(<_i5.DishModel>[]),
         returnValueForMissingStub:

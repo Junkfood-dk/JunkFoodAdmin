@@ -1,11 +1,10 @@
-import 'package:camera/camera.dart';
 import 'package:chefapp/data/image_repository.dart';
 import 'package:chefapp/data/dish_repository.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:chefapp/domain/model/dish_model.dart';
+import 'package:chefapp/providers/providers.dart';
 import 'package:chefapp/ui/controllers/selected_allergenes_controller.dart';
 import 'package:chefapp/ui/controllers/selected_dish_type_controller.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dish_of_the_day_controller.g.dart';
@@ -21,8 +20,9 @@ class DishOfTheDayController extends _$DishOfTheDayController {
   }
 
   Future<void> updateDishOfTheDay() async {
-    var repository = ref.read(dishRepositoryProvider);
-    List<DishModel> dishModelList = await repository.fetchDishOfTheDay();
+    final repository = ref.read(dishRepositoryProvider);
+    final date = ref.read(Providers.appDate);
+    List<DishModel> dishModelList = await repository.fetchDishOfTheDay(date);
     state = dishModelList.isNotEmpty
         ? AsyncData(dishModelList)
         : const AsyncData([]);
@@ -34,7 +34,7 @@ class DishOfTheDayController extends _$DishOfTheDayController {
     var repository = ref.read(dishRepositoryProvider);
     var selectedDishType = ref.read(selectedDishTypeControllerProvider);
     var dbImageUrl =
-        await ref.read(imageRepositoryProvider).uploadImage(XFile(imageUrl));
+        await ref.read(imageRepositoryProvider).uploadImageUrl(imageUrl);
     var newDishId = await repository.postDishOfTheDay(
         title, description, calories, dbImageUrl!, selectedDishType!);
     var selectedAllergens = ref

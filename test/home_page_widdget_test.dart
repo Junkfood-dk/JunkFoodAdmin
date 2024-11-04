@@ -13,7 +13,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-import 'home_page_widget_test.mocks.dart';
+import 'home_page_widdget_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<DishRepository>()])
 void main() {
