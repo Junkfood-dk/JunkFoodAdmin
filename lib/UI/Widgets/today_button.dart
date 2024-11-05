@@ -1,4 +1,5 @@
 import 'package:chefapp/providers/providers.dart';
+import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/ui/widgets/datetime/date.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,8 +11,12 @@ class TodayButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return TextButton(
-        onPressed: () =>
-            ref.read(Providers.appDate.notifier).setDate(DateTime.now()),
+        onPressed: () {
+          ref.read(Providers.appDate.notifier).setDate(DateTime.now());
+          ref
+              .read(dishOfTheDayControllerProvider.notifier)
+              .updateDishOfTheDay();
+        },
         child: Column(
           children: [
             Text(AppLocalizations.of(context)!.today.toUpperCase()),

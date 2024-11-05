@@ -30,10 +30,6 @@ class DateBar extends ConsumerWidget {
           ),
           Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: TodayButton(),
-              ),
               GestureDetector(
                 onTap: () {
                   pickDate(context, ref, appDate);
