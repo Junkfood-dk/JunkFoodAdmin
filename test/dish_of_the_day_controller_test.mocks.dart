@@ -98,6 +98,33 @@ class MockDishRepository extends _i1.Mock implements _i3.DishRepository {
       ) as _i4.Future<int>);
 
   @override
+  _i4.Future<int> addToTodaysMenu(int? id) => (super.noSuchMethod(
+        Invocation.method(
+          #addToTodaysMenu,
+          [id],
+        ),
+        returnValue: _i4.Future<int>.value(0),
+        returnValueForMissingStub: _i4.Future<int>.value(0),
+      ) as _i4.Future<int>);
+
+  @override
+  _i4.Future<bool> removeFromMenu(
+    int? id, [
+    DateTime? date,
+  ]) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #removeFromMenu,
+          [
+            id,
+            date,
+          ],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+        returnValueForMissingStub: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+
+  @override
   void addAllergeneToDish(
     _i7.AllergenModel? allergene,
     int? dishId,

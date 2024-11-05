@@ -1,3 +1,7 @@
+import 'package:intl/intl.dart';
+
+final supaDateFormat = DateFormat('yyyy-MM-dd');
+
 extension DateTimeExt on DateTime {
   /// Returns the date with seconds set to 0
   DateTime toMinute() {
@@ -21,4 +25,15 @@ extension DateTimeExt on DateTime {
 
   // Returns true if this date is the same as todays date
   bool isToday() => toDate() == DateTime.now().toDate();
+
+  // Returns true if this date is the same as todays date
+  bool isTodayOrAfter() {
+    final today = DateTime.now().toDate();
+    return toDate() == today || toDate().isAfter(today);
+  }
+
+  /// Returns the date with hour, minutes and seconds set to 0
+  String toSupaDate() {
+    return supaDateFormat.format(DateTime(year, month, day, 0, 0, 0));
+  }
 }

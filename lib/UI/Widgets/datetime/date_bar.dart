@@ -1,6 +1,5 @@
 import 'package:chefapp/providers/providers.dart';
 import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
-import 'package:chefapp/ui/widgets/today_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chefapp/ui/widgets/datetime/date.dart';
@@ -30,10 +29,6 @@ class DateBar extends ConsumerWidget {
           ),
           Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: TodayButton(),
-              ),
               GestureDetector(
                 onTap: () {
                   pickDate(context, ref, appDate);

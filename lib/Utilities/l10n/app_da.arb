@@ -8,9 +8,25 @@
   "@punchText": {
     "description": "The text in the middle, describing how many times you have punched the button"
   },
-  "postDishButton": "Tilføj ret",
+  "postDishButton": "Tilføj ny ret",
   "@postDishButton": {
     "description": "This is the button that will show you the post dish page"
+  },
+  "addExistingDishButton": "Tilføj til dagens menu",
+  "@addExistingDishButton": {
+    "description": "This is the button that will add an existing dish to todays menu"
+  },
+  "existingDishAdded": "Retten er blevet tilføjet til dagens menu",
+  "@existingDishAdded": {
+    "description": "Message saying the dish was successfully added to todays menu"
+  },
+  "removeExistingDishButton": "Fjern fra menu",
+  "@removeExistingDishButton": {
+    "description": "This is the button that will remove an existing dish from the days menu"
+  },
+  "existingDishRemoved": "Retten er blevet fjernet fra menuen",
+  "@existingDishRemoved": {
+    "description": "Message saying the dish was successfully removed from the menu"
   },
   "signInSuccessful": "Login var en success!",
   "@signInSuccessful": {
@@ -28,7 +44,7 @@
   "@signInText": {
     "description": "Text to describe what to do on the login page"
   },
-  "addDishPageTitle": "Tilføj ret",
+  "addDishPageTitle": "Tilføj ny ret",
   "@addDishPageTitle": {
     "description": "Title of the add dish page"
   },

@@ -1,3 +1,4 @@
+import 'package:chefapp/extensions/sized_box_ext.dart';
 import 'package:chefapp/providers/providers.dart';
 import 'package:chefapp/ui/controllers/authentication_controller.dart';
 import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
@@ -42,6 +43,7 @@ class HomePage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const DateBar(),
+                  SizedBoxExt.sizedBoxHeight16,
                   FlutterCarousel(
                     items: value
                         .map((dish) =>

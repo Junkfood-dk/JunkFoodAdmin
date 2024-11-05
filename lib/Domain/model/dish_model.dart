@@ -1,6 +1,7 @@
 import 'package:chefapp/domain/model/dish_type_model.dart';
 
 class DishModel {
+  int? id;
   String title;
   String description;
   int calories;
@@ -8,7 +9,8 @@ class DishModel {
   String imageUrl;
 
   DishModel(
-      {required this.title,
+      {this.id,
+      required this.title,
       required this.dishType,
       this.description = "",
       this.calories = 0,
@@ -16,6 +18,7 @@ class DishModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'description': description,
       'calories': calories,
@@ -26,6 +29,9 @@ class DishModel {
 
   static DishModel fromJson(Map<String, dynamic> input) {
     return DishModel(
+        id: input.containsKey("id")
+            ? input["id"]
+            : throw Exception("No id provided"),
         title: input.containsKey("title")
             ? input["title"]
             : throw Exception("No title provided"),
