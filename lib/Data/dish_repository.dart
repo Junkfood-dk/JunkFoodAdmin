@@ -30,12 +30,13 @@ class DishRepository implements IDishRepository {
   Future<int> postDishOfTheDay(String title, String description, int calories,
       String imageUrl, DishTypeModel dishType) async {
     DishModel newDish = DishModel(
+        id: -1,
         title: title,
         dishType: dishType,
         description: description,
         calories: calories,
         imageUrl: imageUrl);
-    var row = await database.from("Dishes").insert(newDish).select("id");
+    var row = await database.from("Dishes").upsert(newDish).select("id");
     var id = row[0]['id'];
     var response = await database.from("Dish_Schedule").insert(
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
