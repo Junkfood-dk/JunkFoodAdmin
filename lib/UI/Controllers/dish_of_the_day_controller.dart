@@ -49,4 +49,14 @@ class DishOfTheDayController extends _$DishOfTheDayController {
     var repository = ref.read(dishRepositoryProvider);
     repository.addAllergeneToDish(allergen, id);
   }
+
+  Future<int> addToTodaysMenu(int id) {
+    final repository = ref.read(dishRepositoryProvider);
+    return repository.addToTodaysMenu(id);
+  }
+
+  Future<bool> removeFromMenu(int id, [DateTime? date]) {
+    final repository = ref.read(dishRepositoryProvider);
+    return repository.removeFromMenu(id, date);
+  }
 }

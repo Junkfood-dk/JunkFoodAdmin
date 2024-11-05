@@ -1,13 +1,21 @@
 import 'package:chefapp/domain/model/dish_model.dart';
+import 'package:chefapp/extensions/date_time_ext.dart';
+import 'package:chefapp/extensions/sized_box_ext.dart';
+import 'package:chefapp/providers/providers.dart';
+import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
+import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DishDisplayWidget extends StatelessWidget {
+class DishDisplayWidget extends ConsumerWidget {
   final DishModel dish;
   const DishDisplayWidget({super.key, required this.dish});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final date = ref.watch(Providers.appDate);
+
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       child: Card(
@@ -24,9 +32,7 @@ class DishDisplayWidget extends StatelessWidget {
                 else
                   Text(AppLocalizations.of(context)!.noDishType,
                       style: Theme.of(context).textTheme.headlineMedium),
-                const SizedBox(
-                  width: 20,
-                ),
+                SizedBoxExt.sizedBoxHeight16,
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: ClipRRect(
@@ -50,6 +56,7 @@ class DishDisplayWidget extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBoxExt.sizedBoxHeight16,
                 if (dish.title != "")
                   Text(
                     dish.title,
@@ -57,22 +64,53 @@ class DishDisplayWidget extends StatelessWidget {
                   )
                 else
                   Text(AppLocalizations.of(context)!.noTitle),
+                SizedBoxExt.sizedBoxHeight8,
                 if (dish.description != "")
                   Text(dish.description)
                 else
                   Text(AppLocalizations.of(context)!.noDescription),
+                SizedBoxExt.sizedBoxHeight8,
                 Text(
-                  "${AppLocalizations.of(context)!.textFormLabelForDescription}:",
+                  "${AppLocalizations.of(context)!.calories}: ${dish.calories}",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                if (dish.calories > 0)
-                  Text("${dish.calories}")
-                else
-                  Text(AppLocalizations.of(context)!.noCalories),
-                Text(
-                  "${AppLocalizations.of(context)!.calories}:",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
+                if (date.isTodayOrAfter()) ...[
+                  SizedBoxExt.sizedBoxHeight16,
+                  if (dish.id != null)
+                    TextButton(
+                        onPressed: () async {
+                          final ok = await ref
+                              .read(dishOfTheDayControllerProvider.notifier)
+                              .removeFromMenu(dish.id!, date);
+                          if (ok) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(AppLocalizations.of(context)!
+                                    .existingDishRemoved)));
+                            await ref
+                                .read(dishOfTheDayControllerProvider.notifier)
+                                .updateDishOfTheDay();
+                          }
+                        },
+                        child: Text(AppLocalizations.of(context)!
+                            .removeExistingDishButton)),
+                ],
+                if (!date.isToday()) ...[
+                  SizedBoxExt.sizedBoxHeight16,
+                  if (dish.id != null)
+                    GradiantButton(
+                        onPressed: () async {
+                          final id = await ref
+                              .read(dishOfTheDayControllerProvider.notifier)
+                              .addToTodaysMenu(dish.id!);
+                          if (id > 0) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(AppLocalizations.of(context)!
+                                    .existingDishAdded)));
+                          }
+                        },
+                        child: Text(AppLocalizations.of(context)!
+                            .addExistingDishButton)),
+                ]
               ],
             ),
           ],

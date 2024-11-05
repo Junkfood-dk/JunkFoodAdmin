@@ -3,6 +3,7 @@ import 'package:chefapp/data/interface_dish_repository.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:chefapp/domain/model/dish_model.dart';
 import 'package:chefapp/domain/model/dish_type_model.dart';
+import 'package:chefapp/extensions/date_time_ext.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
@@ -20,7 +21,9 @@ class DishRepository implements IDishRepository {
         .filter("date", "eq",
             date?.toIso8601String() ?? DateTime.now().toIso8601String())
         .then((rows) =>
-            rows.map((json) => DishModel.fromJson(json["Dishes"])).toList());
+            rows.map((json) => DishModel.fromJson(json["Dishes"])).toList())
+        .then(
+            (list) => list..sort((d1, d2) => d1.dishType.id - d2.dishType.id));
   }
 
   @override
@@ -37,6 +40,27 @@ class DishRepository implements IDishRepository {
     var response = await database.from("Dish_Schedule").insert(
         {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
     return response[0]['id'];
+  }
+
+  @override
+  Future<int> addToTodaysMenu(int id) async {
+    var response = await database.from("Dish_Schedule").insert(
+        {'id': id, 'date': DateTime.now().toIso8601String()}).select("id");
+    return response.first['id'];
+  }
+
+  @override
+  Future<bool> removeFromMenu(int id, [DateTime? date]) async {
+    try {
+      await database
+          .from("Dish_Schedule")
+          .delete()
+          .eq("id", id)
+          .eq("date", (date ?? DateTime.now()).toSupaDate());
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   @override
