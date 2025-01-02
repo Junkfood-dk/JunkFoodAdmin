@@ -43,9 +43,13 @@ class PostDishPage extends HookConsumerWidget {
       });
       int cursorPosition = newAllergenTextController.selection.baseOffset;
       newAllergenTextController.value = TextEditingValue(
-          text: capitalizedValue,
-          selection: TextSelection.fromPosition(TextPosition(
-              offset: min(cursorPosition, capitalizedValue.length))));
+        text: capitalizedValue,
+        selection: TextSelection.fromPosition(
+          TextPosition(
+            offset: min(cursorPosition, capitalizedValue.length),
+          ),
+        ),
+      );
     });
 
     var newCategoryTextController = useTextEditingController();
@@ -55,13 +59,14 @@ class PostDishPage extends HookConsumerWidget {
     var imageTextController = useTextEditingController();
     var selectedAllergenes = ref.watch(selectedAllergenesControllerProvider);
     var selectedCategories = ref.watch(selectedCategoriesControllerProvider);
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.addDishPageTitle),
-          actions: const [LanguageDropdownWidget()],
-        ),
-        body: Center(
-            child: SizedBox(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.addDishPageTitle),
+        actions: const [LanguageDropdownWidget()],
+      ),
+      body: Center(
+        child: SizedBox(
           width: MediaQuery.sizeOf(context).width * 0.6,
           child: Form(
             key: _formKey,
@@ -71,8 +76,9 @@ class PostDishPage extends HookConsumerWidget {
                   TextFormField(
                     key: const Key("titleField"),
                     decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context)!.textFormLabelForName),
+                      labelText:
+                          AppLocalizations.of(context)!.textFormLabelForName,
+                    ),
                     controller: nameTextController,
                     onChanged: (value) {
                       String capitalizedValue = value.replaceAllMapped(
@@ -87,55 +93,73 @@ class PostDishPage extends HookConsumerWidget {
                       int cursorPosition =
                           nameTextController.selection.baseOffset;
                       nameTextController.value = TextEditingValue(
-                          text: capitalizedValue,
-                          selection: TextSelection.fromPosition(TextPosition(
-                              offset: min(
-                                  cursorPosition, capitalizedValue.length))));
+                        text: capitalizedValue,
+                        selection: TextSelection.fromPosition(
+                          TextPosition(
+                            offset: min(
+                              cursorPosition,
+                              capitalizedValue.length,
+                            ),
+                          ),
+                        ),
+                      );
                     },
                   ),
                   TextFormField(
                     key: const Key("descriptionField"),
                     decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!
-                            .textFormLabelForDescription),
+                      labelText: AppLocalizations.of(context)!
+                          .textFormLabelForDescription,
+                    ),
                     controller: descriptionTextController,
                     keyboardType: TextInputType.multiline,
                     onChanged: (value) {
                       String capitalizedValue = value.replaceAllMapped(
-                          RegExp(r'(?<=(?:^|[.!?]\s))\p{L}', unicode: true),
-                          (match) => match.group(0)!.toUpperCase());
+                        RegExp(r'(?<=(?:^|[.!?]\s))\p{L}', unicode: true),
+                        (match) => match.group(0)!.toUpperCase(),
+                      );
                       int cursorPosition =
                           descriptionTextController.selection.baseOffset;
                       descriptionTextController.value = TextEditingValue(
-                          text: capitalizedValue,
-                          selection: TextSelection.fromPosition(TextPosition(
-                              offset: min(
-                                  cursorPosition, capitalizedValue.length))));
+                        text: capitalizedValue,
+                        selection: TextSelection.fromPosition(
+                          TextPosition(
+                            offset: min(
+                              cursorPosition,
+                              capitalizedValue.length,
+                            ),
+                          ),
+                        ),
+                      );
                     },
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!
-                            .textFormLabelForCalories),
+                      labelText: AppLocalizations.of(context)!
+                          .textFormLabelForCalories,
+                    ),
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly
+                      FilteringTextInputFormatter.digitsOnly,
                     ],
                     onChanged: (value) =>
                         calorieCount.value = int.tryParse(value) ?? 0,
                   ),
                   TextFormField(
-                      validator: (value) {
-                        if (!isValidUrl(value!)) {
-                          return AppLocalizations.of(context)!.invalidURLPromt;
-                        } else {
-                          return null;
-                        }
-                      },
-                      decoration: InputDecoration(
-                          label: Text(AppLocalizations.of(context)!
-                              .textFormLabelForImageURL)),
-                      controller: imageTextController),
+                    validator: (value) {
+                      if (!isValidUrl(value!)) {
+                        return AppLocalizations.of(context)!.invalidURLPromt;
+                      } else {
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                      label: Text(
+                        AppLocalizations.of(context)!.textFormLabelForImageURL,
+                      ),
+                    ),
+                    controller: imageTextController,
+                  ),
                   const SizedBox(height: 10),
                   GradiantButton(
                     onPressed: () async {
@@ -150,48 +174,66 @@ class PostDishPage extends HookConsumerWidget {
                     child: Text(AppLocalizations.of(context)!.takePictureLabel),
                   ),
                   MutableCheckboxWidget<AllergenModel>(
-                      map: selectedAllergenes,
-                      onSelected: ref
-                          .read(selectedAllergenesControllerProvider.notifier)
-                          .setSelected,
-                      labelText: "Add allergenes",
-                      textController: newAllergenTextController,
-                      postNew: ref
-                          .read(allergenesControllerProvider.notifier)
-                          .postNewAllergen,
-                      labelStyle: labelText),
+                    map: selectedAllergenes,
+                    onSelected: ref
+                        .read(selectedAllergenesControllerProvider.notifier)
+                        .setSelected,
+                    labelText: "Add allergenes",
+                    textController: newAllergenTextController,
+                    postNew: ref
+                        .read(allergenesControllerProvider.notifier)
+                        .postNewAllergen,
+                    labelStyle: labelText,
+                  ),
                   MutableCheckboxWidget<CategoryModel>(
-                      map: selectedCategories,
-                      onSelected: ref
-                          .read(selectedCategoriesControllerProvider.notifier)
-                          .setSelected,
-                      labelText: "Add category",
-                      textController: newCategoryTextController,
-                      postNew: ref
-                          .read(categoriesControllerProvider.notifier)
-                          .postNewCategory,
-                      labelStyle: labelText),
+                    map: selectedCategories,
+                    onSelected: ref
+                        .read(selectedCategoriesControllerProvider.notifier)
+                        .setSelected,
+                    labelText: "Add category",
+                    textController: newCategoryTextController,
+                    postNew: ref
+                        .read(categoriesControllerProvider.notifier)
+                        .postNewCategory,
+                    labelStyle: labelText,
+                  ),
                   const DishTypeDropdownWidget(),
                   const SizedBox(height: 10),
                   GradiantButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        final scaffoldMessenger = ScaffoldMessenger.of(context);
+                        final navigator = Navigator.of(context);
+
+                        try {
                           await ref
-                              .watch(dishOfTheDayControllerProvider.notifier)
+                              .read(dishOfTheDayControllerProvider.notifier)
                               .postDishOfTheDay(
-                                  nameTextController.text,
-                                  descriptionTextController.text,
-                                  calorieCount.value,
-                                  imageTextController.text);
-                          Navigator.of(context).pop();
+                                nameTextController.text,
+                                descriptionTextController.text,
+                                calorieCount.value,
+                                imageTextController.text,
+                              );
+                          navigator.pop();
+                        } on Exception catch (e) {
+                          scaffoldMessenger.showSnackBar(
+                            SnackBar(
+                              content: Text(e.toString()),
+                              duration: const Duration(seconds: 3),
+                            ),
+                          );
                         }
-                      },
-                      child: Text(AppLocalizations.of(context)!.submitButton))
+                      }
+                    },
+                    child: Text(AppLocalizations.of(context)!.submitButton),
+                  ),
                 ],
               ),
             ),
           ),
-        )));
+        ),
+      ),
+    );
   }
 
   bool isValidUrl(String protenitalUri) {

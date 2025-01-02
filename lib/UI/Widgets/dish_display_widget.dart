@@ -24,14 +24,16 @@ class DishDisplayWidget extends ConsumerWidget {
           children: [
             Column(
               children: [
-                if (dish.dishType.type != "No dish type")
+                if (dish.dishType.type != 'No dish type')
                   Text(
                     dish.dishType.type,
                     style: Theme.of(context).textTheme.headlineMedium,
                   )
                 else
-                  Text(AppLocalizations.of(context)!.noDishType,
-                      style: Theme.of(context).textTheme.headlineMedium),
+                  Text(
+                    AppLocalizations.of(context)!.noDishType,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
                 SizedBoxExt.sizedBoxHeight16,
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
@@ -39,25 +41,19 @@ class DishDisplayWidget extends ConsumerWidget {
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                     child: AspectRatio(
                       aspectRatio: 16 / 9,
-                      child: Image.network(dish.imageUrl, fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                        // Display placeholder or error message when image loading fails
-                        return Container(
-                          color: Colors.grey, // Placeholder color
-                          child: const Center(
-                            child: Icon(
-                              Icons.error_outline,
-                              color: Colors.red, // Error icon color
-                              size: 48.0,
-                            ),
-                          ),
-                        );
-                      }),
+                      child: Image.network(
+                        dish.imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          // Display placeholder or error message when image loading fails
+                          return Image.asset('assets/images/missing.jpg');
+                        },
+                      ),
                     ),
                   ),
                 ),
                 SizedBoxExt.sizedBoxHeight16,
-                if (dish.title != "")
+                if (dish.title != '')
                   Text(
                     dish.title,
                     style: Theme.of(context).textTheme.titleLarge,
@@ -65,52 +61,65 @@ class DishDisplayWidget extends ConsumerWidget {
                 else
                   Text(AppLocalizations.of(context)!.noTitle),
                 SizedBoxExt.sizedBoxHeight8,
-                if (dish.description != "")
+                if (dish.description != '')
                   Text(dish.description)
                 else
                   Text(AppLocalizations.of(context)!.noDescription),
                 SizedBoxExt.sizedBoxHeight8,
                 Text(
-                  "${AppLocalizations.of(context)!.calories}: ${dish.calories}",
+                  '${AppLocalizations.of(context)!.calories}: ${dish.calories}',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                if (date.isTodayOrAfter()) ...[
-                  SizedBoxExt.sizedBoxHeight16,
-                  if (dish.id != null)
-                    TextButton(
-                        onPressed: () async {
-                          final ok = await ref
-                              .read(dishOfTheDayControllerProvider.notifier)
-                              .removeFromMenu(dish.id!, date);
-                          if (ok) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(AppLocalizations.of(context)!
-                                    .existingDishRemoved)));
-                            await ref
-                                .read(dishOfTheDayControllerProvider.notifier)
-                                .updateDishOfTheDay();
-                          }
-                        },
-                        child: Text(AppLocalizations.of(context)!
-                            .removeExistingDishButton)),
+                SizedBoxExt.sizedBoxHeight24,
+                if (date.isTodayOrAfter() && dish.id != null)
+                  TextButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all(const Color(0xFFE52E42)),
+                      foregroundColor: WidgetStateProperty.all(Colors.white),
+                    ),
+                    onPressed: () async {
+                      final text =
+                          AppLocalizations.of(context)!.existingDishRemoved;
+                      final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+                      final ok = await ref
+                          .read(dishOfTheDayControllerProvider.notifier)
+                          .removeFromMenu(dish.id!, date);
+                      if (ok) {
+                        scaffoldMessenger.showSnackBar(
+                          SnackBar(content: Text(text)),
+                        );
+                        await ref
+                            .read(dishOfTheDayControllerProvider.notifier)
+                            .updateDishOfTheDay();
+                      }
+                    },
+                    child: Text(
+                      AppLocalizations.of(context)!.removeExistingDishButton,
+                    ),
+                  ),
+                if (!date.isToday() && dish.id != null) ...[
+                  GradiantButton(
+                    onPressed: () async {
+                      final text =
+                          AppLocalizations.of(context)!.existingDishAdded;
+                      final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+                      final id = await ref
+                          .read(dishOfTheDayControllerProvider.notifier)
+                          .addToTodaysMenu(dish.id!);
+                      if (id > 0) {
+                        scaffoldMessenger.showSnackBar(
+                          SnackBar(content: Text(text)),
+                        );
+                      }
+                    },
+                    child: Text(
+                      AppLocalizations.of(context)!.addExistingDishButton,
+                    ),
+                  ),
                 ],
-                if (!date.isToday()) ...[
-                  SizedBoxExt.sizedBoxHeight16,
-                  if (dish.id != null)
-                    GradiantButton(
-                        onPressed: () async {
-                          final id = await ref
-                              .read(dishOfTheDayControllerProvider.notifier)
-                              .addToTodaysMenu(dish.id!);
-                          if (id > 0) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(AppLocalizations.of(context)!
-                                    .existingDishAdded)));
-                          }
-                        },
-                        child: Text(AppLocalizations.of(context)!
-                            .addExistingDishButton)),
-                ]
               ],
             ),
           ],

@@ -16,7 +16,7 @@ class GradiantButton extends StatelessWidget {
       child: GradientElevatedButton(
         onPressed: onPressed,
         style: GradientElevatedButton.styleFrom(
-          gradient: const LinearGradient(
+          backgroundGradient: const LinearGradient(
             colors: [
               Color(0xFF935FA2),
               Color(0xFFE52E42),

@@ -34,26 +34,27 @@ class ImageRepository implements IImageRepository {
 
   @override
   Future<String?> uploadImageUrl(String imageFileUrl) async {
-    try {
-      final bytes = await loadImageFromURL(imageFileUrl);
-      if (bytes != null) {
-        var imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+    Uint8List? bytes;
+
+    bytes = await loadImageFromURL(imageFileUrl);
+
+    if (bytes != null) {
+      var imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+      try {
         await database.storage
             .from('CameraImages')
             .uploadBinary(imageName, bytes);
-
         final url =
             database.storage.from('CameraImages').getPublicUrl(imageName);
 
-        // Return the URL of the uploaded image
         return url;
+      } catch (e) {
+        throw Exception('Error uploading image: $e');
       }
-      return null;
-    } catch (e) {
-      // Handle error
-      debugPrint('Error uploading image: $e');
-      return null;
     }
+
+    return null;
   }
 
   // Function to load image and convert to Uint8List
@@ -62,15 +63,13 @@ class ImageRepository implements IImageRepository {
       final response = await http.get(Uri.parse(imageUrl));
 
       if (response.statusCode == 200) {
-        // Response body is already Uint8List
         return response.bodyBytes;
       } else {
-        debugPrint('Failed to load image. Status code: ${response.statusCode}');
-        return null;
+        throw Exception(
+            'Failed to load image. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      debugPrint('Error loading image: $e');
-      return null;
+      throw Exception('Error loading image: $e');
     }
   }
 }

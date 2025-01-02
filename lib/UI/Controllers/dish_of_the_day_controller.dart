@@ -30,13 +30,22 @@ class DishOfTheDayController extends _$DishOfTheDayController {
   }
 
   Future<void> postDishOfTheDay(
-      String title, String description, int calories, String imageUrl) async {
+    String title,
+    String description,
+    int calories,
+    String imageUrl,
+  ) async {
     var repository = ref.read(dishRepositoryProvider);
     var selectedDishType = ref.read(selectedDishTypeControllerProvider);
     var dbImageUrl =
         await ref.read(imageRepositoryProvider).uploadImageUrl(imageUrl);
     var newDishId = await repository.postDishOfTheDay(
-        title, description, calories, dbImageUrl!, selectedDishType!);
+      title,
+      description,
+      calories,
+      dbImageUrl!,
+      selectedDishType!,
+    );
     var selectedAllergens = ref
         .read(selectedAllergenesControllerProvider.notifier)
         .getAllSelectedAllergenes();
