@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:gradient_elevated_button/gradient_elevated_button.dart';
 
 class GradiantButton extends StatelessWidget {
   final Widget child;
@@ -13,10 +11,9 @@ class GradiantButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Opacity(
       opacity: onPressed == null ? 0.3 : 1,
-      child: GradientElevatedButton(
-        onPressed: onPressed,
-        style: GradientElevatedButton.styleFrom(
-          backgroundGradient: const LinearGradient(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
             colors: [
               Color(0xFF935FA2),
               Color(0xFFE52E42),
@@ -25,8 +22,19 @@ class GradiantButton extends StatelessWidget {
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
+          borderRadius: BorderRadius.circular(25.0),
         ),
-        child: child,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+          ),
+          child: child,
+        ),
       ),
     );
   }
