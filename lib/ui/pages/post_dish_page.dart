@@ -58,7 +58,7 @@ class PostDishPage extends HookConsumerWidget {
     var selectedAllergens = ref.watch(selectedAllergensControllerProvider);
     var selectedCategories = ref.watch(selectedCategoriesControllerProvider);
 
-    final imageBlobUrl = useState('');
+    final cameraBlobUrl = useState('');
     final picker = ImagePicker();
 
     return Scaffold(
@@ -75,59 +75,75 @@ class PostDishPage extends HookConsumerWidget {
               child: Column(
                 children: [
                   SizedBoxExt.sizedBoxHeight24,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          final XFile? image = await picker.pickImage(
-                            source: ImageSource.gallery,
-                          );
-                          if (image != null) {
-                            imageTextController.text = image.path;
-                            imageBlobUrl.value = image.path;
-                          }
-                        },
-                        child: Image.asset(
-                          width: 200.0,
-                          height: 150.0,
-                          'assets/images/file_picker.png',
+                  if (imageTextController.text != '')
+                    Stack(
+                      children: [
+                        Image.network(
+                          imageTextController.text,
+                          width: 400.0,
+                          height: 300.0,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const CircularProgressIndicator();
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(
+                                child: Text('Error loading image'));
+                          },
                         ),
-                      ),
-                      SizedBoxExt.sizedBoxWidth16,
-                      GestureDetector(
-                        onTap: () async {
-                          // Navigate to the CameraPage and pass the camera
-                          final XFile image = await Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const CameraWidget(),
-                            ),
-                          );
-                          imageTextController.text = image.path;
-                          imageBlobUrl.value = image.path;
-                        },
-                        child: imageBlobUrl.value != ''
-                            ? Image.network(
-                                imageBlobUrl.value,
-                                width: 200.0,
-                                height: 150.0,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return const CircularProgressIndicator();
-                                },
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Text('Error loading image');
-                                },
-                              )
-                            : Image.asset(
-                                width: 200.0,
-                                height: 150.0,
-                                'assets/images/camera_picker.png',
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: IconButton(
+                            onPressed: () {
+                              imageTextController.text = '';
+                              cameraBlobUrl.value = '';
+                            },
+                            icon: const Icon(Icons.close),
+                          ),
+                        ),
+                      ],
+                    ),
+                  if (imageTextController.text == '')
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            final XFile? image = await picker.pickImage(
+                              source: ImageSource.gallery,
+                            );
+                            if (image != null) {
+                              imageTextController.text = image.path;
+                              cameraBlobUrl.value = image.path;
+                            }
+                          },
+                          child: Image.asset(
+                            width: 200.0,
+                            height: 150.0,
+                            'assets/images/file_picker.png',
+                          ),
+                        ),
+                        SizedBoxExt.sizedBoxWidth16,
+                        GestureDetector(
+                          onTap: () async {
+                            // Navigate to the CameraPage and pass the camera
+                            final XFile image =
+                                await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const CameraWidget(),
                               ),
-                      ),
-                    ],
-                  ),
+                            );
+                            imageTextController.text = image.path;
+                            cameraBlobUrl.value = image.path;
+                          },
+                          child: Image.asset(
+                            width: 200.0,
+                            height: 150.0,
+                            'assets/images/camera_picker.png',
+                          ),
+                        ),
+                      ],
+                    ),
                   SizedBoxExt.sizedBoxHeight24,
                   TextFormField(
                     key: const Key('titleField'),
@@ -215,6 +231,13 @@ class PostDishPage extends HookConsumerWidget {
                       ),
                     ),
                     controller: imageTextController,
+                    onEditingComplete: () =>
+                        cameraBlobUrl.value = imageTextController.text,
+                    onChanged: (value) {
+                      if (isValidUrl(value)) {
+                        cameraBlobUrl.value = imageTextController.text;
+                      }
+                    },
                   ),
                   SizedBoxExt.sizedBoxHeight16,
                   selectedAllergens.when(
