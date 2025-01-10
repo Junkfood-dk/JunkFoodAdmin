@@ -78,18 +78,20 @@ class PostDishPage extends HookConsumerWidget {
                   if (imageTextController.text != '')
                     Stack(
                       children: [
-                        Image.network(
-                          imageTextController.text,
-                          width: 400.0,
-                          height: 300.0,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return const CircularProgressIndicator();
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Center(
-                                child: Text('Error loading image'));
-                          },
+                        Center(
+                          child: Image.network(
+                            imageTextController.text,
+                            width: 400.0,
+                            height: 300.0,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return const CircularProgressIndicator();
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Center(
+                                  child: Text('Error loading image'));
+                            },
+                          ),
                         ),
                         Align(
                           alignment: Alignment.topRight,
