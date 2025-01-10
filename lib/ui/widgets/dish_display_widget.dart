@@ -71,55 +71,65 @@ class DishDisplayWidget extends ConsumerWidget {
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBoxExt.sizedBoxHeight24,
-                if (date.isTodayOrAfter() && dish.id != null)
-                  TextButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all(const Color(0xFFE52E42)),
-                      foregroundColor: WidgetStateProperty.all(Colors.white),
-                    ),
-                    onPressed: () async {
-                      final text =
-                          AppLocalizations.of(context)!.existingDishRemoved;
-                      final scaffoldMessenger = ScaffoldMessenger.of(context);
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (date.isTodayOrAfter() && dish.id != null)
+                      TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              WidgetStateProperty.all(const Color(0xFFE52E42)),
+                          foregroundColor:
+                              WidgetStateProperty.all(Colors.white),
+                        ),
+                        onPressed: () async {
+                          final text =
+                              AppLocalizations.of(context)!.existingDishRemoved;
+                          final scaffoldMessenger =
+                              ScaffoldMessenger.of(context);
 
-                      final ok = await ref
-                          .read(dishOfTheDayControllerProvider.notifier)
-                          .removeFromMenu(dish.id!, date);
-                      if (ok) {
-                        scaffoldMessenger.showSnackBar(
-                          SnackBar(content: Text(text)),
-                        );
-                        await ref
-                            .read(dishOfTheDayControllerProvider.notifier)
-                            .updateDishOfTheDay();
-                      }
-                    },
-                    child: Text(
-                      AppLocalizations.of(context)!.removeExistingDishButton,
-                    ),
-                  ),
-                if (!date.isToday() && dish.id != null) ...[
-                  GradiantButton(
-                    onPressed: () async {
-                      final text =
-                          AppLocalizations.of(context)!.existingDishAdded;
-                      final scaffoldMessenger = ScaffoldMessenger.of(context);
+                          final ok = await ref
+                              .read(dishOfTheDayControllerProvider.notifier)
+                              .removeFromMenu(dish.id!, date);
+                          if (ok) {
+                            scaffoldMessenger.showSnackBar(
+                              SnackBar(content: Text(text)),
+                            );
+                            await ref
+                                .read(dishOfTheDayControllerProvider.notifier)
+                                .updateDishOfTheDay();
+                          }
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!
+                              .removeExistingDishButton,
+                        ),
+                      ),
+                    if (!date.isToday() && dish.id != null) ...[
+                      SizedBoxExt.sizedBoxWidth16,
+                      GradiantButton(
+                        onPressed: () async {
+                          final text =
+                              AppLocalizations.of(context)!.existingDishAdded;
+                          final scaffoldMessenger =
+                              ScaffoldMessenger.of(context);
 
-                      final id = await ref
-                          .read(dishOfTheDayControllerProvider.notifier)
-                          .addToTodaysMenu(dish.id!);
-                      if (id > 0) {
-                        scaffoldMessenger.showSnackBar(
-                          SnackBar(content: Text(text)),
-                        );
-                      }
-                    },
-                    child: Text(
-                      AppLocalizations.of(context)!.addExistingDishButton,
-                    ),
-                  ),
-                ],
+                          final id = await ref
+                              .read(dishOfTheDayControllerProvider.notifier)
+                              .addToTodaysMenu(dish.id!);
+                          if (id > 0) {
+                            scaffoldMessenger.showSnackBar(
+                              SnackBar(content: Text(text)),
+                            );
+                          }
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.addExistingDishButton,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ],
             ),
           ],

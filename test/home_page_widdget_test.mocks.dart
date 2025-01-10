@@ -81,8 +81,9 @@ class MockDishRepository extends _i1.Mock implements _i3.DishRepository {
     String? description,
     int? calories,
     String? imageUrl,
-    _i6.DishTypeModel? dishType,
-  ) =>
+    _i6.DishTypeModel? dishType, [
+    DateTime? date,
+  ]) =>
       (super.noSuchMethod(
         Invocation.method(
           #postDishOfTheDay,
@@ -92,6 +93,7 @@ class MockDishRepository extends _i1.Mock implements _i3.DishRepository {
             calories,
             imageUrl,
             dishType,
+            date,
           ],
         ),
         returnValue: _i4.Future<int>.value(0),

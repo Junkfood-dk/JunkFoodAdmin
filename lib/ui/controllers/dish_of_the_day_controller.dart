@@ -33,8 +33,9 @@ class DishOfTheDayController extends _$DishOfTheDayController {
     String title,
     String description,
     int calories,
-    String imageUrl,
-  ) async {
+    String imageUrl, [
+    DateTime? date,
+  ]) async {
     var repository = ref.read(dishRepositoryProvider);
     var selectedDishType = ref.read(selectedDishTypeControllerProvider);
     var dbImageUrl =
@@ -45,6 +46,7 @@ class DishOfTheDayController extends _$DishOfTheDayController {
       calories,
       dbImageUrl!,
       selectedDishType!,
+      date,
     );
     var selectedAllergens = ref
         .read(selectedAllergensControllerProvider.notifier)
