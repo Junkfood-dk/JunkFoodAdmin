@@ -22,52 +22,60 @@ class HomePage extends ConsumerWidget {
     final date = ref.watch(Providers.appDate);
 
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: AppLocalizations.of(context)!.signout,
-            onPressed: () {
-              ref.watch(authenticationControllerProvider.notifier).signOut();
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.logout),
+          tooltip: AppLocalizations.of(context)!.signout,
+          onPressed: () {
+            ref.watch(authenticationControllerProvider.notifier).signOut();
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
                 builder: (context) => const SplashPage(),
-              ));
-            },
-          ),
-          title: Text(AppLocalizations.of(context)!.homePageTitle),
-          centerTitle: true,
-          actions: const [LanguageDropdownWidget()],
-        ),
-        body: switch (dishOfTheDay) {
-          AsyncData(:final value) => SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const DateBar(),
-                  SizedBoxExt.sizedBoxHeight16,
-                  FlutterCarousel(
-                    items: value
-                        .map((dish) =>
-                            Center(child: DishDisplayWidget(dish: dish)))
-                        .toList(),
-                    options: FlutterCarouselOptions(
-                        height: MediaQuery.sizeOf(context).height * 0.6),
-                  ),
-                  if (ref.read(Providers.appDate.notifier).canAddDish(date))
-                    GradiantButton(
-                        onPressed: () async {
-                          await Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const PostDishPage()));
-                          await ref
-                              .read(dishOfTheDayControllerProvider.notifier)
-                              .updateDishOfTheDay();
-                        },
-                        child:
-                            Text(AppLocalizations.of(context)!.postDishButton)),
-                ],
               ),
+            );
+          },
+        ),
+        title: Text(AppLocalizations.of(context)!.homePageTitle),
+        centerTitle: true,
+        actions: const [LanguageDropdownWidget()],
+      ),
+      body: switch (dishOfTheDay) {
+        AsyncData(:final value) => SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const DateBar(),
+                SizedBoxExt.sizedBoxHeight16,
+                FlutterCarousel(
+                  items: value
+                      .map(
+                        (dish) => Center(child: DishDisplayWidget(dish: dish)),
+                      )
+                      .toList(),
+                  options: FlutterCarouselOptions(
+                    height: MediaQuery.sizeOf(context).height * 0.6,
+                  ),
+                ),
+                if (ref.read(Providers.appDate.notifier).canAddDish(date))
+                  GradiantButton(
+                    onPressed: () async {
+                      await Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const PostDishPage(),
+                        ),
+                      );
+                      await ref
+                          .read(dishOfTheDayControllerProvider.notifier)
+                          .updateDishOfTheDay();
+                    },
+                    child: Text(AppLocalizations.of(context)!.postDishButton),
+                  ),
+              ],
             ),
-          AsyncError(:final error) => Text(error.toString()),
-          _ => const CircularProgressIndicator()
-        });
+          ),
+        AsyncError(:final error) => Text(error.toString()),
+        _ => const CircularProgressIndicator()
+      },
+    );
   }
 }

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:chefapp/domain/model/category_model.dart';
-import 'package:chefapp/ui/controllers/allergenes_controller.dart';
 import 'package:chefapp/ui/controllers/categories_controller.dart';
 import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/ui/controllers/selected_allergenes_controller.dart';
@@ -11,6 +10,7 @@ import 'package:chefapp/ui/controllers/selected_categories_controller.dart';
 import 'package:chefapp/ui/widgets/camera_widget.dart';
 import 'package:chefapp/ui/widgets/dish_type_dropdown_widget.dart';
 import 'package:chefapp/ui/widgets/language_dropdown_widget.dart';
+import 'package:chefapp/ui/widgets/multiple_select_dropdown.dart';
 import 'package:chefapp/ui/widgets/mutable_checkbox_widget.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,7 @@ class PostDishPage extends HookConsumerWidget {
     var descriptionTextController = useTextEditingController();
     var calorieCount = useState(0);
     var imageTextController = useTextEditingController();
-    var selectedAllergenes = ref.watch(selectedAllergenesControllerProvider);
+    var selectedAllergens = ref.watch(selectedAllergenesControllerProvider);
     var selectedCategories = ref.watch(selectedCategoriesControllerProvider);
 
     return Scaffold(
@@ -74,7 +74,7 @@ class PostDishPage extends HookConsumerWidget {
               child: Column(
                 children: [
                   TextFormField(
-                    key: const Key("titleField"),
+                    key: const Key('titleField'),
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context)!.textFormLabelForName,
@@ -106,7 +106,7 @@ class PostDishPage extends HookConsumerWidget {
                     },
                   ),
                   TextFormField(
-                    key: const Key("descriptionField"),
+                    key: const Key('descriptionField'),
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!
                           .textFormLabelForDescription,
@@ -173,24 +173,39 @@ class PostDishPage extends HookConsumerWidget {
                     },
                     child: Text(AppLocalizations.of(context)!.takePictureLabel),
                   ),
-                  MutableCheckboxWidget<AllergenModel>(
-                    map: selectedAllergenes,
-                    onSelected: ref
-                        .read(selectedAllergenesControllerProvider.notifier)
-                        .setSelected,
-                    labelText: "Add allergenes",
-                    textController: newAllergenTextController,
-                    postNew: ref
-                        .read(allergenesControllerProvider.notifier)
-                        .postNewAllergen,
-                    labelStyle: labelText,
+                  selectedAllergens.when(
+                    data: (data) {
+                      return MultiSelectDropdown<AllergenModel>(
+                        hint: 'Select allergens',
+                        displayStringForOption: (allergen) => allergen.name,
+                        items: data.entries.map((a) => a.key).toList(),
+                        onSelectionChanged: (list) {
+                          ref
+                              .read(
+                                selectedAllergenesControllerProvider.notifier,
+                              )
+                              .clearSelection();
+                          for (var allergen in list) {
+                            ref
+                                .read(
+                                  selectedAllergenesControllerProvider.notifier,
+                                )
+                                .setSelected(allergen);
+                          }
+                        },
+                      );
+                    },
+                    error: (o, s) {
+                      return const Text('Uha');
+                    },
+                    loading: () => const CircularProgressIndicator(),
                   ),
                   MutableCheckboxWidget<CategoryModel>(
                     map: selectedCategories,
                     onSelected: ref
                         .read(selectedCategoriesControllerProvider.notifier)
                         .setSelected,
-                    labelText: "Add category",
+                    labelText: 'Add category',
                     textController: newCategoryTextController,
                     postNew: ref
                         .read(categoriesControllerProvider.notifier)

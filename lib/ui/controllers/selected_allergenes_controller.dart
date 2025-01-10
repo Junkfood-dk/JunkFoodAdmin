@@ -10,8 +10,10 @@ class SelectedAllergenesController extends _$SelectedAllergenesController {
   Future<Map<AllergenModel, bool>> build() async {
     var repository = ref.read(allergenesRepositoryProvider);
     var allergenes = await repository.fetchAllergenes();
-    return Map.fromIterable(allergenes,
-        value: (_) => false); // maps all allergenes to a false value
+    return Map.fromIterable(
+      allergenes,
+      value: (_) => false,
+    ); // maps all allergenes to a false value
   }
 
   List<AllergenModel> getAllSelectedAllergenes() {
@@ -27,5 +29,12 @@ class SelectedAllergenesController extends _$SelectedAllergenesController {
   void setSelected(AllergenModel allergen) {
     state.value![allergen] = !state.value![allergen]!;
     state = AsyncData(Map.from(state.value!));
+  }
+
+  void clearSelection() {
+    if (state.value == null) return;
+    state = AsyncValue.data(
+      state.value!.map((key, value) => MapEntry(key, false)),
+    );
   }
 }
