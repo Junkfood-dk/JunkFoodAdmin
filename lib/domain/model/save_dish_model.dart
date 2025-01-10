@@ -17,10 +17,11 @@ class SaveDishModel {
     };
   }
 
-  SaveDishModel(
-      {required this.title,
-      required this.dishType,
-      this.description = '',
-      this.calories = 0,
-      this.imageUrl = ''});
+  SaveDishModel({
+    required this.title,
+    required this.dishType,
+    this.description = '',
+    this.calories = 0,
+    this.imageUrl = '',
+  });
 }

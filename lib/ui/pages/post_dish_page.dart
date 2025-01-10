@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:chefapp/domain/model/category_model.dart';
 import 'package:chefapp/extensions/sized_box_ext.dart';
+import 'package:chefapp/providers/providers.dart';
 import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/ui/controllers/selected_allergens_controller.dart';
 import 'package:chefapp/ui/controllers/selected_categories_controller.dart';
@@ -293,6 +294,7 @@ class PostDishPage extends HookConsumerWidget {
                         final navigator = Navigator.of(context);
 
                         try {
+                          final date = ref.watch(Providers.appDate);
                           await ref
                               .read(dishOfTheDayControllerProvider.notifier)
                               .postDishOfTheDay(
@@ -300,6 +302,7 @@ class PostDishPage extends HookConsumerWidget {
                                 descriptionTextController.text,
                                 calorieCount.value,
                                 imageTextController.text,
+                                date,
                               );
                           navigator.pop();
                         } on Exception catch (e) {

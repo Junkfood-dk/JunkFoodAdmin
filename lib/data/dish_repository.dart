@@ -24,7 +24,7 @@ class DishRepository implements IDishRepository {
         .filter(
           'date',
           'eq',
-          date?.toIso8601String() ?? DateTime.now().toIso8601String(),
+          date?.toIso8601String() ?? DateTime.now().toSupaDate(),
         )
         .then(
           (rows) =>
@@ -41,8 +41,9 @@ class DishRepository implements IDishRepository {
     String description,
     int calories,
     String imageUrl,
-    DishTypeModel dishType,
-  ) async {
+    DishTypeModel dishType, [
+    DateTime? date,
+  ]) async {
     try {
       SaveDishModel newDish = SaveDishModel(
         title: title,
@@ -54,7 +55,7 @@ class DishRepository implements IDishRepository {
       var row = await database.from('Dishes').insert(newDish).select('id');
       var id = row[0]['id'];
       var response = await database.from('Dish_Schedule').insert(
-        {'id': id, 'date': DateTime.now().toIso8601String()},
+        {'id': id, 'date': (date ?? DateTime.now()).toSupaDate()},
       ).select('id');
       return response[0]['id'];
     } catch (e) {
@@ -66,7 +67,7 @@ class DishRepository implements IDishRepository {
   @override
   Future<int> addToTodaysMenu(int id) async {
     var response = await database.from('Dish_Schedule').insert(
-      {'id': id, 'date': DateTime.now().toIso8601String()},
+      {'id': id, 'date': DateTime.now().toSupaDate()},
     ).select('id');
     return response.first['id'];
   }
