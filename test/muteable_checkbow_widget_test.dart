@@ -1,4 +1,4 @@
-import 'package:chefapp/data/allergenes_repository.dart';
+import 'package:chefapp/data/allergens_repository.dart';
 import 'package:chefapp/data/categories_repository.dart';
 import 'package:chefapp/ui/pages/post_dish_page.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'muteable_checkbow_widget_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<CategoriesRepository>()])
-@GenerateNiceMocks([MockSpec<AllergenesRepository>()])
+@GenerateNiceMocks([MockSpec<AllergensRepository>()])
 void main() {
   testWidgets('PostDishPage should contain text with "category" and "allergen"',
       (WidgetTester tester) async {
@@ -44,10 +44,10 @@ void main() {
 
   testWidgets('PostDishPage should contain text with "category" and "allergen"',
       (WidgetTester tester) async {
-    final mockAllergenesRepositoryProvider = MockAllergenesRepository();
+    final mockAllergenesRepositoryProvider = MockAllergensRepository();
     await tester.pumpWidget(ProviderScope(
         overrides: [
-          allergenesRepositoryProvider
+          allergensRepositoryProvider
               .overrideWithValue(mockAllergenesRepositoryProvider),
         ],
         child: Consumer(

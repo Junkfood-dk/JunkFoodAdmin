@@ -9,11 +9,11 @@ class CategoryModel {
 
   static CategoryModel fromJson(Map<String, dynamic> input) {
     return CategoryModel(
-        name: input.containsKey("category_name")
-            ? input["category_name"]
-            : throw Exception("Missing name"),
-        id: input.containsKey("id")
-            ? input["id"]
-            : throw Exception("Missing id"));
+        name: input.containsKey('category_name')
+            ? input['category_name']
+            : throw Exception('Missing name'),
+        id: input.containsKey('id')
+            ? input['id']
+            : throw Exception('Missing id'));
   }
 }

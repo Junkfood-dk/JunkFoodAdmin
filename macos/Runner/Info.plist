@@ -38,6 +38,12 @@
   <true/>
   <!-- Local network access permissions -->
   <key>NSLocalNetworkUsageDescription</key>
-  <string>This app needs access to the local network for [your reason here]</string>
+  <string>This app needs access to the local network in order to load images of dishes</string>
+  <!-- Photo library access permissions -->
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>This app needs access to the photo library in order to select images of dishes</string>
+  <!-- Camera access permissions -->
+  <key>NSCameraUsageDescription</key>
+  <string>This app needs access to the camera in order to take pictures of dishes</string>
 </dict>
 </plist>

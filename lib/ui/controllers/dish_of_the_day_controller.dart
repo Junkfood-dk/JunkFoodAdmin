@@ -3,7 +3,7 @@ import 'package:chefapp/data/dish_repository.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:chefapp/domain/model/dish_model.dart';
 import 'package:chefapp/providers/providers.dart';
-import 'package:chefapp/ui/controllers/selected_allergenes_controller.dart';
+import 'package:chefapp/ui/controllers/selected_allergens_controller.dart';
 import 'package:chefapp/ui/controllers/selected_dish_type_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -47,7 +47,7 @@ class DishOfTheDayController extends _$DishOfTheDayController {
       selectedDishType!,
     );
     var selectedAllergens = ref
-        .read(selectedAllergenesControllerProvider.notifier)
+        .read(selectedAllergensControllerProvider.notifier)
         .getAllSelectedAllergenes();
     for (var allergen in selectedAllergens) {
       _addAllergenToDish(allergen, newDishId);

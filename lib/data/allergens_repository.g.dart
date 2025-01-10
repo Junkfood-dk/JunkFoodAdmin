@@ -1,27 +1,29 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'allergenes_controller.dart';
+part of 'allergens_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$allergenesControllerHash() =>
-    r'2f6cdee201c04025c198b4b7a4b0d6dabc9aff56';
+String _$allergensRepositoryHash() =>
+    r'b55bb09763107bf223880ea1e7a1815998102897';
 
-/// See also [AllergenesController].
-@ProviderFor(AllergenesController)
-final allergenesControllerProvider = AutoDisposeAsyncNotifierProvider<
-    AllergenesController, List<AllergenModel>>.internal(
-  AllergenesController.new,
-  name: r'allergenesControllerProvider',
+/// See also [allergensRepository].
+@ProviderFor(allergensRepository)
+final allergensRepositoryProvider =
+    AutoDisposeProvider<IAllergensRepository>.internal(
+  allergensRepository,
+  name: r'allergensRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$allergenesControllerHash,
+      : _$allergensRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AllergenesController = AutoDisposeAsyncNotifier<List<AllergenModel>>;
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AllergensRepositoryRef = AutoDisposeProviderRef<IAllergensRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

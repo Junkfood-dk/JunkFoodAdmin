@@ -1,19 +1,18 @@
 import 'dart:math';
 
-import 'package:camera/camera.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:chefapp/domain/model/category_model.dart';
-import 'package:chefapp/ui/controllers/allergenes_controller.dart';
-import 'package:chefapp/ui/controllers/categories_controller.dart';
+import 'package:chefapp/extensions/sized_box_ext.dart';
 import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
-import 'package:chefapp/ui/controllers/selected_allergenes_controller.dart';
+import 'package:chefapp/ui/controllers/selected_allergens_controller.dart';
 import 'package:chefapp/ui/controllers/selected_categories_controller.dart';
 import 'package:chefapp/ui/widgets/camera_widget.dart';
 import 'package:chefapp/ui/widgets/dish_type_dropdown_widget.dart';
 import 'package:chefapp/ui/widgets/language_dropdown_widget.dart';
-import 'package:chefapp/ui/widgets/mutable_checkbox_widget.dart';
+import 'package:chefapp/ui/widgets/multiple_select_dropdown.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -52,13 +51,15 @@ class PostDishPage extends HookConsumerWidget {
       );
     });
 
-    var newCategoryTextController = useTextEditingController();
     var nameTextController = useTextEditingController();
     var descriptionTextController = useTextEditingController();
     var calorieCount = useState(0);
     var imageTextController = useTextEditingController();
-    var selectedAllergenes = ref.watch(selectedAllergenesControllerProvider);
+    var selectedAllergens = ref.watch(selectedAllergensControllerProvider);
     var selectedCategories = ref.watch(selectedCategoriesControllerProvider);
+
+    final cameraBlobUrl = useState('');
+    final picker = ImagePicker();
 
     return Scaffold(
       appBar: AppBar(
@@ -73,8 +74,79 @@ class PostDishPage extends HookConsumerWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  SizedBoxExt.sizedBoxHeight24,
+                  if (imageTextController.text != '')
+                    Stack(
+                      children: [
+                        Image.network(
+                          imageTextController.text,
+                          width: 400.0,
+                          height: 300.0,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const CircularProgressIndicator();
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(
+                                child: Text('Error loading image'));
+                          },
+                        ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: IconButton(
+                            onPressed: () {
+                              imageTextController.text = '';
+                              cameraBlobUrl.value = '';
+                            },
+                            icon: const Icon(Icons.close),
+                          ),
+                        ),
+                      ],
+                    ),
+                  if (imageTextController.text == '')
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            final XFile? image = await picker.pickImage(
+                              source: ImageSource.gallery,
+                            );
+                            if (image != null) {
+                              imageTextController.text = image.path;
+                              cameraBlobUrl.value = image.path;
+                            }
+                          },
+                          child: Image.asset(
+                            width: 200.0,
+                            height: 150.0,
+                            'assets/images/file_picker.png',
+                          ),
+                        ),
+                        SizedBoxExt.sizedBoxWidth16,
+                        GestureDetector(
+                          onTap: () async {
+                            // Navigate to the CameraPage and pass the camera
+                            final XFile image =
+                                await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const CameraWidget(),
+                              ),
+                            );
+                            imageTextController.text = image.path;
+                            cameraBlobUrl.value = image.path;
+                          },
+                          child: Image.asset(
+                            width: 200.0,
+                            height: 150.0,
+                            'assets/images/camera_picker.png',
+                          ),
+                        ),
+                      ],
+                    ),
+                  SizedBoxExt.sizedBoxHeight24,
                   TextFormField(
-                    key: const Key("titleField"),
+                    key: const Key('titleField'),
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context)!.textFormLabelForName,
@@ -106,7 +178,7 @@ class PostDishPage extends HookConsumerWidget {
                     },
                   ),
                   TextFormField(
-                    key: const Key("descriptionField"),
+                    key: const Key('descriptionField'),
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!
                           .textFormLabelForDescription,
@@ -159,46 +231,59 @@ class PostDishPage extends HookConsumerWidget {
                       ),
                     ),
                     controller: imageTextController,
-                  ),
-                  const SizedBox(height: 10),
-                  GradiantButton(
-                    onPressed: () async {
-                      // Navigate to the CameraPage and pass the camera
-                      final XFile image = await Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const CameraWidget(),
-                        ),
-                      );
-                      imageTextController.text = image.path;
+                    onEditingComplete: () =>
+                        cameraBlobUrl.value = imageTextController.text,
+                    onChanged: (value) {
+                      if (isValidUrl(value)) {
+                        cameraBlobUrl.value = imageTextController.text;
+                      }
                     },
-                    child: Text(AppLocalizations.of(context)!.takePictureLabel),
                   ),
-                  MutableCheckboxWidget<AllergenModel>(
-                    map: selectedAllergenes,
-                    onSelected: ref
-                        .read(selectedAllergenesControllerProvider.notifier)
-                        .setSelected,
-                    labelText: "Add allergenes",
-                    textController: newAllergenTextController,
-                    postNew: ref
-                        .read(allergenesControllerProvider.notifier)
-                        .postNewAllergen,
-                    labelStyle: labelText,
+                  SizedBoxExt.sizedBoxHeight16,
+                  selectedAllergens.when(
+                    data: (data) {
+                      return MultiSelectDropdown<AllergenModel>(
+                        hint: 'Select allergens',
+                        displayStringForOption: (allergen) => allergen.name,
+                        items: data.entries.map((a) => a.key).toList(),
+                        onSelectionChanged: (list) {
+                          ref
+                              .read(
+                                selectedAllergensControllerProvider.notifier,
+                              )
+                              .setSelected(list);
+                        },
+                      );
+                    },
+                    error: (o, s) {
+                      return const Text('Allergens not available...');
+                    },
+                    loading: () => const CircularProgressIndicator(),
                   ),
-                  MutableCheckboxWidget<CategoryModel>(
-                    map: selectedCategories,
-                    onSelected: ref
-                        .read(selectedCategoriesControllerProvider.notifier)
-                        .setSelected,
-                    labelText: "Add category",
-                    textController: newCategoryTextController,
-                    postNew: ref
-                        .read(categoriesControllerProvider.notifier)
-                        .postNewCategory,
-                    labelStyle: labelText,
+                  SizedBoxExt.sizedBoxHeight16,
+                  selectedCategories.when(
+                    data: (data) {
+                      return MultiSelectDropdown<CategoryModel>(
+                        hint: 'Select categories',
+                        displayStringForOption: (allergen) => allergen.name,
+                        items: data.entries.map((a) => a.key).toList(),
+                        onSelectionChanged: (list) {
+                          ref
+                              .read(
+                                selectedCategoriesControllerProvider.notifier,
+                              )
+                              .setSelected(list);
+                        },
+                      );
+                    },
+                    error: (o, s) {
+                      return const Text('Categories not available...');
+                    },
+                    loading: () => const CircularProgressIndicator(),
                   ),
+                  SizedBoxExt.sizedBoxHeight16,
                   const DishTypeDropdownWidget(),
-                  const SizedBox(height: 10),
+                  SizedBoxExt.sizedBoxHeight16,
                   GradiantButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {

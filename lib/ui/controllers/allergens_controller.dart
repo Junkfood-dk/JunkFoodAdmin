@@ -1,16 +1,16 @@
-import 'package:chefapp/data/allergenes_repository.dart';
+import 'package:chefapp/data/allergens_repository.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
-import 'package:chefapp/ui/controllers/selected_allergenes_controller.dart';
+import 'package:chefapp/ui/controllers/selected_allergens_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'allergenes_controller.g.dart';
+part 'allergens_controller.g.dart';
 
 @riverpod
-class AllergenesController extends _$AllergenesController {
+class AllergensController extends _$AllergensController {
   @override
   Future<List<AllergenModel>> build() async {
-    var repository = ref.read(allergenesRepositoryProvider);
-    return await repository.fetchAllergenes();
+    var repository = ref.read(allergensRepositoryProvider);
+    return await repository.fetchAllergens();
   }
 
   Map<AllergenModel, bool> _copyWith(Map<AllergenModel, bool> oldMap) {
@@ -20,12 +20,12 @@ class AllergenesController extends _$AllergenesController {
   }
 
   void postNewAllergen(String allergenName) async {
-    var repository = ref.read(allergenesRepositoryProvider);
+    var repository = ref.read(allergensRepositoryProvider);
     var newAllergen = await repository.postNewAllergen(allergenName);
     var oldState =
-        ref.read(selectedAllergenesControllerProvider.notifier).state.value!;
+        ref.read(selectedAllergensControllerProvider.notifier).state.value!;
     oldState[newAllergen] = false; //
-    ref.read(selectedAllergenesControllerProvider.notifier).state =
+    ref.read(selectedAllergensControllerProvider.notifier).state =
         AsyncData(_copyWith(oldState));
   }
 }
