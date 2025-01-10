@@ -29,10 +29,11 @@ class CameraWidget extends ConsumerWidget {
         future: ref.watch(cameraStateControllerProvider.future),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            debugPrint("Rebuilding...");
             if (snapshot.hasData && snapshot.data != null) {
-              return CameraPreview(
-                snapshot.data!,
+              return Center(
+                child: CameraPreview(
+                  snapshot.data!,
+                ),
               );
             } else {
               return const Text('Failed to initialize camera');
