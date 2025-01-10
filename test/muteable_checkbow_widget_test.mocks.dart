@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i6;
 
-import 'package:chefapp/data/allergenes_repository.dart' as _i7;
+import 'package:chefapp/data/allergens_repository.dart' as _i7;
 import 'package:chefapp/data/categories_repository.dart' as _i5;
 import 'package:chefapp/domain/model/allergen_model.dart' as _i4;
 import 'package:chefapp/domain/model/category_model.dart' as _i3;
@@ -121,11 +121,11 @@ class MockCategoriesRepository extends _i1.Mock
       ) as _i6.Future<_i3.CategoryModel>);
 }
 
-/// A class which mocks [AllergenesRepository].
+/// A class which mocks [AllergensRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAllergenesRepository extends _i1.Mock
-    implements _i7.AllergenesRepository {
+class MockAllergensRepository extends _i1.Mock
+    implements _i7.AllergensRepository {
   @override
   _i2.SupabaseClient get database => (super.noSuchMethod(
         Invocation.getter(#database),
@@ -149,9 +149,9 @@ class MockAllergenesRepository extends _i1.Mock
       );
 
   @override
-  _i6.Future<List<_i4.AllergenModel>> fetchAllergenes() => (super.noSuchMethod(
+  _i6.Future<List<_i4.AllergenModel>> fetchAllergens() => (super.noSuchMethod(
         Invocation.method(
-          #fetchAllergenes,
+          #fetchAllergens,
           [],
         ),
         returnValue:

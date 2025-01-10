@@ -1,15 +1,15 @@
-import 'package:chefapp/data/allergenes_repository.dart';
+import 'package:chefapp/data/allergens_repository.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'selected_allergenes_controller.g.dart';
+part 'selected_allergens_controller.g.dart';
 
 @riverpod
-class SelectedAllergenesController extends _$SelectedAllergenesController {
+class SelectedAllergensController extends _$SelectedAllergensController {
   @override
   Future<Map<AllergenModel, bool>> build() async {
-    var repository = ref.read(allergenesRepositoryProvider);
-    var allergenes = await repository.fetchAllergenes();
+    var repository = ref.read(allergensRepositoryProvider);
+    var allergenes = await repository.fetchAllergens();
     return Map.fromIterable(
       allergenes,
       value: (_) => false,
@@ -26,9 +26,15 @@ class SelectedAllergenesController extends _$SelectedAllergenesController {
     return selectedAllergenes;
   }
 
-  void setSelected(AllergenModel allergen) {
-    state.value![allergen] = !state.value![allergen]!;
-    state = AsyncData(Map.from(state.value!));
+  void setSelected(List<AllergenModel> selectedAllergens) {
+    Map<AllergenModel, bool> allergens = {};
+    state.value!.forEach((allergen, selected) {
+      allergens.putIfAbsent(
+        allergen,
+        () => selectedAllergens.contains(allergen),
+      );
+    });
+    state = AsyncData(allergens);
   }
 
   void clearSelection() {

@@ -15,6 +15,7 @@ class DishTypeDropdownWidget extends ConsumerWidget {
     switch (dishTypes) {
       case (AsyncData(:final value)):
         return DropdownButtonFormField<DishTypeModel>(
+          hint: const Text('Select course type...'),
           items: value
               .map(
                 (dishType) => DropdownMenuItem<DishTypeModel>(

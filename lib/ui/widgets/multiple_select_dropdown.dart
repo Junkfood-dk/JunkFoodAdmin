@@ -1,4 +1,3 @@
-import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:flutter/material.dart';
 
 class MultiSelectDropdown<T> extends StatefulWidget {

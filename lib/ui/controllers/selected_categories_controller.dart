@@ -24,8 +24,14 @@ class SelectedCategoriesController extends _$SelectedCategoriesController {
     return selectedCategories;
   }
 
-  void setSelected(CategoryModel category) {
-    state.value![category] = !state.value![category]!;
-    state = AsyncData(Map.from(state.value!));
+  void setSelected(List<CategoryModel> selectedCategories) {
+    Map<CategoryModel, bool> allergens = {};
+    state.value!.forEach((allergen, selected) {
+      allergens.putIfAbsent(
+        allergen,
+        () => selectedCategories.contains(allergen),
+      );
+    });
+    state = AsyncData(allergens);
   }
 }

@@ -1,27 +1,28 @@
 import 'package:chefapp/data/database_provider.dart';
-import 'package:chefapp/data/interface_allergenes_repository.dart';
+import 'package:chefapp/data/interface_allergens_repository.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
-part 'allergenes_repository.g.dart';
+part 'allergens_repository.g.dart';
 
-class AllergenesRepository implements IAllergenesRepository {
+class AllergensRepository implements IAllergensRepository {
   SupabaseClient database;
 
-  AllergenesRepository({required this.database});
+  AllergensRepository({required this.database});
   @override
-  Future<List<AllergenModel>> fetchAllergenes() async {
+  Future<List<AllergenModel>> fetchAllergens() async {
     try {
-      final response = await database.from("Allergens").select();
+      final response = await database.from('Allergens').select();
 
       final List<AllergenModel> allergens = List<AllergenModel>.from(
-          response.map((allergenData) => AllergenModel.fromJson(allergenData)));
+        response.map((allergenData) => AllergenModel.fromJson(allergenData)),
+      );
 
       return allergens;
     } catch (error) {
-      debugPrint("Error fetching allergens: $error");
+      debugPrint('Error fetching allergens: $error');
       return [];
     }
   }
@@ -31,19 +32,19 @@ class AllergenesRepository implements IAllergenesRepository {
     final allergen = AllergenModel(name: allergenName);
     try {
       return await database
-          .from("Allergens")
+          .from('Allergens')
           .insert(allergen.toJson())
           .select()
           .then((rows) => AllergenModel.fromJson(rows[0]));
     } catch (error) {
-      debugPrint("Error saving new allergen: $error");
-      throw Exception("Failed to save new allergen: $error");
+      debugPrint('Error saving new allergen: $error');
+      throw Exception('Failed to save new allergen: $error');
     }
   }
 }
 
 @riverpod
-IAllergenesRepository allergenesRepository(AllergenesRepositoryRef ref) {
+IAllergensRepository allergensRepository(AllergensRepositoryRef ref) {
   var database = ref.read(databaseProvider);
-  return AllergenesRepository(database: database);
+  return AllergensRepository(database: database);
 }
