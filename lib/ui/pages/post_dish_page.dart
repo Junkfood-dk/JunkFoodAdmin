@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:camera/camera.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:chefapp/domain/model/category_model.dart';
 import 'package:chefapp/extensions/sized_box_ext.dart';
@@ -13,6 +12,7 @@ import 'package:chefapp/ui/widgets/language_dropdown_widget.dart';
 import 'package:chefapp/ui/widgets/multiple_select_dropdown.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -57,7 +57,9 @@ class PostDishPage extends HookConsumerWidget {
     var imageTextController = useTextEditingController();
     var selectedAllergens = ref.watch(selectedAllergensControllerProvider);
     var selectedCategories = ref.watch(selectedCategoriesControllerProvider);
+
     final imageBlobUrl = useState('');
+    final picker = ImagePicker();
 
     return Scaffold(
       appBar: AppBar(
@@ -77,6 +79,15 @@ class PostDishPage extends HookConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
+                        onTap: () async {
+                          final XFile? image = await picker.pickImage(
+                            source: ImageSource.gallery,
+                          );
+                          if (image != null) {
+                            imageTextController.text = image.path;
+                            imageBlobUrl.value = image.path;
+                          }
+                        },
                         child: Image.asset(
                           width: 200.0,
                           height: 150.0,
