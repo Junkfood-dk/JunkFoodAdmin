@@ -22,8 +22,8 @@ class CommentModel {
       text: input.containsKey('comment_text')
           ? input['comment_text']
           : throw Exception('Missing comment text'),
-      date: input.containsKey('date')
-          ? input['date']
+      date: input.containsKey('comment_date')
+          ? DateTime.parse(input['comment_date'])
           : throw Exception('Missing comment date'),
     );
   }

@@ -26,10 +26,15 @@ extension DateTimeExt on DateTime {
   // Returns true if this date is the same as todays date
   bool isToday() => toDate() == DateTime.now().toDate();
 
-  // Returns true if this date is the same as todays date
+  // Returns true if this date is on the same as todays date or after
   bool isTodayOrAfter() {
     final today = DateTime.now().toDate();
     return toDate() == today || toDate().isAfter(today);
+  }
+
+  // Returns true if this date is before or the same as todays date
+  bool isTodayOrBefore() {
+    return isToday() || toDate().isBefore(DateTime.now().toDate());
   }
 
   /// Returns the date with hour, minutes and seconds set to 0

@@ -14,7 +14,7 @@ class CommentRepository {
   Future<List<CommentModel>> loadComments([DateTime? date]) async {
     return await database
         .from('Comments')
-        .select('Comments()')
+        .select()
         .filter(
           'comment_date',
           'eq',
@@ -22,7 +22,7 @@ class CommentRepository {
         )
         .then(
           (rows) => rows
-              .map((json) => CommentModel.fromJson(json['Comments']))
+              .map((json) => CommentModel.fromJson(json))
               .toList(),
         );
   }

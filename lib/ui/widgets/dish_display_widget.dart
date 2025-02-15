@@ -7,6 +7,7 @@ import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:chefapp/widgets/comments_widget.dart';
 
 class DishDisplayWidget extends ConsumerWidget {
   final DishModel dish;
@@ -70,6 +71,8 @@ class DishDisplayWidget extends ConsumerWidget {
                   '${AppLocalizations.of(context)!.calories}: ${dish.calories}',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
+                SizedBoxExt.sizedBoxHeight24,
+                if (date.isTodayOrBefore()) CommentsWidget(date: date),
                 SizedBoxExt.sizedBoxHeight24,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
