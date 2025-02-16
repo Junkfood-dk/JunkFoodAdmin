@@ -183,4 +183,15 @@ class MockAllergensRepository extends _i1.Mock
           ),
         )),
       ) as _i6.Future<_i4.AllergenModel>);
+
+  @override
+  _i6.Future<List<String>> fetchAllergensForDish(int? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchAllergensForDish,
+          [id],
+        ),
+        returnValue: _i6.Future<List<String>>.value(<String>[]),
+        returnValueForMissingStub: _i6.Future<List<String>>.value(<String>[]),
+      ) as _i6.Future<List<String>>);
 }

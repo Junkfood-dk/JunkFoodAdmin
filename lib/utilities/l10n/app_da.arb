@@ -4,7 +4,7 @@
     "description": "This is the title banner of the Homepage"
   },
   "logoutButton": "Log ud",
-  "punchText": "Du har slået knappen så mange gange:",
+  "punchText": "Du har trykket på knappen så mange gange:",
   "@punchText": {
     "description": "The text in the middle, describing how many times you have punched the button"
   },
@@ -158,5 +158,13 @@
         "example": "5"
       }
     }
+  },
+  "allergens": "Allergener",
+  "@allergens": {
+    "description": "Label for allergens section"
+  },
+  "noAllergens": "Ingen allergener angivet",
+  "@noAllergens": {
+    "description": "Shown when a dish has no allergens listed"
   }
 }

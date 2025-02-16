@@ -41,6 +41,19 @@ class AllergensRepository implements IAllergensRepository {
       throw Exception('Failed to save new allergen: $error');
     }
   }
+
+  @override
+  Future<List<String>> fetchAllergensForDish(int id) async {
+    return await database
+        .from('Allergens_to_Dishes')
+        .select('Allergens(allergen_name)')
+        .filter('dish_id', 'eq', id)
+        .then(
+          (rows) => rows
+              .map((json) => json['Allergens']['allergen_name'].toString())
+              .toList(),
+        );
+  }
 }
 
 @riverpod

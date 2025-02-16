@@ -1,4 +1,6 @@
+import 'package:chefapp/data/allergens_repository.dart';
 import 'package:chefapp/data/database_provider.dart';
+import 'package:chefapp/data/interface_allergens_repository.dart';
 import 'package:chefapp/data/interface_dish_repository.dart';
 import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:chefapp/domain/model/dish_model.dart';
@@ -13,10 +15,13 @@ part 'dish_repository.g.dart';
 
 class DishRepository implements IDishRepository {
   SupabaseClient database;
-  DishRepository({required this.database});
+  IAllergensRepository allergenRepo;
+
+  DishRepository({required this.database, required this.allergenRepo});
+
   @override
   Future<List<DishModel>> fetchDishOfTheDay([DateTime? date]) async {
-    return await database
+    final dishes = await database
         .from('Dish_Schedule')
         .select(
           'Dishes(id, title, description, calories, Dish_type(id, dish_type), image)',
@@ -33,6 +38,13 @@ class DishRepository implements IDishRepository {
         .then(
           (list) => list..sort((d1, d2) => d1.dishType.id - d2.dishType.id),
         );
+
+    for (DishModel dish in dishes) {
+      var allergens = await allergenRepo.fetchAllergensForDish(dish.id!);
+      dish.allergens = allergens;
+    }
+
+    return dishes;
   }
 
   @override
@@ -96,6 +108,8 @@ class DishRepository implements IDishRepository {
 
 @riverpod
 IDishRepository dishRepository(DishRepositoryRef ref) {
-  var database = ref.read(databaseProvider);
-  return DishRepository(database: database);
+  return DishRepository(
+    database: ref.read(databaseProvider),
+    allergenRepo: ref.read(allergensRepositoryProvider),
+  );
 }

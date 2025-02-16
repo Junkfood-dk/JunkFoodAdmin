@@ -27,9 +27,11 @@ class _CommentsWidgetState extends ConsumerState<CommentsWidget> {
   Future<void> _loadComments() async {
     final repository = ref.read(commentRepositoryProvider);
     final comments = await repository.loadComments(widget.date);
-    setState(() {
-      _comments = comments;
-    });
+    if (mounted) {
+      setState(() {
+        _comments = comments;
+      });
+    }
   }
 
   void _nextComment() {
