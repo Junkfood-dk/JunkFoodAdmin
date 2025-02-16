@@ -7,14 +7,17 @@ class DishModel {
   int calories;
   DishTypeModel dishType;
   String imageUrl;
+  List<String> allergens;
 
-  DishModel(
-      {this.id,
-      required this.title,
-      required this.dishType,
-      this.description = "",
-      this.calories = 0,
-      this.imageUrl = ""});
+  DishModel({
+    this.id,
+    required this.title,
+    required this.dishType,
+    this.description = '',
+    this.calories = 0,
+    this.imageUrl = '',
+    this.allergens = const [],
+  });
 
   Map<String, dynamic> toJson() {
     return {
@@ -29,18 +32,18 @@ class DishModel {
 
   static DishModel fromJson(Map<String, dynamic> input) {
     return DishModel(
-        id: input.containsKey("id")
-            ? input["id"]
-            : throw Exception("No id provided"),
-        title: input.containsKey("title")
-            ? input["title"]
-            : throw Exception("No title provided"),
-        description:
-            input.containsKey("description") ? input["description"] : "",
-        calories: input.containsKey("calories") ? input["calories"] : 0,
-        imageUrl: input.containsKey("image") ? input["image"] : "",
-        dishType: input.containsKey("Dish_type") && input["Dish_type"] != null
-            ? DishTypeModel.fromJson(input["Dish_type"])
-            : DishTypeModel(id: -1, type: "No dish type"));
+      id: input.containsKey('id')
+          ? input['id']
+          : throw Exception('No id provided'),
+      title: input.containsKey('title')
+          ? input['title']
+          : throw Exception('No title provided'),
+      description: input.containsKey('description') ? input['description'] : '',
+      calories: input.containsKey('calories') ? input['calories'] : 0,
+      imageUrl: input.containsKey('image') ? input['image'] : '',
+      dishType: input.containsKey('Dish_type') && input['Dish_type'] != null
+          ? DishTypeModel.fromJson(input['Dish_type'])
+          : DishTypeModel(id: -1, type: 'No dish type'),
+    );
   }
 }

@@ -33,6 +33,7 @@ class _PostDishPageState extends ConsumerState<PostDishPage> {
   late final TextEditingController descriptionTextController;
   late final TextEditingController calorieCountController;
   late final TextEditingController imageTextController;
+
   String cameraBlobUrl = '';
   final ImagePicker picker = ImagePicker();
 
@@ -146,7 +147,7 @@ class _PostDishPageState extends ConsumerState<PostDishPage> {
                             );
                             if (image != null) {
                               imageTextController.text = image.path;
-                              cameraBlobUrl = image.path;
+                              setCameraBlobUrl(image.path);
                             }
                           },
                           child: Image.asset(
@@ -166,7 +167,7 @@ class _PostDishPageState extends ConsumerState<PostDishPage> {
                               ),
                             );
                             imageTextController.text = image.path;
-                            cameraBlobUrl = image.path;
+                            setCameraBlobUrl(image.path);
                           },
                           child: Image.asset(
                             width: 200.0,

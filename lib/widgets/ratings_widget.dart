@@ -40,21 +40,23 @@ class RatingsWidget extends ConsumerWidget {
                       ? 1.0
                       : 0.3,
                   child: const GradiantWrapper(
-                    child: Icon(Icons.sentiment_dissatisfied_rounded),
+                    child:
+                        Icon(Icons.sentiment_dissatisfied_rounded, size: 48.0),
                   ),
                 ),
                 SizedBoxExt.sizedBoxWidth8,
                 Opacity(
                   opacity: rating >= 0.5 && rating < 1.0 ? 1.0 : 0.3,
                   child: const GradiantWrapper(
-                    child: Icon(Icons.sentiment_neutral_rounded),
+                    child: Icon(Icons.sentiment_neutral_rounded, size: 48.0),
                   ),
                 ),
                 SizedBoxExt.sizedBoxWidth8,
                 Opacity(
                   opacity: rating >= 1.0 && rating <= 2.0 ? 1.0 : 0.3,
                   child: const GradiantWrapper(
-                    child: Icon(Icons.sentiment_satisfied_alt_rounded),
+                    child:
+                        Icon(Icons.sentiment_satisfied_alt_rounded, size: 48.0),
                   ),
                 ),
               ],

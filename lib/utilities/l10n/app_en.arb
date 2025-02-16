@@ -167,5 +167,13 @@
         "example": "5"
       }
     }
+  },
+  "allergens": "Allergens",
+  "@allergens": {
+    "description": "Label for allergens section"
+  },
+  "noAllergens": "No allergens listed",
+  "@noAllergens": {
+    "description": "Shown when a dish has no allergens listed"
   }
 }
