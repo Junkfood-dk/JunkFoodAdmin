@@ -3,7 +3,7 @@ import 'package:chefapp/ui/pages/home_page.dart';
 import 'package:chefapp/ui/controllers/authentication_controller.dart';
 import 'package:chefapp/ui/pages/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SplashPage extends ConsumerWidget {
   const SplashPage({super.key});
@@ -19,14 +19,18 @@ class SplashPage extends ConsumerWidget {
           final session = data.session;
           if (session != null) {
             // User is authenticated, navigate to HomePage
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ));
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              ),
+            );
           } else {
             // User is not authenticated, navigate to LoginPage
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const LoginPage(),
-            ));
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const LoginPage(),
+              ),
+            );
           }
         });
         // Placeholder widget, not used

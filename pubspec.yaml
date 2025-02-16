@@ -16,11 +16,8 @@ dependencies:
   intl: any
 
   camera: ^0.11.0+2
-  flutter_carousel_widget: ^3.1.0
   flutter_dotenv: ^5.1.0
-  flutter_hooks: ^0.20.5
   flutter_riverpod: ^2.6.1
-  hooks_riverpod: ^2.6.1
   http: ^1.2.2
   image_picker: ^1.1.2
   provider: ^6.1.2

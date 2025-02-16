@@ -44,6 +44,9 @@
   "@signInText": {
     "description": "Text to describe what to do on the login page"
   },
+  "signInButton": "Log ind",
+  "emailFieldLabel": "Email",
+  "passwordFieldLabel": "Adgangskode",
   "addDishPageTitle": "Tilføj ny ret",
   "@addDishPageTitle": {
     "description": "Title of the add dish page"

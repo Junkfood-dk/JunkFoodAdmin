@@ -5,8 +5,8 @@ import 'package:chefapp/ui/controllers/locale_controller.dart';
 import 'package:chefapp/ui/pages/home_page.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -22,22 +22,26 @@ void main() {
     final mockDishRepository = MockDishRepository();
     when(mockDishRepository.fetchDishOfTheDay())
         .thenAnswer((realInvocation) => Future.value(<DishModel>[]));
-    await tester.pumpWidget(ProviderScope(
+    await tester.pumpWidget(
+      ProviderScope(
         overrides: [
           dishRepositoryProvider.overrideWithValue(mockDishRepository),
         ],
         child: Consumer(
           builder: (context, ref, child) => MaterialApp(
-              locale: ref.watch(localeControllerProvider),
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: AppLocalizations.supportedLocales,
-              home: const HomePage()),
-        )));
+            locale: ref.watch(localeControllerProvider),
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const HomePage(),
+          ),
+        ),
+      ),
+    );
 
     final appBarFinder = find.byType(AppBar);
     final titleFinder = find.text('Dishes');
@@ -54,29 +58,35 @@ void main() {
       'HomePage shows the option to add dish with one dish already in database',
       (WidgetTester tester) async {
     final mockDishRepository = MockDishRepository();
-    when(mockDishRepository.fetchDishOfTheDay()).thenAnswer((realInvocation) =>
-        Future.value(<DishModel>[
-          DishModel(
-              title: 'Test1',
-              dishType: DishTypeModel(id: -1, type: 'Main Course'))
-        ]));
+    when(mockDishRepository.fetchDishOfTheDay()).thenAnswer(
+      (realInvocation) => Future.value(<DishModel>[
+        DishModel(
+          title: 'Test1',
+          dishType: DishTypeModel(id: -1, type: 'Main Course'),
+        ),
+      ]),
+    );
     mockNetworkImagesFor(() async {
-      await tester.pumpWidget(ProviderScope(
+      await tester.pumpWidget(
+        ProviderScope(
           overrides: [
             dishRepositoryProvider.overrideWithValue(mockDishRepository),
           ],
           child: Consumer(
             builder: (context, ref, child) => MaterialApp(
-                locale: ref.watch(localeControllerProvider),
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: AppLocalizations.supportedLocales,
-                home: const HomePage()),
-          )));
+              locale: ref.watch(localeControllerProvider),
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: const HomePage(),
+            ),
+          ),
+        ),
+      );
       await tester.pump();
 
       final textButtonFinder = find.byType(GradiantButton);
@@ -95,32 +105,39 @@ void main() {
       'HomePage shows the option to add dish with two dishes already in database',
       (WidgetTester tester) async {
     final mockDishRepository = MockDishRepository();
-    when(mockDishRepository.fetchDishOfTheDay())
-        .thenAnswer((realInvocation) => Future.value(<DishModel>[
-              DishModel(
-                  title: 'Test1',
-                  dishType: DishTypeModel(id: -1, type: 'Main Course')),
-              DishModel(
-                  title: 'Test2',
-                  dishType: DishTypeModel(id: -1, type: 'Dessert'))
-            ]));
+    when(mockDishRepository.fetchDishOfTheDay()).thenAnswer(
+      (realInvocation) => Future.value(<DishModel>[
+        DishModel(
+          title: 'Test1',
+          dishType: DishTypeModel(id: -1, type: 'Main Course'),
+        ),
+        DishModel(
+          title: 'Test2',
+          dishType: DishTypeModel(id: -1, type: 'Dessert'),
+        ),
+      ]),
+    );
     mockNetworkImagesFor(() async {
-      await tester.pumpWidget(ProviderScope(
+      await tester.pumpWidget(
+        ProviderScope(
           overrides: [
             dishRepositoryProvider.overrideWithValue(mockDishRepository),
           ],
           child: Consumer(
             builder: (context, ref, child) => MaterialApp(
-                locale: ref.watch(localeControllerProvider),
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: AppLocalizations.supportedLocales,
-                home: const HomePage()),
-          )));
+              locale: ref.watch(localeControllerProvider),
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: const HomePage(),
+            ),
+          ),
+        ),
+      );
       await tester.pump();
 
       final textButtonFinder = find.byType(GradiantButton);

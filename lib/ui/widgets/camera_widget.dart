@@ -2,8 +2,8 @@ import 'package:chefapp/ui/controllers/camera_state_controller.dart';
 import 'package:chefapp/ui/pages/display_picture_page.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CameraWidget extends ConsumerWidget {
   const CameraWidget({
@@ -77,7 +77,7 @@ class CameraWidget extends ConsumerWidget {
               child: const Icon(Icons.camera_alt),
             ),
             FloatingActionButton(
-              heroTag: "d",
+              heroTag: 'd',
               onPressed: () {
                 ref
                     .read(cameraStateControllerProvider.notifier)

@@ -13,23 +13,35 @@ import 'package:chefapp/ui/widgets/language_dropdown_widget.dart';
 import 'package:chefapp/ui/widgets/multiple_select_dropdown.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final _formKey = GlobalKey<FormState>();
 
-class PostDishPage extends HookConsumerWidget {
+class PostDishPage extends ConsumerStatefulWidget {
   const PostDishPage({super.key});
 
-  final TextStyle labelText =
-      const TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
+  @override
+  ConsumerState<PostDishPage> createState() => _PostDishPageState();
+}
+
+class _PostDishPageState extends ConsumerState<PostDishPage> {
+  late final TextEditingController newAllergenTextController;
+  late final TextEditingController nameTextController;
+  late final TextEditingController descriptionTextController;
+  late final TextEditingController calorieCountController;
+  late final TextEditingController imageTextController;
+  String cameraBlobUrl = '';
+  final ImagePicker picker = ImagePicker();
+
+  final TextStyle labelText = const TextStyle(color: Colors.black54);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    var newAllergenTextController = useTextEditingController();
+  void initState() {
+    super.initState();
+    newAllergenTextController = TextEditingController();
     newAllergenTextController.addListener(() {
       final text = newAllergenTextController.text;
       String capitalizedValue = text.replaceAllMapped(
@@ -51,16 +63,32 @@ class PostDishPage extends HookConsumerWidget {
         ),
       );
     });
+    nameTextController = TextEditingController();
+    descriptionTextController = TextEditingController();
+    calorieCountController = TextEditingController();
+    imageTextController = TextEditingController();
+  }
 
-    var nameTextController = useTextEditingController();
-    var descriptionTextController = useTextEditingController();
-    var calorieCount = useState(0);
-    var imageTextController = useTextEditingController();
+  @override
+  void dispose() {
+    newAllergenTextController.dispose();
+    nameTextController.dispose();
+    descriptionTextController.dispose();
+    calorieCountController.dispose();
+    imageTextController.dispose();
+    super.dispose();
+  }
+
+  void setCameraBlobUrl(String url) {
+    setState(() {
+      cameraBlobUrl = url;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var selectedAllergens = ref.watch(selectedAllergensControllerProvider);
     var selectedCategories = ref.watch(selectedCategoriesControllerProvider);
-
-    final cameraBlobUrl = useState('');
-    final picker = ImagePicker();
 
     return Scaffold(
       appBar: AppBar(
@@ -69,7 +97,7 @@ class PostDishPage extends HookConsumerWidget {
       ),
       body: Center(
         child: SizedBox(
-          width: MediaQuery.sizeOf(context).width * 0.6,
+          width: MediaQuery.of(context).size.width * 0.6,
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -90,7 +118,8 @@ class PostDishPage extends HookConsumerWidget {
                             },
                             errorBuilder: (context, error, stackTrace) {
                               return const Center(
-                                  child: Text('Error loading image'));
+                                child: Text('Error loading image'),
+                              );
                             },
                           ),
                         ),
@@ -99,7 +128,7 @@ class PostDishPage extends HookConsumerWidget {
                           child: IconButton(
                             onPressed: () {
                               imageTextController.text = '';
-                              cameraBlobUrl.value = '';
+                              setCameraBlobUrl('');
                             },
                             icon: const Icon(Icons.close),
                           ),
@@ -117,7 +146,7 @@ class PostDishPage extends HookConsumerWidget {
                             );
                             if (image != null) {
                               imageTextController.text = image.path;
-                              cameraBlobUrl.value = image.path;
+                              cameraBlobUrl = image.path;
                             }
                           },
                           child: Image.asset(
@@ -137,7 +166,7 @@ class PostDishPage extends HookConsumerWidget {
                               ),
                             );
                             imageTextController.text = image.path;
-                            cameraBlobUrl.value = image.path;
+                            cameraBlobUrl = image.path;
                           },
                           child: Image.asset(
                             width: 200.0,
@@ -217,8 +246,7 @@ class PostDishPage extends HookConsumerWidget {
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly,
                     ],
-                    onChanged: (value) =>
-                        calorieCount.value = int.tryParse(value) ?? 0,
+                    controller: calorieCountController,
                   ),
                   TextFormField(
                     validator: (value) {
@@ -235,10 +263,10 @@ class PostDishPage extends HookConsumerWidget {
                     ),
                     controller: imageTextController,
                     onEditingComplete: () =>
-                        cameraBlobUrl.value = imageTextController.text,
+                        setCameraBlobUrl(imageTextController.text),
                     onChanged: (value) {
                       if (isValidUrl(value)) {
-                        cameraBlobUrl.value = imageTextController.text;
+                        setCameraBlobUrl(imageTextController.text);
                       }
                     },
                   ),
@@ -300,7 +328,7 @@ class PostDishPage extends HookConsumerWidget {
                               .postDishOfTheDay(
                                 nameTextController.text,
                                 descriptionTextController.text,
-                                calorieCount.value,
+                                int.parse(calorieCountController.text),
                                 imageTextController.text,
                                 date,
                               );

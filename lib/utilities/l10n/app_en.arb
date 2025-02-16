@@ -44,6 +44,18 @@
   "@signInText": {
     "description": "Text to describe what to do on the login page"
   },
+  "signInButton": "Sign In",
+  "@signInButton": {
+    "description": "Text for the sign in button"
+  },
+  "emailFieldLabel": "Email",
+  "@emailFieldLabel": {
+    "description": "Label for the email input field"
+  },
+  "passwordFieldLabel": "Password",
+  "@passwordFieldLabel": {
+    "description": "Label for the password input field"
+  },
   "addDishPageTitle": "Add new dish",
   "@addDishPageTitle": {
     "description": "Title of the add dish page"

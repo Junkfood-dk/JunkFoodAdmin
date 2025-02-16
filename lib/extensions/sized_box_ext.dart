@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 
+extension SizedBoxMultiply on SizedBox {
+  SizedBox operator *(int factor) {
+    return SizedBox(
+      width: width != null ? width! * factor : null,
+      height: height != null ? height! * factor : null,
+    );
+  }
+}
+
 abstract class SizedBoxExt {
   /// Returns a SizedBox with a height of 4.0
   static const SizedBox sizedBoxHeight4 = SizedBox(height: 4.0);
