@@ -2,8 +2,8 @@ import 'package:chefapp/data/dish_repository.dart';
 import 'package:chefapp/domain/model/dish_model.dart';
 import 'package:chefapp/domain/model/dish_type_model.dart';
 import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -36,9 +36,11 @@ void main() {
     when(mockDishRepository.fetchDishOfTheDay())
         .thenAnswer((realInvocation) => Future.value(<DishModel>[]));
     mockDishRepository.fetchDishOfTheDay();
-    final container = createContainer(overrides: [
-      dishRepositoryProvider.overrideWithValue(mockDishRepository)
-    ]);
+    final container = createContainer(
+      overrides: [
+        dishRepositoryProvider.overrideWithValue(mockDishRepository),
+      ],
+    );
 
     container.read(dishOfTheDayControllerProvider.future);
 
@@ -48,14 +50,17 @@ void main() {
   test('DishOfTheDayProvider returns a list with one element', () async {
     // Arrange
     final mockDishRepository = MockDishRepository();
-    when(mockDishRepository.fetchDishOfTheDay()).thenAnswer((realInvocation) =>
-        Future.value(<DishModel>[
-          DishModel(title: "Test1", dishType: DishTypeModel(id: -1, type: ""))
-        ]));
+    when(mockDishRepository.fetchDishOfTheDay()).thenAnswer(
+      (realInvocation) => Future.value(<DishModel>[
+        DishModel(title: 'Test1', dishType: DishTypeModel(id: -1, type: '')),
+      ]),
+    );
     mockDishRepository.fetchDishOfTheDay();
-    final container = createContainer(overrides: [
-      dishRepositoryProvider.overrideWithValue(mockDishRepository)
-    ]);
+    final container = createContainer(
+      overrides: [
+        dishRepositoryProvider.overrideWithValue(mockDishRepository),
+      ],
+    );
 
     container.read(dishOfTheDayControllerProvider.future);
 
@@ -65,15 +70,18 @@ void main() {
   test('DishOfTheDayProvider returns a list with two element', () async {
     // Arrange
     final mockDishRepository = MockDishRepository();
-    when(mockDishRepository.fetchDishOfTheDay()).thenAnswer((realInvocation) =>
-        Future.value(<DishModel>[
-          DishModel(title: "Test1", dishType: DishTypeModel(id: -1, type: "")),
-          DishModel(title: "Test2", dishType: DishTypeModel(id: -1, type: ""))
-        ]));
+    when(mockDishRepository.fetchDishOfTheDay()).thenAnswer(
+      (realInvocation) => Future.value(<DishModel>[
+        DishModel(title: 'Test1', dishType: DishTypeModel(id: -1, type: '')),
+        DishModel(title: 'Test2', dishType: DishTypeModel(id: -1, type: '')),
+      ]),
+    );
     mockDishRepository.fetchDishOfTheDay();
-    final container = createContainer(overrides: [
-      dishRepositoryProvider.overrideWithValue(mockDishRepository)
-    ]);
+    final container = createContainer(
+      overrides: [
+        dishRepositoryProvider.overrideWithValue(mockDishRepository),
+      ],
+    );
 
     container.read(dishOfTheDayControllerProvider.future);
 

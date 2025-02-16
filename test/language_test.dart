@@ -1,10 +1,10 @@
 import 'package:chefapp/domain/model/language_model.dart';
 import 'package:chefapp/ui/controllers/locale_controller.dart';
 import 'package:chefapp/ui/widgets/language_dropdown_widget.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -71,9 +71,11 @@ void main() {
   testWidgets('Language_dropdown_component contains danish and english options',
       (WidgetTester tester) async {
     //Arrange
-    await tester.pumpWidget(const ProviderScope(
-      child: MaterialApp(home: LanguageDropdownWidget()),
-    ));
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: LanguageDropdownWidget()),
+      ),
+    );
 
     //Act
 
@@ -96,8 +98,8 @@ void main() {
     //Arrange
     await tester.pumpWidget(
       ProviderScope(
-          child: Consumer(
-        builder: (context, ref, child) => MaterialApp(
+        child: Consumer(
+          builder: (context, ref, child) => MaterialApp(
             locale: ref.watch(localeControllerProvider),
             localizationsDelegates: const [
               AppLocalizations.delegate,
@@ -106,33 +108,40 @@ void main() {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: AppLocalizations.supportedLocales,
-            home: const LanguageDropdownWidget()),
-      )),
+            home: const LanguageDropdownWidget(),
+          ),
+        ),
+      ),
     );
 
     //Act
     Locale? initialLocale = Localizations.localeOf(
-        tester.element(find.byType(LanguageDropdownWidget)));
+      tester.element(find.byType(LanguageDropdownWidget)),
+    );
 
     await tester.tap(
-        find.byType(LanguageDropdownWidget)); // Open the language dropdown.
+      find.byType(LanguageDropdownWidget),
+    ); // Open the language dropdown.
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Dansk'));
     await tester.pumpAndSettle();
 
     Locale? localeAfterDanishIsPressed = Localizations.localeOf(
-        tester.element(find.byType(LanguageDropdownWidget)));
+      tester.element(find.byType(LanguageDropdownWidget)),
+    );
 
     await tester.tap(
-        find.byType(LanguageDropdownWidget)); // Open the language dropdown.
+      find.byType(LanguageDropdownWidget),
+    ); // Open the language dropdown.
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('English'));
     await tester.pumpAndSettle();
 
     Locale? localeAfterEnglishIsPressed = Localizations.localeOf(
-        tester.element(find.byType(LanguageDropdownWidget)));
+      tester.element(find.byType(LanguageDropdownWidget)),
+    );
 
     //Assert
     expect(initialLocale.languageCode, equals('en'));

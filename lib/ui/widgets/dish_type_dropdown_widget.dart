@@ -2,7 +2,7 @@ import 'package:chefapp/domain/model/dish_type_model.dart';
 import 'package:chefapp/ui/controllers/dish_types_controller.dart';
 import 'package:chefapp/ui/controllers/selected_dish_type_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DishTypeDropdownWidget extends ConsumerWidget {
   const DishTypeDropdownWidget({super.key});
