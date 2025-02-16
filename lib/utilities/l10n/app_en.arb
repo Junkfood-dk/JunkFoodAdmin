@@ -30,7 +30,7 @@
   },
   "signInSuccessful": "Sign in successful!",
   "@signInSuccessful": {
-    "description": "Message to prompt the user that the signin was a success"
+    "description": "Message saying the sign in was successful"
   },
   "signInError": "Unexpected error occurred",
   "@signInError": {
@@ -123,5 +123,37 @@
   "today": "Today",
   "@today": {
     "description": "Text for button for setting the date to todays date"
-  } 
+  },
+  "numberOfRatings": "Number of ratings: {count}",
+  "@numberOfRatings": {
+    "description": "Shows the total number of ratings for a dish",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "noRatings": "No ratings",
+  "@noRatings": {
+    "description": "Shown when a dish has no ratings yet"
+  },
+  "noComments": "No comments available",
+  "@noComments": {
+    "description": "Shown when a dish has no comments"
+  },
+  "commentCount": "Comment {current} of {total}",
+  "@commentCount": {
+    "description": "Shows the current comment number and total number of comments",
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "1"
+      },
+      "total": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chefapp/data/comments_repository.dart';
 import 'package:chefapp/domain/model/comment_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chefapp/extensions/sized_box_ext.dart';
 
 class CommentsWidget extends ConsumerStatefulWidget {
   final DateTime? date;
@@ -47,8 +49,14 @@ class _CommentsWidgetState extends ConsumerState<CommentsWidget> {
   @override
   Widget build(BuildContext context) {
     if (_comments.isEmpty) {
-      return const Center(
-        child: Text('No comments available'),
+      return Center(
+        child: Text(
+          AppLocalizations.of(context)!.noComments,
+          style: const TextStyle(
+            fontStyle: FontStyle.italic,
+            color: Colors.grey,
+          ),
+        ),
       );
     }
 
@@ -70,9 +78,12 @@ class _CommentsWidgetState extends ConsumerState<CommentsWidget> {
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  const SizedBox(height: 8),
+                  SizedBoxExt.sizedBoxHeight8,
                   Text(
-                    'Comment ${_currentIndex + 1} of ${_comments.length}',
+                    AppLocalizations.of(context)!.commentCount(
+                      _currentIndex + 1,
+                      _comments.length,
+                    ),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Colors.grey,
                         ),
