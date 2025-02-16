@@ -1,4 +1,5 @@
 import 'package:chefapp/domain/model/dish_model.dart';
+import 'package:chefapp/extensions/date_time_ext.dart';
 import 'package:chefapp/extensions/padding_ext.dart';
 import 'package:chefapp/extensions/sized_box_ext.dart';
 import 'package:chefapp/providers/providers.dart';
@@ -23,13 +24,13 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 0, vsync: this);
   }
 
   @override
@@ -42,6 +43,17 @@ class _HomePageState extends ConsumerState<HomePage>
   Widget build(BuildContext context) {
     final dishOfTheDay = ref.watch(dishOfTheDayControllerProvider);
     final date = ref.watch(Providers.appDate);
+
+    if (!dishOfTheDay.hasValue) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    _tabController.dispose();
+
+    _tabController = TabController(
+      length: dishOfTheDay.value?.length ?? 0,
+      vsync: this,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -146,29 +158,30 @@ class _HomePageState extends ConsumerState<HomePage>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const DateBarSmall(),
-          Padding(
-            padding: PaddingExt.paddingRight16,
-            child: GradiantButton(
-              onPressed: () async {
-                await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const PostDishPage(),
-                  ),
-                );
-                await ref
-                    .read(dishOfTheDayControllerProvider.notifier)
-                    .updateDishOfTheDay();
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.add),
-                  SizedBoxExt.sizedBoxWidth8,
-                  Text(AppLocalizations.of(context)!.postDishButton),
-                ],
+          if (date.isTodayOrAfter())
+            Padding(
+              padding: PaddingExt.paddingRight16,
+              child: GradiantButton(
+                onPressed: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const PostDishPage(),
+                    ),
+                  );
+                  await ref
+                      .read(dishOfTheDayControllerProvider.notifier)
+                      .updateDishOfTheDay();
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.add),
+                    SizedBoxExt.sizedBoxWidth8,
+                    Text(AppLocalizations.of(context)!.postDishButton),
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
