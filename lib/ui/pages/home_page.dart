@@ -69,7 +69,12 @@ class _HomePageState extends ConsumerState<HomePage>
             );
           },
         ),
-        title: Text(AppLocalizations.of(context)!.homePageTitle),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            DateBarSmall(),
+          ],
+        ),
         centerTitle: true,
         actions: const [LanguageDropdownWidget()],
         bottom: dishOfTheDay.value!.length > 1
@@ -155,12 +160,11 @@ class _HomePageState extends ConsumerState<HomePage>
         },
       ),
       bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const DateBarSmall(),
           if (date.isTodayOrAfter())
             Padding(
-              padding: PaddingExt.paddingRight16,
+              padding: PaddingExt.paddingAll24,
               child: GradiantButton(
                 onPressed: () async {
                   await Navigator.of(context).push(
