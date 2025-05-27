@@ -2,7 +2,7 @@ import 'package:chefapp/ui/controllers/authentication_controller.dart';
 import 'package:chefapp/ui/widgets/language_dropdown_widget.dart';
 import 'package:chefapp/ui/widgets/logo_image.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chefapp/utilities/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chefapp/ui/pages/home_page.dart';

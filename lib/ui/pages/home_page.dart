@@ -13,7 +13,7 @@ import 'package:chefapp/ui/pages/post_dish_page.dart';
 import 'package:chefapp/ui/pages/splash_page.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chefapp/utilities/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomePage extends ConsumerStatefulWidget {

@@ -6,7 +6,7 @@ import 'package:chefapp/providers/providers.dart';
 import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chefapp/utilities/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chefapp/widgets/comments_widget.dart';
 import 'package:chefapp/widgets/ratings_widget.dart';

@@ -2,7 +2,7 @@ import 'package:chefapp/extensions/sized_box_ext.dart';
 import 'package:chefapp/ui/controllers/camera_state_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chefapp/utilities/l10n/app_localizations.dart';
 
 class DisplayPicturePage extends ConsumerWidget {
   final String imagePath;

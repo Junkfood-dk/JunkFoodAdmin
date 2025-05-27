@@ -3,7 +3,7 @@ import 'package:chefapp/widgets/gradiant_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chefapp/data/ratings_repository.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chefapp/utilities/l10n/app_localizations.dart';
 
 class RatingsWidget extends ConsumerWidget {
   final int dishId;

@@ -2,13 +2,13 @@ import 'package:chefapp/data/user_repository.dart';
 import 'package:chefapp/ui/controllers/locale_controller.dart';
 import 'package:chefapp/ui/widgets/language_dropdown_widget.dart';
 import 'package:chefapp/ui/pages/login_page.dart';
+import 'package:chefapp/utilities/l10n/app_localizations.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

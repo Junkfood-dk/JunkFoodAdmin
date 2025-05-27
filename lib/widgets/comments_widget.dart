@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chefapp/data/comments_repository.dart';
 import 'package:chefapp/domain/model/comment_model.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chefapp/utilities/l10n/app_localizations.dart';
 import 'package:chefapp/extensions/sized_box_ext.dart';
 
 class CommentsWidget extends ConsumerStatefulWidget {

@@ -1,12 +1,12 @@
 import 'package:chefapp/data/allergens_repository.dart';
 import 'package:chefapp/data/categories_repository.dart';
 import 'package:chefapp/ui/pages/post_dish_page.dart';
+import 'package:chefapp/utilities/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'muteable_checkbow_widget_test.mocks.dart';
 
