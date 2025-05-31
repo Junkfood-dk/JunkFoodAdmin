@@ -7,7 +7,7 @@ part of 'selected_allergens_controller.dart';
 // **************************************************************************
 
 String _$selectedAllergensControllerHash() =>
-    r'e48d4023c2e34cdc013d03614cc979071b0c2f1f';
+    r'19a615a3bfe244f67a34cf9a54c458679fd0308f';
 
 /// See also [SelectedAllergensController].
 @ProviderFor(SelectedAllergensController)

@@ -25,13 +25,8 @@ import 'package:supabase_auth_ui/supabase_auth_ui.dart' as _i2;
 
 class _FakeSupabaseClient_0 extends _i1.SmartFake
     implements _i2.SupabaseClient {
-  _FakeSupabaseClient_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeSupabaseClient_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [UserRepository].
@@ -39,64 +34,55 @@ class _FakeSupabaseClient_0 extends _i1.SmartFake
 /// See the documentation for Mockito's code generation for more information.
 class MockUserRepository extends _i1.Mock implements _i3.UserRepository {
   @override
-  _i2.SupabaseClient get database => (super.noSuchMethod(
-        Invocation.getter(#database),
-        returnValue: _FakeSupabaseClient_0(
-          this,
-          Invocation.getter(#database),
-        ),
-        returnValueForMissingStub: _FakeSupabaseClient_0(
-          this,
-          Invocation.getter(#database),
-        ),
-      ) as _i2.SupabaseClient);
+  _i2.SupabaseClient get database =>
+      (super.noSuchMethod(
+            Invocation.getter(#database),
+            returnValue: _FakeSupabaseClient_0(
+              this,
+              Invocation.getter(#database),
+            ),
+            returnValueForMissingStub: _FakeSupabaseClient_0(
+              this,
+              Invocation.getter(#database),
+            ),
+          )
+          as _i2.SupabaseClient);
 
   @override
   set database(_i2.SupabaseClient? _database) => super.noSuchMethod(
-        Invocation.setter(
-          #database,
-          _database,
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#database, _database),
+    returnValueForMissingStub: null,
+  );
 
   @override
   _i4.Future<_i4.Stream<_i2.AuthState>> fetchUserAuthState() =>
       (super.noSuchMethod(
-        Invocation.method(
-          #fetchUserAuthState,
-          [],
-        ),
-        returnValue: _i4.Future<_i4.Stream<_i2.AuthState>>.value(
-            _i4.Stream<_i2.AuthState>.empty()),
-        returnValueForMissingStub: _i4.Future<_i4.Stream<_i2.AuthState>>.value(
-            _i4.Stream<_i2.AuthState>.empty()),
-      ) as _i4.Future<_i4.Stream<_i2.AuthState>>);
+            Invocation.method(#fetchUserAuthState, []),
+            returnValue: _i4.Future<_i4.Stream<_i2.AuthState>>.value(
+              _i4.Stream<_i2.AuthState>.empty(),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i4.Stream<_i2.AuthState>>.value(
+                  _i4.Stream<_i2.AuthState>.empty(),
+                ),
+          )
+          as _i4.Future<_i4.Stream<_i2.AuthState>>);
 
   @override
-  _i4.Future<void> signUserIn(
-    String? email,
-    String? password,
-  ) =>
+  _i4.Future<void> signUserIn(String? email, String? password) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #signUserIn,
-          [
-            email,
-            password,
-          ],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+            Invocation.method(#signUserIn, [email, password]),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
-  _i4.Future<void> signUserOut() => (super.noSuchMethod(
-        Invocation.method(
-          #signUserOut,
-          [],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+  _i4.Future<void> signUserOut() =>
+      (super.noSuchMethod(
+            Invocation.method(#signUserOut, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 }

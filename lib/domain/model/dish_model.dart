@@ -8,6 +8,7 @@ class DishModel {
   DishTypeModel dishType;
   String imageUrl;
   List<String> allergens;
+  List<String> categories;
 
   DishModel({
     this.id,
@@ -17,6 +18,7 @@ class DishModel {
     this.calories = 0,
     this.imageUrl = '',
     this.allergens = const [],
+    this.categories = const [],
   });
 
   Map<String, dynamic> toJson() {
@@ -27,6 +29,8 @@ class DishModel {
       'calories': calories,
       'image': imageUrl,
       'dish_type': dishType.id,
+      'allergens': allergens,
+      'categories': categories,
     };
   }
 
@@ -44,6 +48,8 @@ class DishModel {
       dishType: input.containsKey('Dish_type') && input['Dish_type'] != null
           ? DishTypeModel.fromJson(input['Dish_type'])
           : DishTypeModel(id: -1, type: 'No dish type'),
+      allergens: input.containsKey('allergens') ? input['allergens'] : [],
+      categories: input.containsKey('categories') ? input['categories'] : [],
     );
   }
 }

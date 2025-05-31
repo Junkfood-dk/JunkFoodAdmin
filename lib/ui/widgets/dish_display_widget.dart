@@ -91,6 +91,22 @@ class DishDisplayWidget extends ConsumerWidget {
                   }).toList(),
                 )
               : Text(AppLocalizations.of(context)!.noAllergens),
+          SizedBoxExt.sizedBoxHeight8,
+          const Text(
+            'Categories',
+          ),
+          SizedBoxExt.sizedBoxHeight8,
+          dish.categories.isNotEmpty
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: dish.categories.map((category) {
+                    bool isLast = category == dish.categories.last;
+                    return Text(
+                      category + (!isLast ? ' • ' : ''),
+                    );
+                  }).toList(),
+                )
+              : const Text('No categories'),
           SizedBoxExt.sizedBoxHeight24,
           const Divider(
             color: Color.fromARGB(255, 108, 70, 74),

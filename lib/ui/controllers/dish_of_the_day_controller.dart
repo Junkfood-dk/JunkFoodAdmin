@@ -4,6 +4,7 @@ import 'package:chefapp/domain/model/allergen_model.dart';
 import 'package:chefapp/domain/model/dish_model.dart';
 import 'package:chefapp/providers/providers.dart';
 import 'package:chefapp/ui/controllers/selected_allergens_controller.dart';
+import 'package:chefapp/ui/controllers/selected_categories_controller.dart';
 import 'package:chefapp/ui/controllers/selected_dish_type_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -50,15 +51,28 @@ class DishOfTheDayController extends _$DishOfTheDayController {
     );
     var selectedAllergens = ref
         .read(selectedAllergensControllerProvider.notifier)
-        .getAllSelectedAllergenes();
+        .getAllSelectedAllergens();
     for (var allergen in selectedAllergens) {
       _addAllergenToDish(allergen, newDishId);
+    }
+    var selectedCategories = ref
+        .read(selectedCategoriesControllerProvider.notifier)
+        .getAllSelectedCategories()
+        .map((cat) => cat.id)
+        .toList();
+    for (var categoryId in selectedCategories) {
+      _addCategoryToDish(categoryId, newDishId);
     }
   }
 
   void _addAllergenToDish(AllergenModel allergen, int id) {
     var repository = ref.read(dishRepositoryProvider);
     repository.addAllergeneToDish(allergen, id);
+  }
+
+  void _addCategoryToDish(int categoryId, int id) {
+    var repository = ref.read(dishRepositoryProvider);
+    repository.addCategoryToDish(categoryId, id);
   }
 
   Future<int> addToTodaysMenu(int id) {

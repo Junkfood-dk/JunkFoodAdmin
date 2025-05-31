@@ -15,4 +15,5 @@ abstract interface class IDishRepository {
   Future<int> addToTodaysMenu(int id);
   Future<bool> removeFromMenu(int id, [DateTime? date]);
   void addAllergeneToDish(AllergenModel allergene, int dishId);
+  void addCategoryToDish(int categoryId, int dishId);
 }

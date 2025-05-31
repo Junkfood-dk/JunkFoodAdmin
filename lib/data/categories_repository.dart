@@ -14,14 +14,15 @@ class CategoriesRepository implements ICategoriesRepository {
   @override
   Future<List<CategoryModel>> fetchCategories() async {
     try {
-      final response = await database.from("Categories").select();
+      final response = await database.from('Categories').select();
 
       final List<CategoryModel> category = List<CategoryModel>.from(
-          response.map((categoryData) => CategoryModel.fromJson(categoryData)));
+        response.map((categoryData) => CategoryModel.fromJson(categoryData)),
+      );
 
       return category;
     } catch (error) {
-      debugPrint("Error fetching categories: $error");
+      debugPrint('Error fetching categories: $error');
       return [];
     }
   }
@@ -31,14 +32,27 @@ class CategoriesRepository implements ICategoriesRepository {
     final category = CategoryModel(name: categoryName);
     try {
       return await database
-          .from("Categories")
+          .from('Categories')
           .insert(category.toJson())
           .select()
           .then((rows) => CategoryModel.fromJson(rows[0]));
     } catch (error) {
-      debugPrint("Error saving new category: $error");
-      throw Exception("Failed to save new category: $error");
+      debugPrint('Error saving new category: $error');
+      throw Exception('Failed to save new category: $error');
     }
+  }
+
+  @override
+  Future<List<String>> fetchCategoriesForDish(int id) async {
+    return await database
+        .from('Categories_to_Dishes')
+        .select('Categories(category_name)')
+        .filter('dish_id', 'eq', id)
+        .then(
+          (rows) => rows
+              .map((json) => json['Categories']['category_name'].toString())
+              .toList(),
+        );
   }
 }
 

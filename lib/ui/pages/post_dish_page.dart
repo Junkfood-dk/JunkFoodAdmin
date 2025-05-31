@@ -1,16 +1,13 @@
 import 'dart:math';
 
-import 'package:chefapp/domain/model/allergen_model.dart';
-import 'package:chefapp/domain/model/category_model.dart';
 import 'package:chefapp/extensions/sized_box_ext.dart';
 import 'package:chefapp/providers/providers.dart';
 import 'package:chefapp/ui/controllers/dish_of_the_day_controller.dart';
-import 'package:chefapp/ui/controllers/selected_allergens_controller.dart';
-import 'package:chefapp/ui/controllers/selected_categories_controller.dart';
+import 'package:chefapp/ui/widgets/allergens_dropdown_widget.dart';
 import 'package:chefapp/ui/widgets/camera_widget.dart';
+import 'package:chefapp/ui/widgets/categories_dropdown_widget.dart';
 import 'package:chefapp/ui/widgets/dish_type_dropdown_widget.dart';
 import 'package:chefapp/ui/widgets/language_dropdown_widget.dart';
-import 'package:chefapp/ui/widgets/multiple_select_dropdown.dart';
 import 'package:chefapp/utilities/widgets/gradiant_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,9 +85,6 @@ class _PostDishPageState extends ConsumerState<PostDishPage> {
 
   @override
   Widget build(BuildContext context) {
-    var selectedAllergens = ref.watch(selectedAllergensControllerProvider);
-    var selectedCategories = ref.watch(selectedCategoriesControllerProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.addDishPageTitle),
@@ -98,7 +92,7 @@ class _PostDishPageState extends ConsumerState<PostDishPage> {
       ),
       body: Center(
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.6,
+          width: MediaQuery.of(context).size.width * 0.9,
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -137,8 +131,7 @@ class _PostDishPageState extends ConsumerState<PostDishPage> {
                       ],
                     ),
                   if (imageTextController.text == '')
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Wrap(
                       children: [
                         GestureDetector(
                           onTap: () async {
@@ -272,47 +265,9 @@ class _PostDishPageState extends ConsumerState<PostDishPage> {
                     },
                   ),
                   SizedBoxExt.sizedBoxHeight16,
-                  selectedAllergens.when(
-                    data: (data) {
-                      return MultiSelectDropdown<AllergenModel>(
-                        hint: 'Select allergens',
-                        displayStringForOption: (allergen) => allergen.name,
-                        items: data.entries.map((a) => a.key).toList(),
-                        onSelectionChanged: (list) {
-                          ref
-                              .read(
-                                selectedAllergensControllerProvider.notifier,
-                              )
-                              .setSelected(list);
-                        },
-                      );
-                    },
-                    error: (o, s) {
-                      return const Text('Allergens not available...');
-                    },
-                    loading: () => const CircularProgressIndicator(),
-                  ),
+                  const AllergensDropdownWidget(),
                   SizedBoxExt.sizedBoxHeight16,
-                  selectedCategories.when(
-                    data: (data) {
-                      return MultiSelectDropdown<CategoryModel>(
-                        hint: 'Select categories',
-                        displayStringForOption: (allergen) => allergen.name,
-                        items: data.entries.map((a) => a.key).toList(),
-                        onSelectionChanged: (list) {
-                          ref
-                              .read(
-                                selectedCategoriesControllerProvider.notifier,
-                              )
-                              .setSelected(list);
-                        },
-                      );
-                    },
-                    error: (o, s) {
-                      return const Text('Categories not available...');
-                    },
-                    loading: () => const CircularProgressIndicator(),
-                  ),
+                  const CategoriesDropdownWidget(),
                   SizedBoxExt.sizedBoxHeight16,
                   const DishTypeDropdownWidget(),
                   SizedBoxExt.sizedBoxHeight16,
@@ -329,7 +284,7 @@ class _PostDishPageState extends ConsumerState<PostDishPage> {
                               .postDishOfTheDay(
                                 nameTextController.text,
                                 descriptionTextController.text,
-                                int.parse(calorieCountController.text),
+                                int.tryParse(calorieCountController.text) ?? 0,
                                 imageTextController.text,
                                 date,
                               );

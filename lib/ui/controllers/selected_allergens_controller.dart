@@ -9,14 +9,15 @@ class SelectedAllergensController extends _$SelectedAllergensController {
   @override
   Future<Map<AllergenModel, bool>> build() async {
     var repository = ref.read(allergensRepositoryProvider);
-    var allergenes = await repository.fetchAllergens();
-    return Map.fromIterable(
-      allergenes,
+    var allergens = await repository.fetchAllergens();
+    final map = Map<AllergenModel, bool>.fromIterable(
+      allergens,
       value: (_) => false,
-    ); // maps all allergenes to a false value
+    );
+    return map;
   }
 
-  List<AllergenModel> getAllSelectedAllergenes() {
+  List<AllergenModel> getAllSelectedAllergens() {
     List<AllergenModel> selectedAllergenes = [];
     state.value!.forEach((allergen, selected) {
       if (selected) {
@@ -28,19 +29,14 @@ class SelectedAllergensController extends _$SelectedAllergensController {
 
   void setSelected(List<AllergenModel> selectedAllergens) {
     Map<AllergenModel, bool> allergens = {};
+    final ids = selectedAllergens.map((allergen) => allergen.id).toList();
     state.value!.forEach((allergen, selected) {
-      allergens.putIfAbsent(
-        allergen,
-        () => selectedAllergens.contains(allergen),
-      );
+      if (ids.contains(allergen.id)) {
+        allergens.putIfAbsent(allergen, () => true);
+      } else {
+        allergens.putIfAbsent(allergen, () => false);
+      }
     });
     state = AsyncData(allergens);
-  }
-
-  void clearSelection() {
-    if (state.value == null) return;
-    state = AsyncValue.data(
-      state.value!.map((key, value) => MapEntry(key, false)),
-    );
   }
 }

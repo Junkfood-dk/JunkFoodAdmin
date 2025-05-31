@@ -28,33 +28,18 @@ import 'package:supabase_auth_ui/supabase_auth_ui.dart' as _i2;
 
 class _FakeSupabaseClient_0 extends _i1.SmartFake
     implements _i2.SupabaseClient {
-  _FakeSupabaseClient_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeSupabaseClient_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeCategoryModel_1 extends _i1.SmartFake implements _i3.CategoryModel {
-  _FakeCategoryModel_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeCategoryModel_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeAllergenModel_2 extends _i1.SmartFake implements _i4.AllergenModel {
-  _FakeAllergenModel_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAllergenModel_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [CategoriesRepository].
@@ -63,62 +48,69 @@ class _FakeAllergenModel_2 extends _i1.SmartFake implements _i4.AllergenModel {
 class MockCategoriesRepository extends _i1.Mock
     implements _i5.CategoriesRepository {
   @override
-  _i2.SupabaseClient get database => (super.noSuchMethod(
-        Invocation.getter(#database),
-        returnValue: _FakeSupabaseClient_0(
-          this,
-          Invocation.getter(#database),
-        ),
-        returnValueForMissingStub: _FakeSupabaseClient_0(
-          this,
-          Invocation.getter(#database),
-        ),
-      ) as _i2.SupabaseClient);
+  _i2.SupabaseClient get database =>
+      (super.noSuchMethod(
+            Invocation.getter(#database),
+            returnValue: _FakeSupabaseClient_0(
+              this,
+              Invocation.getter(#database),
+            ),
+            returnValueForMissingStub: _FakeSupabaseClient_0(
+              this,
+              Invocation.getter(#database),
+            ),
+          )
+          as _i2.SupabaseClient);
 
   @override
   set database(_i2.SupabaseClient? _database) => super.noSuchMethod(
-        Invocation.setter(
-          #database,
-          _database,
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#database, _database),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i6.Future<List<_i3.CategoryModel>> fetchCategories() => (super.noSuchMethod(
-        Invocation.method(
-          #fetchCategories,
-          [],
-        ),
-        returnValue:
-            _i6.Future<List<_i3.CategoryModel>>.value(<_i3.CategoryModel>[]),
-        returnValueForMissingStub:
-            _i6.Future<List<_i3.CategoryModel>>.value(<_i3.CategoryModel>[]),
-      ) as _i6.Future<List<_i3.CategoryModel>>);
+  _i6.Future<List<_i3.CategoryModel>> fetchCategories() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchCategories, []),
+            returnValue: _i6.Future<List<_i3.CategoryModel>>.value(
+              <_i3.CategoryModel>[],
+            ),
+            returnValueForMissingStub:
+                _i6.Future<List<_i3.CategoryModel>>.value(
+                  <_i3.CategoryModel>[],
+                ),
+          )
+          as _i6.Future<List<_i3.CategoryModel>>);
 
   @override
   _i6.Future<_i3.CategoryModel> postNewCategory(String? categoryName) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #postNewCategory,
-          [categoryName],
-        ),
-        returnValue: _i6.Future<_i3.CategoryModel>.value(_FakeCategoryModel_1(
-          this,
-          Invocation.method(
-            #postNewCategory,
-            [categoryName],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i6.Future<_i3.CategoryModel>.value(_FakeCategoryModel_1(
-          this,
-          Invocation.method(
-            #postNewCategory,
-            [categoryName],
-          ),
-        )),
-      ) as _i6.Future<_i3.CategoryModel>);
+            Invocation.method(#postNewCategory, [categoryName]),
+            returnValue: _i6.Future<_i3.CategoryModel>.value(
+              _FakeCategoryModel_1(
+                this,
+                Invocation.method(#postNewCategory, [categoryName]),
+              ),
+            ),
+            returnValueForMissingStub: _i6.Future<_i3.CategoryModel>.value(
+              _FakeCategoryModel_1(
+                this,
+                Invocation.method(#postNewCategory, [categoryName]),
+              ),
+            ),
+          )
+          as _i6.Future<_i3.CategoryModel>);
+
+  @override
+  _i6.Future<List<String>> fetchCategoriesForDish(int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchCategoriesForDish, [id]),
+            returnValue: _i6.Future<List<String>>.value(<String>[]),
+            returnValueForMissingStub: _i6.Future<List<String>>.value(
+              <String>[],
+            ),
+          )
+          as _i6.Future<List<String>>);
 }
 
 /// A class which mocks [AllergensRepository].
@@ -127,71 +119,67 @@ class MockCategoriesRepository extends _i1.Mock
 class MockAllergensRepository extends _i1.Mock
     implements _i7.AllergensRepository {
   @override
-  _i2.SupabaseClient get database => (super.noSuchMethod(
-        Invocation.getter(#database),
-        returnValue: _FakeSupabaseClient_0(
-          this,
-          Invocation.getter(#database),
-        ),
-        returnValueForMissingStub: _FakeSupabaseClient_0(
-          this,
-          Invocation.getter(#database),
-        ),
-      ) as _i2.SupabaseClient);
+  _i2.SupabaseClient get database =>
+      (super.noSuchMethod(
+            Invocation.getter(#database),
+            returnValue: _FakeSupabaseClient_0(
+              this,
+              Invocation.getter(#database),
+            ),
+            returnValueForMissingStub: _FakeSupabaseClient_0(
+              this,
+              Invocation.getter(#database),
+            ),
+          )
+          as _i2.SupabaseClient);
 
   @override
   set database(_i2.SupabaseClient? _database) => super.noSuchMethod(
-        Invocation.setter(
-          #database,
-          _database,
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#database, _database),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i6.Future<List<_i4.AllergenModel>> fetchAllergens() => (super.noSuchMethod(
-        Invocation.method(
-          #fetchAllergens,
-          [],
-        ),
-        returnValue:
-            _i6.Future<List<_i4.AllergenModel>>.value(<_i4.AllergenModel>[]),
-        returnValueForMissingStub:
-            _i6.Future<List<_i4.AllergenModel>>.value(<_i4.AllergenModel>[]),
-      ) as _i6.Future<List<_i4.AllergenModel>>);
+  _i6.Future<List<_i4.AllergenModel>> fetchAllergens() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchAllergens, []),
+            returnValue: _i6.Future<List<_i4.AllergenModel>>.value(
+              <_i4.AllergenModel>[],
+            ),
+            returnValueForMissingStub:
+                _i6.Future<List<_i4.AllergenModel>>.value(
+                  <_i4.AllergenModel>[],
+                ),
+          )
+          as _i6.Future<List<_i4.AllergenModel>>);
 
   @override
   _i6.Future<_i4.AllergenModel> postNewAllergen(String? allergenName) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #postNewAllergen,
-          [allergenName],
-        ),
-        returnValue: _i6.Future<_i4.AllergenModel>.value(_FakeAllergenModel_2(
-          this,
-          Invocation.method(
-            #postNewAllergen,
-            [allergenName],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i6.Future<_i4.AllergenModel>.value(_FakeAllergenModel_2(
-          this,
-          Invocation.method(
-            #postNewAllergen,
-            [allergenName],
-          ),
-        )),
-      ) as _i6.Future<_i4.AllergenModel>);
+            Invocation.method(#postNewAllergen, [allergenName]),
+            returnValue: _i6.Future<_i4.AllergenModel>.value(
+              _FakeAllergenModel_2(
+                this,
+                Invocation.method(#postNewAllergen, [allergenName]),
+              ),
+            ),
+            returnValueForMissingStub: _i6.Future<_i4.AllergenModel>.value(
+              _FakeAllergenModel_2(
+                this,
+                Invocation.method(#postNewAllergen, [allergenName]),
+              ),
+            ),
+          )
+          as _i6.Future<_i4.AllergenModel>);
 
   @override
   _i6.Future<List<String>> fetchAllergensForDish(int? id) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #fetchAllergensForDish,
-          [id],
-        ),
-        returnValue: _i6.Future<List<String>>.value(<String>[]),
-        returnValueForMissingStub: _i6.Future<List<String>>.value(<String>[]),
-      ) as _i6.Future<List<String>>);
+            Invocation.method(#fetchAllergensForDish, [id]),
+            returnValue: _i6.Future<List<String>>.value(<String>[]),
+            returnValueForMissingStub: _i6.Future<List<String>>.value(
+              <String>[],
+            ),
+          )
+          as _i6.Future<List<String>>);
 }

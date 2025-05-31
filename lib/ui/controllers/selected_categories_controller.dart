@@ -10,8 +10,11 @@ class SelectedCategoriesController extends _$SelectedCategoriesController {
   Future<Map<CategoryModel, bool>> build() async {
     var repository = ref.read(categoriesRepositoryProvider);
     var categories = await repository.fetchCategories();
-    return Map.fromIterable(categories,
-        value: (_) => false); // maps all categories to a false value
+    final map = Map<CategoryModel, bool>.fromIterable(
+      categories,
+      value: (_) => false,
+    );
+    return map;
   }
 
   List<CategoryModel> getAllSelectedCategories() {
@@ -25,13 +28,15 @@ class SelectedCategoriesController extends _$SelectedCategoriesController {
   }
 
   void setSelected(List<CategoryModel> selectedCategories) {
-    Map<CategoryModel, bool> allergens = {};
-    state.value!.forEach((allergen, selected) {
-      allergens.putIfAbsent(
-        allergen,
-        () => selectedCategories.contains(allergen),
-      );
+    Map<CategoryModel, bool> categories = {};
+    final ids = selectedCategories.map((category) => category.id).toList();
+    state.value!.forEach((category, selected) {
+      if (ids.contains(category.id)) {
+        categories.putIfAbsent(category, () => true);
+      } else {
+        categories.putIfAbsent(category, () => false);
+      }
     });
-    state = AsyncData(allergens);
+    state = AsyncData(categories);
   }
 }
